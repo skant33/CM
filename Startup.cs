@@ -34,7 +34,7 @@ namespace CM
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -51,15 +51,25 @@ namespace CM
                 app.UseHsts();
             }
 
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new AuthorizationFilter() }
+            });
+
+            app.UseHangfireServer();
+
+            RecurringJob.AddOrUpdate("METHOD NAME", () => new NotificationMsSqlContext().HangFire(), Cron.Daily);
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Login}/{id?}");
             });
         }
     }
