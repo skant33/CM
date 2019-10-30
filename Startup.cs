@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CM.Context.SQL;
+using CM.Models;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -51,6 +54,15 @@ namespace CM
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new AuthorizationFilter() }
+            });
+
+            app.UseHangfireServer();
+
+            RecurringJob.AddOrUpdate("METHOD NAME", () => new NotificationMsSqlContext().HangFire(), Cron.Daily);
 
             app.UseMvc(routes =>
             {
