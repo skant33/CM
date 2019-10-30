@@ -7,5 +7,9 @@ namespace CM.Context.SQL
 {
     public class NotificationMsSqlContext : Interfaces.INotificationContext
     {
+        public void HangFire()
+        {
+            //fake method to use hangfire
+        }
     }
 }
