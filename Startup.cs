@@ -55,15 +55,6 @@ namespace CM
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseHangfireDashboard("/hangfire", new DashboardOptions
-            {
-                Authorization = new[] { new AuthorizationFilter() }
-            });
-
-            app.UseHangfireServer();
-
-            RecurringJob.AddOrUpdate("METHOD NAME", () => new NotificationMsSqlContext().HangFire(), Cron.Daily);
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
