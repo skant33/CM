@@ -15,22 +15,52 @@ namespace CM.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Agenda()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Your agenda";
 
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult Appointment()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Your agenda";
 
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Beheerder()
         {
+            ViewData["Message"] = "Your agenda";
+
+            return View();
+        }
+
+        public IActionResult Dashboard()
+        {
+            ViewData["Message"] = "Your agenda";
+
+            return View();
+        }
+
+        public IActionResult Login()
+        {
+            ViewData["Message"] = "Your agenda";
+
+            return View();
+        }
+
+        public IActionResult MyAccount()
+        {
+            ViewData["Message"] = "Your agenda";
+
+            return View();
+        }
+
+        public IActionResult Register()
+        {
+            ViewData["Message"] = "Your agenda";
+
             return View();
         }
 

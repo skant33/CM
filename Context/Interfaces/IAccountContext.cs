@@ -1,11 +1,15 @@
-﻿using System;
+﻿using CM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace CM.Context.Interfaces
 {
-    interface IAccountContext
+    public interface IAccountContext
     {
+        Account Login(Account account);
+
+        bool Register(Account account);
     }
 }

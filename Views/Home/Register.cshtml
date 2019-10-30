@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+@model CM.ViewModels.AccountDetailViewModel
+<form asp-area="" asp-controller="Account" asp-action="Register">
+    <div class="form-group">
+        <h6>Name</h6>
+        @Html.TextBoxFor(m => m.Name, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.Name)
+        <h6>Password</h6>
+        @Html.TextBoxFor(m => m.Password, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.Password)
+        <h6>Melding ID</h6>
+        @Html.TextBoxFor(m => m.MeldingID, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.MeldingID)
+        <h6>Date of Birth YYYY-MM-DD</h6>
+        @Html.TextBoxFor(m => m.DateOfBirth, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.DateOfBirth)
+        <h6>Email</h6>
+        @Html.TextBoxFor(m => m.Email, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.Email)
+        <h6>Phone number</h6>
+        @Html.TextBoxFor(m => m.PhoneNumber, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.PhoneNumber)
+        <button type="submit" class="form-group">Register</button>
+    </div>
+</form>
+
+<a asp-area="" asp-controller="Home" asp-action="Login">Log in</a>

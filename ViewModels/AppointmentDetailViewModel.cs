@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CM.Models
+namespace CM.ViewModels
 {
-    public class Appointment
+    public class AppointmentDetailViewModel
     {
         public int AppointmentID { get; set; }
         public int PatientID { get; set; }

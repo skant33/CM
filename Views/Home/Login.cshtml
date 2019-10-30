@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<h2>Login</h2>
+@model CM.ViewModels.AccountDetailViewModel
+<form asp-area="" asp-controller="Account" asp-action="Login">
+    <div class="form-group">
+        <h6>Email</h6>
+        @Html.TextBoxFor(m => m.Email, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.Email)
+        <h6>Password</h6>
+        @Html.TextBoxFor(m => m.Password, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.Password)
+        <button type="submit" class="form-group">Log in</button>
+    </div>
+</form>
+
+<a asp-area="" asp-controller="Home" asp-action="Register">Register now</a>

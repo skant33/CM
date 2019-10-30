@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CM.Models
+namespace CM.ViewModels
 {
-    public class Account
+    public class AccountDetailViewModel
     {
         public int AccountID { get; set; }
         public string Password { get; set; }
