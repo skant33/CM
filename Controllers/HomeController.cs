@@ -11,6 +11,7 @@ using CM.ViewModels;
 using Microsoft.Extensions.Configuration;
 using CM.Context.SQL;
 using Microsoft.AspNetCore.Http;
+using CM.Converters;
 
 namespace CM.Controllers
 {
@@ -21,11 +22,19 @@ namespace CM.Controllers
         AppointmentRepo appointmentrepo;
         IAppointmentContext iappointmentContext;
 
+        //account
+        AccountViewModelConverter accountViewModelConverter = new AccountViewModelConverter();
+        IAccountContext iaccountcontext;
+        AccountRepo accountrepo;
+
         public HomeController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iappointmentContext = new AppointmentMsSqlContext(con);
             appointmentrepo = new AppointmentRepo(iappointmentContext);
+
+            iaccountcontext = new AccountMsSqlContext(con);
+            accountrepo = new AccountRepo(iaccountcontext);
         }
 
         public IActionResult Index()
@@ -74,6 +83,10 @@ namespace CM.Controllers
             }
             else
             {
+                Account account = new Account();
+                AccountDetailViewModel accountDetailViewModel = new AccountDetailViewModel();
+                account = accountrepo.GetAccountByID((int)HttpContext.Session.GetInt32("AccountID"));
+                accountDetailViewModel = accountViewModelConverter.AccountToViewModel(account);
                 return View("~/Views/Home/MyAccount.cshtml", accountDetailViewModel);
             }
         }

@@ -11,5 +11,7 @@ namespace CM.Context.Interfaces
         Account Login(Account account);
 
         bool Register(Account account);
+
+        Account GetAccountByID(int AccountID);
     }
 }

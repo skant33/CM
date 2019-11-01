@@ -25,5 +25,10 @@ namespace CM.Repositories
         {
             return context.Register(account);
         }
+
+        public Account GetAccountByID(int AccountID)
+        {
+            return context.GetAccountByID(AccountID);
+        }
     }
 }

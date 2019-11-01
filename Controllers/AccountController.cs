@@ -66,5 +66,12 @@ namespace CM.Controllers
                 return View("~/Views/Home/Login.cshtml");
             }
         }
+
+        [HttpGet]
+        public IActionResult LogOut(AccountDetailViewModel viewmodel)
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login","home");
+        }
     }
 }
