@@ -30,5 +30,10 @@ namespace CM.Repositories
         {
             return context.GetAccountByID(AccountID);
         }
+
+        public bool CheckIfAdmin (int? accountid)
+        {
+            return context.CheckIfAdmin(accountid);
+        }
     }
 }

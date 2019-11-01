@@ -105,5 +105,36 @@ namespace CM.Context.SQL
             }
             return uitgaand;
         }
+
+        public bool CheckIfAdmin(int? accountid)
+        {
+            int id;
+            SqlConnection connection = new SqlConnection(con);
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand("select AccountRol.AccountRolID from AccountRol inner join Account on AccountRol.AccountRolID = Account.AccountRolID where AccountID = @AccountID", connection);
+                command.Parameters.AddWithValue("@AccountID", accountid);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            id = Convert.ToInt32(reader["AccountrolID"]);
+                            if (id == 1)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("No rows found.");
+                    }
+                }
+            }
+            return true;
+        }
     }
 }

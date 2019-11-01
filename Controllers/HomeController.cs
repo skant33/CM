@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using CM.Context.SQL;
 using Microsoft.AspNetCore.Http;
 using CM.Converters;
+using CM.Helpers;
 
 namespace CM.Controllers
 {
@@ -27,6 +28,9 @@ namespace CM.Controllers
         IAccountContext iaccountcontext;
         AccountRepo accountrepo;
 
+        //helpers
+        AccountVerification accountVerification;
+
         public HomeController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
@@ -35,6 +39,8 @@ namespace CM.Controllers
 
             iaccountcontext = new AccountMsSqlContext(con);
             accountrepo = new AccountRepo(iaccountcontext);
+
+            accountVerification= new AccountVerification(con);
         }
 
         public IActionResult Index()
@@ -44,16 +50,28 @@ namespace CM.Controllers
 
         public IActionResult Agenda()
         {
-            ViewData["Message"] = "Your agenda";
-
-            return View();
+            if (accountVerification.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == true)
+            {
+                return View();
+            }
+            return View("~/Views/Home/Login.cshtml");
         }
 
         public IActionResult Appointment()
         {
-            ViewData["Message"] = "Your agenda";
-
-            return View();
+            if (accountVerification.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == true)
+            {
+                if(accountVerification.CheckIfAdmin(HttpContext.Session.GetInt32("AccountID")) == true)
+                {
+                    return View();
+                }
+                else
+                {
+                    //return geen admin
+                }
+            }
+            //return niet ingelogd
+            return View("~/Views/Home/Login.cshtml");
         }
 
         public IActionResult Beheerder()

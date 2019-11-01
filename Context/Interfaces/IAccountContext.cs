@@ -13,5 +13,7 @@ namespace CM.Context.Interfaces
         bool Register(Account account);
 
         Account GetAccountByID(int AccountID);
+
+        bool CheckIfAdmin(int? accountid);
     }
 }
