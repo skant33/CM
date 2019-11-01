@@ -68,9 +68,14 @@ namespace CM.Controllers
 
         public IActionResult Login()
         {
-            ViewData["Message"] = "Your agenda";
-
-            return View();
+            if (HttpContext.Session.GetInt32("AccountID") == null)
+            {
+                return View();
+            }
+            else
+            {
+                return View("~/Views/Home/MyAccount.cshtml", accountDetailViewModel);
+            }
         }
 
         public IActionResult MyAccount()
