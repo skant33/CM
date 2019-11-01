@@ -5,7 +5,16 @@
 }
 
 <h2>Dashboard</h2>
-@foreach (Appointment appointment in Model.appointments)
-{
-    <div>@appointment.Duration , @appointment.Date</div>
-}
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>Duration</th>
+        <th>Date</th>
+    </tr>
+    @foreach (Appointment appointment in Model.appointments)
+    {
+        <tr>
+        <td>@appointment.Duration minuten</td>
+        <td>@appointment.Date</td>
+        </tr>
+    }
+    </table>
