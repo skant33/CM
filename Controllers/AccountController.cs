@@ -21,19 +21,11 @@ namespace CM.Controllers
         IAccountContext iaccountcontext;
         AccountRepo accountrepo;
 
-        //appointment
-        AppointmentViewModel appointmentViewModel = new AppointmentViewModel();
-        AppointmentRepo appointmentrepo;
-        IAppointmentContext iappointmentContext;
-
         public AccountController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iaccountcontext = new AccountMsSqlContext(con);
             accountrepo = new AccountRepo(iaccountcontext);
-
-            iappointmentContext = new AppointmentMsSqlContext(con);
-            appointmentrepo = new AppointmentRepo(iappointmentContext);
         }
 
         public IActionResult Index()
@@ -46,15 +38,11 @@ namespace CM.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;            
             Account inkomend = accountViewModelConverter.ViewModelToAccount(viewmodel);
-            Account opgehaald = accountrepo.Login(inkomend);
-            appointmentViewModel.appointments = new List<Appointment>();
+            Account opgehaald = accountrepo.Login(inkomend);            
             if (opgehaald.Email == inkomend.Email)
             {
-                foreach (Appointment appointment in appointmentrepo.GetAppointmentsByUserID(opgehaald))
-                {                    
-                    appointmentViewModel.appointments.Add(appointment);
-                }
-                return View("~/Views/Home/Dashboard.cshtml", appointmentViewModel);
+                HttpContext.Session.SetInt32("AccountID", opgehaald.AccountID);
+                return RedirectToAction("Dashboard", "Home");
             }
             else
             {

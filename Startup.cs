@@ -51,14 +51,14 @@ namespace CM
                 app.UseHsts();
             }
 
-            app.UseHangfireDashboard("/hangfire", new DashboardOptions
-            {
-                Authorization = new[] { new AuthorizationFilter() }
-            });
+            //app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            //{
+            //    Authorization = new[] { new AuthorizationFilter() }
+            //}
 
-            app.UseHangfireServer();
+           // app.UseHangfireServer();
 
-            RecurringJob.AddOrUpdate("METHOD NAME", () => new NotificationMsSqlContext().HangFire(), Cron.Daily);
+            //RecurringJob.AddOrUpdate("METHOD NAME", () => new NotificationMsSqlContext().HangFire(), Cron.Daily);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
