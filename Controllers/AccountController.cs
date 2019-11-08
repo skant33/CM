@@ -38,6 +38,7 @@ namespace CM.Controllers
         {
             if (HttpContext.Session.GetInt32("AccountID") == null)
             {
+                APIInteraction api = new APIInteraction();
                 return View("~/Views/Home/Login.cshtml");
             }
             else
@@ -89,7 +90,7 @@ namespace CM.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(AccountDetailViewModel viewmodel, string returnUrl = null)
+        public IActionResult Register(AccountDetailViewModel viewmodel, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             Account inkomend = accountViewModelConverter.ViewModelToAccount(viewmodel);
