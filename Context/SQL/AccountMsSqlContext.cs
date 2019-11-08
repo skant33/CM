@@ -52,13 +52,13 @@ namespace CM.Context.SQL
                 SqlConnection connection = new SqlConnection(con);
                 using (connection)
                 {
-                    SqlCommand command = new SqlCommand("insert into Account (MeldingID, AccountRolId, Naam, Geboortedatum, Email, Telefoonnummer, Password) values (@MeldingID,@AccountRolId,@Naam,@Geboortedatum,@Email, @Telefoonnummer,@Password)", connection);
-                    command.Parameters.AddWithValue("MeldingID", account.MeldingID);
-                    command.Parameters.AddWithValue("AccountRolId", 1);
-                    command.Parameters.AddWithValue("Naam", account.Name);
-                    command.Parameters.AddWithValue("Geboortedatum", account.DateOfBirth);
+                    SqlCommand command = new SqlCommand("insert into Account (NotificationID, AccountRoleId, Name, BirthDate, Email, TelephoneNumber, Password) values (@NotificationID,@AccountRoleId,@Name,@BirthDate,@Email, @TelephoneNumber,@Password)", connection);
+                    command.Parameters.AddWithValue("NotificationID", account.MeldingID);
+                    command.Parameters.AddWithValue("AccountRoleId", 1);
+                    command.Parameters.AddWithValue("Name", account.Name);
+                    command.Parameters.AddWithValue("BirthDate", account.DateOfBirth);
                     command.Parameters.AddWithValue("Email", account.Email);
-                    command.Parameters.AddWithValue("Telefoonnummer", account.PhoneNumber);
+                    command.Parameters.AddWithValue("TelephoneNumber", account.PhoneNumber);
                     command.Parameters.AddWithValue("Password", account.Password);
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -89,12 +89,12 @@ namespace CM.Context.SQL
                         {
                             uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
                             uitgaand.Password = Convert.ToString(reader["Password"]);
-                            uitgaand.AccountRole = Convert.ToInt32(reader["AccountRolID"]);
-                            uitgaand.MeldingID = Convert.ToInt32(reader["MeldingID"]);
-                            uitgaand.Name = Convert.ToString(reader["Naam"]);
-                            uitgaand.DateOfBirth = Convert.ToDateTime(reader["Geboortedatum"]);
+                            uitgaand.AccountRole = Convert.ToInt32(reader["AccountRoleID"]);
+                            uitgaand.MeldingID = Convert.ToInt32(reader["NotificationID"]);
+                            uitgaand.Name = Convert.ToString(reader["Name"]);
+                            uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
-                            uitgaand.PhoneNumber = Convert.ToInt32(reader["Telefoonnummer"]);
+                            uitgaand.PhoneNumber = Convert.ToInt32(reader["TelephoneNumber"]);
                         }
                     }
                     catch
@@ -112,7 +112,7 @@ namespace CM.Context.SQL
             SqlConnection connection = new SqlConnection(con);
             using (connection)
             {
-                SqlCommand command = new SqlCommand("select AccountRol.AccountRolID from AccountRol inner join Account on AccountRol.AccountRolID = Account.AccountRolID where AccountID = @AccountID", connection);
+                SqlCommand command = new SqlCommand("select AccountRole.AccountRoleID from AccountRole inner join Account on AccountRole.AccountRoleID = Account.AccountRoleID where AccountID = @AccountID", connection);
                 command.Parameters.AddWithValue("@AccountID", accountid);
                 connection.Open();
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -121,7 +121,7 @@ namespace CM.Context.SQL
                     {
                         while (reader.Read())
                         {
-                            id = Convert.ToInt32(reader["AccountrolID"]);
+                            id = Convert.ToInt32(reader["AccountroleID"]);
                             if (id == 1)
                             {
                                 return false;

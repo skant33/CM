@@ -20,7 +20,7 @@ namespace CM.Context.SQL
         {
             List<Appointment> appointments = new List<Appointment>();
             SqlConnection connection = new SqlConnection(con);
-            string query = "select * from Afspraak";
+            string query = "select * from Appointment";
             SqlCommand sqlCommand = new SqlCommand(query, connection);
             connection.Open();
             using (SqlDataReader reader = sqlCommand.ExecuteReader())
@@ -28,11 +28,11 @@ namespace CM.Context.SQL
                 while (reader.Read())
                 {
                     Appointment appointment = new Appointment();
-                    appointment.AppointmentID = Convert.ToInt32(reader["AfspraakID"]);
-                    appointment.PatientID = Convert.ToInt32(reader["GebruikerID"]);
-                    appointment.DoctorID = Convert.ToInt32(reader["ArtsID"]);
-                    appointment.Duration = Convert.ToInt32(reader["Duur"]);
-                    appointment.Date = Convert.ToDateTime(reader["Datum"]);
+                    appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
+                    appointment.PatientID = Convert.ToInt32(reader["ClientID"]);
+                    appointment.DoctorID = Convert.ToInt32(reader["DoctorID"]);
+                    appointment.Duration = Convert.ToInt32(reader["Duration"]);
+                    appointment.Date = Convert.ToDateTime(reader["Date"]);
                     appointment.Coords = Convert.ToInt32(reader["Coords"]);
                     appointment.Done = Convert.ToBoolean(reader["Done"]);
                     appointments.Add(appointment);
@@ -47,8 +47,8 @@ namespace CM.Context.SQL
             SqlConnection connection = new SqlConnection(con);
             using (connection)
             {
-                SqlCommand command = new SqlCommand("select * from Afspraak where GebruikerID = @GebruikerID", connection);
-                command.Parameters.AddWithValue("@GebruikerID", account.AccountID);
+                SqlCommand command = new SqlCommand("select * from Appointment where ClientID = @ClientID", connection);
+                command.Parameters.AddWithValue("@ClientID", account.AccountID);
                 connection.Open();
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
@@ -57,11 +57,11 @@ namespace CM.Context.SQL
                         while (reader.Read())
                         {
                             Appointment appointment = new Appointment();
-                            appointment.AppointmentID = Convert.ToInt32(reader["AfspraakID"]);
-                            appointment.PatientID = Convert.ToInt32(reader["GebruikerID"]);
-                            appointment.DoctorID = Convert.ToInt32(reader["ArtsID"]);
-                            appointment.Duration = Convert.ToInt32(reader["Duur"]);
-                            appointment.Date = Convert.ToDateTime(reader["Datum"]);
+                            appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
+                            appointment.PatientID = Convert.ToInt32(reader["ClientID"]);
+                            appointment.DoctorID = Convert.ToInt32(reader["DoctorID"]);
+                            appointment.Duration = Convert.ToInt32(reader["Duration"]);
+                            appointment.Date = Convert.ToDateTime(reader["Date"]);
                             appointment.Coords = Convert.ToInt32(reader["Coords"]);
                             appointment.Done = Convert.ToBoolean(reader["Done"]);
                             appointments.Add(appointment);

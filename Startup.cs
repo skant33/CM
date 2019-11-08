@@ -81,7 +81,7 @@ namespace CM
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Login}/{id?}");
+                    template: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }

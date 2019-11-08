@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using CM.Context.SQL;
 using Microsoft.AspNetCore.Http;
 using CM.Converters;
-using CM.Helpers;
 
 namespace CM.Controllers
 {
@@ -23,65 +22,14 @@ namespace CM.Controllers
         AppointmentRepo appointmentrepo;
         IAppointmentContext iappointmentContext;
 
-        //account
-        AccountViewModelConverter accountViewModelConverter = new AccountViewModelConverter();
-        IAccountContext iaccountcontext;
-        AccountRepo accountrepo;
-
-        //helpers
-        AccountVerification accountVerification;
-
         public HomeController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iappointmentContext = new AppointmentMsSqlContext(con);
             appointmentrepo = new AppointmentRepo(iappointmentContext);
-
-            iaccountcontext = new AccountMsSqlContext(con);
-            accountrepo = new AccountRepo(iaccountcontext);
-
-            accountVerification= new AccountVerification(con);
         }
 
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Agenda()
-        {
-            if (accountVerification.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == true)
-            {
-                return View();
-            }
-            return View("~/Views/Home/Login.cshtml");
-        }
-
-        public IActionResult Appointment()
-        {
-            if (accountVerification.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == true)
-            {
-                if(accountVerification.CheckIfAdmin(HttpContext.Session.GetInt32("AccountID")) == true)
-                {
-                    return View();
-                }
-                else
-                {
-                    //return geen admin
-                }
-            }
-            //return niet ingelogd
-            return View("~/Views/Home/Login.cshtml");
-        }
-
-        public IActionResult Beheerder()
-        {
-            ViewData["Message"] = "Your agenda";
-
-            return View();
-        }
-
-        public IActionResult Dashboard()
         {
             appointmentViewModel.appointments = new List<Appointment>();
             Account opgehaald = new Account();
@@ -93,35 +41,6 @@ namespace CM.Controllers
             return View("~/Views/Home/Dashboard.cshtml", appointmentViewModel);
         }
 
-        public IActionResult Login()
-        {
-            if (HttpContext.Session.GetInt32("AccountID") == null)
-            {
-                return View();
-            }
-            else
-            {
-                Account account = new Account();
-                AccountDetailViewModel accountDetailViewModel = new AccountDetailViewModel();
-                account = accountrepo.GetAccountByID((int)HttpContext.Session.GetInt32("AccountID"));
-                accountDetailViewModel = accountViewModelConverter.AccountToViewModel(account);
-                return View("~/Views/Home/MyAccount.cshtml", accountDetailViewModel);
-            }
-        }
-
-        public IActionResult MyAccount()
-        {
-            ViewData["Message"] = "Your agenda";
-
-            return View();
-        }
-
-        public IActionResult Register()
-        {
-            ViewData["Message"] = "Your agenda";
-
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

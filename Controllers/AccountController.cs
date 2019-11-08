@@ -21,6 +21,7 @@ namespace CM.Controllers
         IAccountContext iaccountcontext;
         AccountRepo accountrepo;
 
+
         public AccountController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
@@ -33,6 +34,43 @@ namespace CM.Controllers
             return View();
         }
 
+        public IActionResult Login()
+        {
+            if (HttpContext.Session.GetInt32("AccountID") == null)
+            {
+                return View("~/Views/Home/Login.cshtml");
+            }
+            else
+            {
+                Account account = new Account();
+                AccountDetailViewModel accountDetailViewModel = new AccountDetailViewModel();
+                account = accountrepo.GetAccountByID((int)HttpContext.Session.GetInt32("AccountID"));
+                accountDetailViewModel = accountViewModelConverter.AccountToViewModel(account);
+                return View("~/Views/Home/MyAccount.cshtml", accountDetailViewModel);
+            }
+        }
+
+        public IActionResult MyAccount()
+        {
+            ViewData["Message"] = "Your agenda";
+
+            return View("~/Views/Home/MyAccount.cshtml");
+        }
+
+        public IActionResult Register()
+        {
+            ViewData["Message"] = "Your agenda";
+
+            return View();
+        }
+
+        public IActionResult Beheerder()
+        {
+            ViewData["Message"] = "Your agenda";
+
+            return View();
+        }
+
         [HttpPost]
         public IActionResult Login(AccountDetailViewModel viewmodel, string returnUrl = null)
         {
@@ -42,7 +80,7 @@ namespace CM.Controllers
             if (opgehaald.Email == inkomend.Email)
             {
                 HttpContext.Session.SetInt32("AccountID", opgehaald.AccountID);
-                return RedirectToAction("Dashboard", "Home");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -71,7 +109,7 @@ namespace CM.Controllers
         public IActionResult LogOut(AccountDetailViewModel viewmodel)
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login","home");
+            return RedirectToAction("Login","Account");
         }
     }
 }
