@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CM", "CM.csproj", "{5EA5CF4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TextMessageCM", "TextMessageCM", "{3540908C-6009-43F9-990C-1BA8C9F9B629}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "x", "x", "{B3A07E0E-120A-437B-92B1-B581A5ABD5CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B3A07E0E-120A-437B-92B1-B581A5ABD5CB} = {3540908C-6009-43F9-990C-1BA8C9F9B629}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E1D1A871-4907-41B8-AE19-F4160E42DAD3}
