@@ -43,7 +43,7 @@ namespace CM.Controllers
             {
                 if (accountVerification.CheckIfAdmin(HttpContext.Session.GetInt32("AccountID")) == true)
                 {
-                    return View();
+                    return View("~/Views/Home/Appointment.cshtml");
                 }
                 else
                 {
@@ -58,7 +58,7 @@ namespace CM.Controllers
         {
             if (accountVerification.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == true)
             {
-                return View();
+                return View("~/Views/Home/Agenda.cshtml");
             }
             return View("~/Views/Home/Login.cshtml");
         }

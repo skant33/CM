@@ -34,7 +34,8 @@ namespace CM.Controllers
             return View();
         }
 
-        public IActionResult Login()
+
+        public IActionResult MyAccount()
         {
             if (HttpContext.Session.GetInt32("AccountID") == null)
             {
@@ -49,13 +50,6 @@ namespace CM.Controllers
                 accountDetailViewModel = accountViewModelConverter.ViewModelFromAccount(account);
                 return View("~/Views/Home/MyAccount.cshtml", accountDetailViewModel);
             }
-        }
-
-        public IActionResult MyAccount()
-        {
-            ViewData["Message"] = "Your agenda";
-
-            return View("~/Views/Home/MyAccount.cshtml");
         }
 
         public IActionResult Register()
