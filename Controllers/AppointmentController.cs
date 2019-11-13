@@ -58,8 +58,14 @@ namespace CM.Controllers
         {
             if (accountVerification.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == true)
             {
-                //vul de shit voor agenda in
-                return View("~/Views/Afspraak/AfspraakPage.cshtml");
+                AppointmentViewModel viewmodel = new AppointmentViewModel();
+                Account account = new Account();
+                account.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
+                foreach (Appointment appointment in appointmentrepo.GetAppointmentsByUserID(account))
+                {
+                    viewmodel.appointment.Add(appointmentconverter.ViewModelFromAppointment(appointment));
+                }
+                return View("~/Views/Afspraak/AfspraakPage.cshtml",viewmodel);
             }
             return View("~/Views/Home/Login.cshtml");
         }
@@ -87,7 +93,7 @@ namespace CM.Controllers
             foreach (var item in afspraken)
             {
                 AppointmentDetailViewModel ADVM = appointmentconverter.ViewModelFromAppointment(item);
-                AVM.Afspraken.Add(ADVM);
+                AVM.appointment.Add(ADVM);
             }
             return View("~/Views/Afspraak/AfspraakPage.cshtml", AVM);
         }

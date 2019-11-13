@@ -9,6 +9,6 @@ namespace CM.ViewModels
     public class AppointmentViewModel
     {
         public List<Appointment> appointments;
-        public List<AppointmentDetailViewModel> Afspraken = new List<AppointmentDetailViewModel>();
+        public List<AppointmentDetailViewModel> appointment = new List<AppointmentDetailViewModel>();
     }
 }

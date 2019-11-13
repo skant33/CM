@@ -13,6 +13,7 @@ namespace CM.Converters
     {
         AppointmentRepo AppointmentRepo = new AppointmentRepo(new AppointmentMsSqlContext());
         AccountRepo AccountRepo = new AccountRepo(new AccountMsSqlContext());
+
         public Appointment ViewModelToAppointment(AppointmentDetailViewModel ADVM)
         {
             Appointment appointment = new Appointment()
@@ -20,7 +21,7 @@ namespace CM.Converters
                 AppointmentID = ADVM.AppointmentID,
                 Date = ADVM.Date,
                 Duration = ADVM.Duration,
-                DoctorID = AccountRepo.GetAccountByEmail(ADVM.DoctorEmail).AccountID,
+                //DoctorID = AccountRepo.GetAccountByEmail(ADVM.DoctorEmail).AccountID,
                 DoctorEmail = ADVM.DoctorEmail,
             };
             return appointment;
@@ -33,7 +34,7 @@ namespace CM.Converters
                 AppointmentID = appointment.AppointmentID,
                 Date = appointment.Date,
                 Duration = appointment.Duration,
-                Doctor = AccountRepo.GetAccountByID(appointment.DoctorID).Name,
+                //Doctor = AccountRepo.GetAccountByID(appointment.DoctorID).Name,
                 DoctorEmail = appointment.DoctorEmail
             };
             return ADVM;

@@ -4,17 +4,13 @@
     ViewData["Title"] = "AfspraakPage";
 }
 
-<h1>AfspraakPage</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Agenda</h1>
 <table class="table">
     <tbody>
         <div class="row">
             <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
                 <h3> @DayOfWeek.Monday </h3>
-                @foreach (var item in Model.Afspraken)
+                @foreach (var item in Model.appointment)
                 {
                     @if (item.Date.DayOfWeek == DayOfWeek.Monday)
                     {
@@ -31,7 +27,7 @@
             </div>
             <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
                 <h3> @DayOfWeek.Tuesday </h3>
-                @foreach (var item in Model.Afspraken)
+                @foreach (var item in Model.appointment)
                 {
                     @if (item.Date.DayOfWeek == DayOfWeek.Tuesday)
                     {
@@ -48,7 +44,7 @@
             </div>
             <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
                 <h3> @DayOfWeek.Wednesday </h3>
-                @foreach (var item in Model.Afspraken)
+                @foreach (var item in Model.appointment)
                 {
                     @if (item.Date.DayOfWeek == DayOfWeek.Wednesday)
                     {
@@ -65,7 +61,7 @@
             </div>
             <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
                 <h3> @DayOfWeek.Thursday </h3>
-                @foreach (var item in Model.Afspraken)
+                @foreach (var item in Model.appointment)
                 {
                     @if (item.Date.DayOfWeek == DayOfWeek.Thursday)
                     {
@@ -82,7 +78,7 @@
             </div>
             <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
                 <h3> @DayOfWeek.Friday </h3>
-                @foreach (var item in Model.Afspraken)
+                @foreach (var item in Model.appointment)
                 {
                     @if (item.Date.DayOfWeek == DayOfWeek.Friday)
                     {
@@ -104,7 +100,7 @@
         <div class="row">
             <div class="col-md-5" style="border-color: black; border-style:solid; border-width:medium">
                 <h3> @DayOfWeek.Saturday </h3>
-                @foreach (var item in Model.Afspraken)
+                @foreach (var item in Model.appointment)
                 {
                     @if (item.Date.DayOfWeek == DayOfWeek.Monday)
                     {
@@ -124,7 +120,7 @@
             </div>
             <div class="col-md-5" style="border-color: black; border-style:solid; border-width:medium">
                 <h3> @DayOfWeek.Sunday </h3>
-                @foreach (var item in Model.Afspraken)
+                @foreach (var item in Model.appointment)
                 {
                     @if (item.Date.DayOfWeek == DayOfWeek.Sunday)
                     {
