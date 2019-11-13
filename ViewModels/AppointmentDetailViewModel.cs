@@ -13,7 +13,7 @@ namespace CM.ViewModels
         public int Duration { get; set; }
         public DateTime Date { get; set; }
         public int Coords { get; set; }
-        public bool Done { get; set; }
+        public string Description { get; set; }
         public string Doctor { get; set; }
         public string DoctorEmail { get; set; }
     }

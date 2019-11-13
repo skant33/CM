@@ -39,7 +39,7 @@ namespace CM.Context.SQL
                     appointment.Duration = Convert.ToInt32(reader["Duration"]);
                     appointment.Date = Convert.ToDateTime(reader["Date"]);
                     appointment.Coords = Convert.ToInt32(reader["Coords"]);
-                    appointment.Done = Convert.ToBoolean(reader["Done"]);
+                    appointment.Description = Convert.ToString(reader["Description"]);
                     appointments.Add(appointment);
                 }
             }
@@ -52,7 +52,11 @@ namespace CM.Context.SQL
             SqlConnection connection = new SqlConnection(con);
             using (connection)
             {
-                SqlCommand command = new SqlCommand("select * from Appointment where PatientID = @PatientID", connection);
+                SqlCommand command = new SqlCommand(@"SELECT Appointment.*
+                                                    FROM Appointment
+                                                    INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
+                                                    INNER JOIN Account ON AccountLink.PatientID = Account.AccountID
+                                                    WHERE Account.AccountID = @PatientID", connection);
                 command.Parameters.AddWithValue("@PatientID", account.AccountID);
                 connection.Open();
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -68,7 +72,7 @@ namespace CM.Context.SQL
                             appointment.Duration = Convert.ToInt32(reader["Duration"]);
                             appointment.Date = Convert.ToDateTime(reader["Date"]);
                             appointment.Coords = Convert.ToInt32(reader["Coords"]);
-                            appointment.Done = Convert.ToBoolean(reader["Done"]);
+                            appointment.Description = Convert.ToString(reader["Description"]);
                             appointments.Add(appointment);
                         }
                     }
@@ -102,7 +106,7 @@ namespace CM.Context.SQL
                             appointment.Duration = Convert.ToInt32(reader["Duration"]);
                             appointment.Date = Convert.ToDateTime(reader["DateTime"]);
                             appointment.Coords = Convert.ToInt32(reader["Coords"]);
-                            appointment.Done = Convert.ToBoolean(reader["Done"]);
+                            appointment.Description = Convert.ToString(reader["Description"]);
                         }
                     }
                     catch (Exception x)
