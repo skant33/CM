@@ -15,5 +15,6 @@ namespace CM.Context.Interfaces
         Account GetAccountByID(int AccountID);
 
         bool CheckIfAdmin(int? accountid);
+        Account GetAccountByEmail(string email);
     }
 }

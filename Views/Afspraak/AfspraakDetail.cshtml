@@ -1,0 +1,53 @@
+﻿@model CM.ViewModels.AppointmentDetailViewModel
+
+@{
+    ViewData["Title"] = "AfspraakDetail";
+}
+
+<h1>AfspraakDetail</h1>
+
+<div>
+    <h4>AfspraakDetailViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppointmentID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppointmentID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DoctorID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DoctorID)
+        </dd>
+        @*<dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ArtsEmail)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ArtsEmail)
+        </dd>*@
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Duration)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Date.TimeOfDay)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Date.TimeOfDay)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Date.DayOfWeek)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Date.DayOfWeek)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="BackToList">Back to List</a>
+</div>

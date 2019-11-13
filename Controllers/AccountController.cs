@@ -17,7 +17,7 @@ namespace CM.Controllers
     public class AccountController : Controller
     {
         //account
-        AccountViewModelConverter accountViewModelConverter = new AccountViewModelConverter(); 
+        AccountConverter accountViewModelConverter = new AccountConverter(); 
         IAccountContext iaccountcontext;
         AccountRepo accountrepo;
 
