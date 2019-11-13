@@ -48,7 +48,7 @@ namespace CM.Context.SQL
             using (connection)
             {
                 SqlCommand command = new SqlCommand("select * from Appointment where PatientID = @PatientID", connection);
-                command.Parameters.AddWithValue("@ClientID", account.AccountID);
+                command.Parameters.AddWithValue("@PatientID", account.AccountID);
                 connection.Open();
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
