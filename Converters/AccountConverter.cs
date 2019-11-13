@@ -16,7 +16,7 @@ namespace CM.Converters
                 AccountID = ADVM.AccountID,
                 Name = ADVM.Name,
                 Email = ADVM.Email,
-                Password = ""
+                Password = ADVM.Password
             };
             return Account;
         }
@@ -28,7 +28,7 @@ namespace CM.Converters
                 AccountID = Account.AccountID,
                 Name = Account.Name,
                 Email = Account.Email,
-                Password = ""
+                Password = Account.Password
             };
             return ADVM;
         }

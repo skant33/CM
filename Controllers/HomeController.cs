@@ -28,7 +28,7 @@ namespace CM.Controllers
         AccountRepo accountrepo;
 
         //helpers
-        AccountVerification accountVerification;
+        //AccountVerification accountVerification;
 
         public HomeController(IConfiguration iconfiguration)
         {

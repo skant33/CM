@@ -46,7 +46,7 @@ namespace CM.Controllers
                 Account account = new Account();
                 AccountDetailViewModel accountDetailViewModel = new AccountDetailViewModel();
                 account = accountrepo.GetAccountByID((int)HttpContext.Session.GetInt32("AccountID"));
-                accountDetailViewModel = accountViewModelConverter.AccountToViewModel(account);
+                accountDetailViewModel = accountViewModelConverter.ViewModelFromAccount(account);
                 return View("~/Views/Home/MyAccount.cshtml", accountDetailViewModel);
             }
         }
