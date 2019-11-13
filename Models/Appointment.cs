@@ -14,5 +14,6 @@ namespace CM.Models
         public DateTime Date { get; set; }
         public int Coords { get; set; }
         public bool Done { get; set; }
+        public string DoctorEmail { get; set; }
     }
 }

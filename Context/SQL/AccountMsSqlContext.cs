@@ -16,6 +16,11 @@ namespace CM.Context.SQL
             this.con = con;
         }
 
+        public AccountMsSqlContext()
+        {
+
+        }
+
         public Account Login(Account account)
         {
             Account uitgaand = new Account();
@@ -135,6 +140,41 @@ namespace CM.Context.SQL
                 }
             }
             return true;
+        }
+
+        public Account GetAccountByEmail(string Email)
+        {
+            Account uitgaand = new Account();
+            SqlConnection connection = new SqlConnection(con);
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand("select * from Account where Email = @Email", connection);
+                command.Parameters.AddWithValue("@Email", Email);
+
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
+                            uitgaand.Password = Convert.ToString(reader["Password"]);
+                            uitgaand.AccountRole = Convert.ToInt32(reader["AccountRolID"]);
+                            uitgaand.MeldingID = Convert.ToInt32(reader["MeldingID"]);
+                            uitgaand.Name = Convert.ToString(reader["Naam"]);
+                            uitgaand.DateOfBirth = Convert.ToDateTime(reader["Geboortedatum"]);
+                            uitgaand.Email = Convert.ToString(reader["Email"]);
+                            uitgaand.PhoneNumber = Convert.ToInt32(reader["Telefoonnummer"]);
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("No rows found.");
+                    }
+                }
+            }
+            return uitgaand;
         }
     }
 }

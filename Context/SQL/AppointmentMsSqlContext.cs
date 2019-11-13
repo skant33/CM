@@ -16,6 +16,11 @@ namespace CM.Context.SQL
             this.con = con;
         }
 
+        public AppointmentMsSqlContext()
+        {
+
+        }
+
         public List<Appointment> GetAllAppointments()
         {
             List<Appointment> appointments = new List<Appointment>();
@@ -73,6 +78,67 @@ namespace CM.Context.SQL
                     }
                 }
             }
+            return appointments;
+        }
+
+        public Appointment GetAppointmentByID(int id)
+        {
+            Appointment appointment = new Appointment();
+            SqlConnection connection = new SqlConnection(con);
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand("Select * FROM Appointment Where AppointmentID = @AppointmentID", connection);
+                command.Parameters.AddWithValue("@AppointmentID", id);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
+                            appointment.PatientID = Convert.ToInt32(reader["PatientID"]);
+                            appointment.DoctorID = Convert.ToInt32(reader["DoctorID"]);
+                            appointment.Duration = Convert.ToInt32(reader["Duration"]);
+                            appointment.Date = Convert.ToDateTime(reader["DateTime"]);
+                            appointment.Coords = Convert.ToInt32(reader["Coords"]);
+                            appointment.Done = Convert.ToBoolean(reader["Done"]);
+                        }
+                    }
+                    catch (Exception x)
+                    {
+                        Console.WriteLine(x.Message);
+                        throw;
+                    }
+                }
+            }
+            return appointment;
+        }
+
+        public List<Appointment> AppointmentsCurrentWeek(int id)
+        {
+            List<Appointment> appointments = new List<Appointment>();
+            SqlConnection connection = new SqlConnection(con);
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand("GetAllAfsprakenCurrentWeek", connection);
+                command.Parameters.AddWithValue("@GebruikerID", id);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Appointment appointment = new Appointment()
+                        {
+                            AppointmentID = Convert.ToInt32(reader["AppointmentID"]),
+                            Duration = Convert.ToInt32(reader["Duration"]),
+                            Date = Convert.ToDateTime(reader["Date"]),
+                            DoctorID = Convert.ToInt32(reader["DoctorID"])
+                        };
+                        appointments.Add(appointment);
+                    }
+                }
+            }
+            
             return appointments;
         }
     }

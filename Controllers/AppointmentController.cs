@@ -9,18 +9,20 @@ using CM.Helpers;
 using CM.Models;
 using CM.Repositories;
 using CM.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace CM.Controllers
 {
     public class AppointmentController : Controller
     {
-        AppointmentViewModelConverter appointmentViewModelConverter = new AppointmentViewModelConverter();
+        AppointmentConverter appointmentconverter = new AppointmentConverter();
         AppointmentViewModel appointmentViewModel = new AppointmentViewModel();
         IAppointmentContext iappointmentcontext;
         AppointmentRepo appointmentrepo;
+        AccountRepo accountrepo;
 
         //helpers
         AccountVerification accountVerification;
@@ -65,6 +67,29 @@ namespace CM.Controllers
         {
             return View();
         }
-       
+
+        [HttpGet]
+        public IActionResult ViewAfspraak(int id)
+        {
+            AppointmentDetailViewModel ADVM = appointmentconverter.ViewModelFromAppointment(appointmentrepo.GetAppointmentByID(id));
+            Appointment appointment = appointmentrepo.GetAppointmentByID(id);
+            ADVM.DoctorEmail = accountrepo.GetAccountByID(appointment.DoctorID).Email;
+            return View("~/Views/Afspraak/AfspraakDetail.cshtml", ADVM);
+        }
+
+        [HttpGet]
+        public IActionResult BackToList()
+        {
+            Account CurrentUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString("CurrentUser"));
+            List<Appointment> afspraken = appointmentrepo.AppointmentsCurrentWeek(CurrentUser.AccountID);
+            AppointmentViewModel AVM = new AppointmentViewModel();
+            foreach (var item in afspraken)
+            {
+                AppointmentDetailViewModel ADVM = appointmentconverter.ViewModelFromAppointment(item);
+                AVM.Afspraken.Add(ADVM);
+            }
+            return View("~/Views/Afspraak/AfspraakPage.cshtml", AVM);
+        }
+
     }
 }

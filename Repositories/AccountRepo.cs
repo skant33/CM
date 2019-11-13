@@ -35,5 +35,10 @@ namespace CM.Repositories
         {
             return context.CheckIfAdmin(accountid);
         }
+
+        public Account GetAccountByEmail(string email)
+        {
+            return context.GetAccountByEmail(email);
+        }
     }
 }

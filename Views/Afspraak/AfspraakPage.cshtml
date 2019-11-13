@@ -1,0 +1,148 @@
+﻿@model CM.ViewModels.AppointmentViewModel
+
+@{
+    ViewData["Title"] = "AfspraakPage";
+}
+
+<h1>AfspraakPage</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <tbody>
+        <div class="row">
+            <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
+                <h3> @DayOfWeek.Monday </h3>
+                @foreach (var item in Model.Afspraken)
+                {
+                    @if (item.Date.DayOfWeek == DayOfWeek.Monday)
+                    {
+                        <br \ />
+                        <div style="border-color: black; border-style:solid; border-width:thin">
+                            <br \ />
+                            <label> Afspraak : @item.AppointmentID </label>
+                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Duur : @item.Duration Minuten</label>
+                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
+                <h3> @DayOfWeek.Tuesday </h3>
+                @foreach (var item in Model.Afspraken)
+                {
+                    @if (item.Date.DayOfWeek == DayOfWeek.Tuesday)
+                    {
+                        <br \ />
+                        <div style="border-color: black; border-style:solid; border-width:thin">
+                            <br \ />
+                            <label> Afspraak : @item.AppointmentID </label>
+                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Duur : @item.Duration Minuten</label>
+                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
+                <h3> @DayOfWeek.Wednesday </h3>
+                @foreach (var item in Model.Afspraken)
+                {
+                    @if (item.Date.DayOfWeek == DayOfWeek.Wednesday)
+                    {
+                        <br \ />
+                        <div style="border-color: black; border-style:solid; border-width:thin">
+                            <br \ />
+                            <label> Afspraak : @item.AppointmentID </label>
+                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Duur : @item.Duration Minuten</label>
+                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
+                <h3> @DayOfWeek.Thursday </h3>
+                @foreach (var item in Model.Afspraken)
+                {
+                    @if (item.Date.DayOfWeek == DayOfWeek.Thursday)
+                    {
+                        <br \ />
+                        <div style="border-color: black; border-style:solid; border-width:thin">
+                            <br \ />
+                            <label> Afspraak : @item.AppointmentID </label>
+                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Duur : @item.Duration Minuten</label>
+                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
+                <h3> @DayOfWeek.Friday </h3>
+                @foreach (var item in Model.Afspraken)
+                {
+                    @if (item.Date.DayOfWeek == DayOfWeek.Friday)
+                    {
+                        <br \ />
+                        <div style="border-color: black; border-style:solid; border-width:thin">
+                            <br \ />
+                            <label> Afspraak : @item.AppointmentID </label>
+                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Duur : @item.Duration Minuten</label>
+                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <br \ />
+        <br \ />
+        <br \ />
+        <div class="row">
+            <div class="col-md-5" style="border-color: black; border-style:solid; border-width:medium">
+                <h3> @DayOfWeek.Saturday </h3>
+                @foreach (var item in Model.Afspraken)
+                {
+                    @if (item.Date.DayOfWeek == DayOfWeek.Monday)
+                    {
+                        <br \ />
+                        <div style="border-color: black; border-style:solid; border-width:thin">
+                            <br \ />
+                            <label> Afspraak : @item.AppointmentID </label>
+                            <br \ />
+                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <br \ />
+                            <label> Duur : @item.Duration Minuten</label>
+                            <br \ />
+                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-md-5" style="border-color: black; border-style:solid; border-width:medium">
+                <h3> @DayOfWeek.Sunday </h3>
+                @foreach (var item in Model.Afspraken)
+                {
+                    @if (item.Date.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        <br \ />
+                        <div style="border-color: black; border-style:solid; border-width:thin">
+                            <br \ />
+                            <label> Afspraak : @item.AppointmentID </label>
+                            <br \ />
+                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <br \ />
+                            <label> Duur : @item.Duration Minuten</label>
+                            <br \ />
+                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                        </div>
+                    }
+                }
+            </div>
+
+        </div>
+    </tbody>
+</table>

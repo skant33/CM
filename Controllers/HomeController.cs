@@ -22,6 +22,14 @@ namespace CM.Controllers
         AppointmentRepo appointmentrepo;
         IAppointmentContext iappointmentContext;
 
+        //account
+        AccountConverter accountViewModelConverter = new AccountConverter();
+        IAccountContext iaccountcontext;
+        AccountRepo accountrepo;
+
+        //helpers
+        AccountVerification accountVerification;
+
         public HomeController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
@@ -41,6 +49,21 @@ namespace CM.Controllers
             return View("~/Views/Home/Dashboard.cshtml", appointmentViewModel);
         }
 
+        public IActionResult Login()
+        {
+            if (HttpContext.Session.GetInt32("AccountID") == null)
+            {
+                return View();
+            }
+            else
+            {
+                Account account = new Account();
+                AccountDetailViewModel accountDetailViewModel = new AccountDetailViewModel();
+                account = accountrepo.GetAccountByID((int)HttpContext.Session.GetInt32("AccountID"));
+                accountDetailViewModel = accountViewModelConverter.ViewModelFromAccount(account);
+                return View("~/Views/Home/MyAccount.cshtml", accountDetailViewModel);
+            }
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

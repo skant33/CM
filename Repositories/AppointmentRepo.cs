@@ -23,5 +23,15 @@ namespace CM.Repositories
         {
             return context.GetAppointmentsByUserId(account);
         }
+
+        public Appointment GetAppointmentByID (int id)
+        {
+            return context.GetAppointmentByID(id);
+        }
+
+        public List<Appointment> AppointmentsCurrentWeek(int id)
+        {
+            return context.AppointmentsCurrentWeek(id);
+        }
     }
 }
