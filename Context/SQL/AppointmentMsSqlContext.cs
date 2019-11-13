@@ -29,7 +29,7 @@ namespace CM.Context.SQL
                 {
                     Appointment appointment = new Appointment();
                     appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
-                    appointment.PatientID = Convert.ToInt32(reader["ClientID"]);
+                    appointment.PatientID = Convert.ToInt32(reader["PatientID"]);
                     appointment.DoctorID = Convert.ToInt32(reader["DoctorID"]);
                     appointment.Duration = Convert.ToInt32(reader["Duration"]);
                     appointment.Date = Convert.ToDateTime(reader["Date"]);
@@ -47,7 +47,7 @@ namespace CM.Context.SQL
             SqlConnection connection = new SqlConnection(con);
             using (connection)
             {
-                SqlCommand command = new SqlCommand("select * from Appointment where ClientID = @ClientID", connection);
+                SqlCommand command = new SqlCommand("select * from Appointment where PatientID = @PatientID", connection);
                 command.Parameters.AddWithValue("@ClientID", account.AccountID);
                 connection.Open();
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -58,7 +58,7 @@ namespace CM.Context.SQL
                         {
                             Appointment appointment = new Appointment();
                             appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
-                            appointment.PatientID = Convert.ToInt32(reader["ClientID"]);
+                            appointment.PatientID = Convert.ToInt32(reader["PatientID"]);
                             appointment.DoctorID = Convert.ToInt32(reader["DoctorID"]);
                             appointment.Duration = Convert.ToInt32(reader["Duration"]);
                             appointment.Date = Convert.ToDateTime(reader["Date"]);
