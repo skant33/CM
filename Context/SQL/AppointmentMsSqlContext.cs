@@ -67,10 +67,10 @@ namespace CM.Context.SQL
                         {
                             Appointment appointment = new Appointment();
                             appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
-                            appointment.PatientID = Convert.ToInt32(reader["PatientID"]);
-                            appointment.DoctorID = Convert.ToInt32(reader["DoctorID"]);
+                            //appointment.PatientID = Convert.ToInt32(reader["PatientID"]);
+                            //appointment.DoctorID = Convert.ToInt32(reader["DoctorID"]);
                             appointment.Duration = Convert.ToInt32(reader["Duration"]);
-                            appointment.Date = Convert.ToDateTime(reader["Date"]);
+                            appointment.Date = Convert.ToDateTime(reader["DateTime"]);
                             appointment.Coords = Convert.ToInt32(reader["Coords"]);
                             appointment.Description = Convert.ToString(reader["Description"]);
                             appointments.Add(appointment);

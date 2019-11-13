@@ -58,6 +58,7 @@ namespace CM.Controllers
         {
             if (accountVerification.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == true)
             {
+                //vul de shit voor agenda in
                 return View("~/Views/Afspraak/AfspraakPage.cshtml");
             }
             return View("~/Views/Home/Login.cshtml");
