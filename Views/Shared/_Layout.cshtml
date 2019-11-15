@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -7,7 +8,7 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -33,7 +34,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Appointment" asp-action="Agenda">Agenda</a></li>
-                    <li><a asp-area="" asp-controller="Appointment" asp-action="Appointment">Appointment</a></li>
+                    @if (Context.Session.GetInt32("Admin") == 1)
+                    {
+                        <li><a asp-area="" asp-controller="Appointment" asp-action="Appointment">Appointment</a></li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a asp-area="" asp-controller="Account" asp-action="MyAccount"></a><img src="~/images/banner1.svg" class="img-responsive"></a></li>

@@ -95,7 +95,6 @@ namespace CM.Context.SQL
                             uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
                             uitgaand.Password = Convert.ToString(reader["Password"]);
                             uitgaand.AccountRole = Convert.ToInt32(reader["AccountRoleID"]);
-                            uitgaand.MeldingID = Convert.ToInt32(reader["NotificationID"]);
                             uitgaand.Name = Convert.ToString(reader["Name"]);
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);

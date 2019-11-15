@@ -16,7 +16,11 @@ namespace CM.Converters
                 AccountID = ADVM.AccountID,
                 Name = ADVM.Name,
                 Email = ADVM.Email,
-                Password = ADVM.Password
+                Password = ADVM.Password,
+                AccountRole =ADVM.AccountRole,
+                MeldingID = ADVM.MeldingID,
+                DateOfBirth = ADVM.DateOfBirth,
+                PhoneNumber = ADVM.PhoneNumber
             };
             return Account;
         }
@@ -28,7 +32,11 @@ namespace CM.Converters
                 AccountID = Account.AccountID,
                 Name = Account.Name,
                 Email = Account.Email,
-                Password = Account.Password
+                Password = Account.Password,
+                AccountRole = Account.AccountRole,
+                MeldingID = Account.MeldingID,
+                DateOfBirth = Account.DateOfBirth,
+                PhoneNumber = Account.PhoneNumber
             };
             return ADVM;
         }

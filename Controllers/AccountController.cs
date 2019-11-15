@@ -75,6 +75,10 @@ namespace CM.Controllers
             if (opgehaald.Email == inkomend.Email)
             {
                 HttpContext.Session.SetInt32("AccountID", opgehaald.AccountID);
+                if(accountrepo.CheckIfAdmin(HttpContext.Session.GetInt32("AccountID")) == true)
+                {
+                    HttpContext.Session.SetInt32("Admin", 1);
+                }
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -104,7 +108,7 @@ namespace CM.Controllers
         public IActionResult LogOut(AccountDetailViewModel viewmodel)
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login","Account");
+            return RedirectToAction("MyAccount","Account");
         }
     }
 }
