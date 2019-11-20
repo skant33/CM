@@ -18,7 +18,7 @@ namespace CM.Models
         public async void CheckForNotification()
         {
             NotificationController noti = new NotificationController(null);
-            var result = await noti.Verstuur();
+            var result = await noti.SendSMS();
         }
     }
 }

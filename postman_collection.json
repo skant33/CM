@@ -1,0 +1,117 @@
+{
+  "info": {
+    "_postman_id": "eccdb960-597d-41df-b1ce-62015ea48025",
+    "name": "VoiceApi",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "_postman_id": "bdc846fb-75fc-42a3-a502-9e3ea36cc750",
+      "name": "Notification",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-CM-PRODUCTTOKEN",
+            "value": "E4802F51-F6A2-474A-8883-3CDB2EAACDB3"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"callee\": \"0031761234567\",\n    \"caller\": \"0031769876543\",\n    \"anonymous\": false,\n    \"prompt\": \"This is a test notification call using the C M voice A P I.\",\n    \"prompt-type\": \"TTS\"\n}"
+        },
+        "url": {
+          "raw": "https://api.cmtelecom.com/voiceapi/v2/Notification",
+          "protocol": "https",
+          "host": [
+            "api",
+            "cmtelecom",
+            "com"
+          ],
+          "path": [
+            "voiceapi",
+            "v2",
+            "Notification"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "_postman_id": "72a0808c-1a6b-46de-9c15-9154aa117d07",
+      "name": "OTP",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-CM-PRODUCTTOKEN",
+            "value": "E4802F51-F6A2-474A-8883-3CDB2EAACDB3"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"callee\": \"+9876543210\",\n    \"caller\": \"+1234567890\",\n    \"intro-prompt\": \"Welcome to the C M password service.\",\n    \"intro-prompt-type\": \"TTS\",\n    \"code\": \"123abc\",\n    \"code-type\": \"TTS\",\n    \"replay-prompt\": \"Press 1 to replay your code.\",\n    \"replay-prompt-type\": \"TTS\",\n    \"outro-prompt\": \"Thank you for using this service.\",\n    \"outro-prompt-type\": \"TTS\"\n}"
+        },
+        "url": {
+          "raw": "https://api.cmtelecom.com/voiceapi/v2/OTP",
+          "protocol": "https",
+          "host": [
+            "api",
+            "cmtelecom",
+            "com"
+          ],
+          "path": [
+            "voiceapi",
+            "v2",
+            "OTP"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "_postman_id": "6be3a7ec-6715-41fd-9a50-391a7bf8f28e",
+      "name": "DTMF",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-CM-PRODUCTTOKEN",
+            "value": "E4802F51-F6A2-474A-8883-3CDB2EAACDB3"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"callee\": \"0031769876543\",\r\n    \"caller\": \"0031761234567\",\r\n    \"prompt\": \"This is an automated voice response system from C M. Please enter some digits.\",\r\n    \"prompt-type\": \"TTS\",\r\n    \"valid-prompt\": \"Thank you for your input.\",\r\n    \"valid-prompt-type\": \"TTS\",\r\n    \"invalid-prompt\": \"That's not right!\",\r\n    \"invalid-prompt-type\": \"TTS\",\r\n    \"min-digits\": 2,\r\n    \"max-digits\": 5,\r\n    \"max-attempts\": 3\r\n}"
+        },
+        "url": {
+          "raw": "https://api.cmtelecom.com/voiceapi/v2/DTMF",
+          "protocol": "https",
+          "host": [
+            "api",
+            "cmtelecom",
+            "com"
+          ],
+          "path": [
+            "voiceapi",
+            "v2",
+            "DTMF"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
