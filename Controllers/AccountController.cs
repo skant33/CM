@@ -23,13 +23,11 @@ namespace CM.Controllers
         IAccountContext iaccountcontext;
         AccountRepo accountrepo;
 
-
         public AccountController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iaccountcontext = new AccountMsSqlContext(con);
-            accountrepo = new AccountRepo(iaccountcontext);
-            APIInteraction api = new APIInteraction(iconfiguration);
+            accountrepo = new AccountRepo(iaccountcontext);                      
         }
 
         public IActionResult Index()
