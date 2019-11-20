@@ -4,21 +4,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using CM.Controllers;
 using Hangfire;
+using Microsoft.Extensions.Configuration;
 
 namespace CM.Models
 {
     public class APIInteraction
     {
-        public APIInteraction()
+        private IConfiguration config;
+
+        public APIInteraction(IConfiguration config)
         {
-            //var server = new BackgroundJobServer();
-            //RecurringJob.AddOrUpdate(() => CheckForNotification(), Cron.Minutely);
+            var server = new BackgroundJobServer();
+            RecurringJob.AddOrUpdate(() => CheckForNotification(), Cron.Minutely);
+            this.config = config;
         }
 
         public async void CheckForNotification()
         {
-            NotificationController noti = new NotificationController(null);
-            var result = await noti.SendSMS();
+            NotificationController ni = new NotificationController(config);
+            await ni.SendSMS();
         }
     }
 }

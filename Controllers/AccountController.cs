@@ -27,6 +27,7 @@ namespace CM.Controllers
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iaccountcontext = new AccountMsSqlContext(con);
             accountrepo = new AccountRepo(iaccountcontext);
+            APIInteraction api = new APIInteraction(iconfiguration);
         }
 
         public IActionResult Index()
@@ -38,8 +39,7 @@ namespace CM.Controllers
         public IActionResult MyAccount()
         {
             if (HttpContext.Session.GetInt32("AccountID") == null)
-            {
-                APIInteraction api = new APIInteraction();
+            {               
                 return View("~/Views/Home/Login.cshtml");
             }
             else
@@ -77,6 +77,7 @@ namespace CM.Controllers
                 HttpContext.Session.SetInt32("AccountID", opgehaald.AccountID);
                 if(accountrepo.CheckIfAdmin(HttpContext.Session.GetInt32("AccountID")) == true)
                 {
+                    
                     HttpContext.Session.SetInt32("Admin", 1);
                 }
                 return RedirectToAction("Index", "Home");

@@ -31,7 +31,7 @@ namespace CM.Controllers
         public async Task SendSMS()
         {
             List<string> receivers = new List<string>();
-            receivers.Add("0031627404177");
+            receivers.Add("0031634698094");
 
             var client = new TextClient(new Guid(config.GetSection("ApiKey").Value));
             var result = await client.SendMessageAsync("Hoi", "CMProftaak", receivers, null).ConfigureAwait(false);
