@@ -27,16 +27,13 @@ namespace CM.Controllers
             return View();
         }
 
-        public async Task<IActionResult> SendSMS()
+        public async Task SendSMS()
         {
-            //List<string> receivers = new List<string>();
-            //receivers.Add("0031627404177");
+            List<string> receivers = new List<string>();
+            receivers.Add("0031627404177");
 
-            //var client = new TextClient(new Guid(config.GetSection("ApiKey").Value));
-            //var result = await client.SendMessageAsync("Hoi", "CMProftaak", receivers, null).ConfigureAwait(false);
-
-            await SendPhoneConversation();
-            return View("~/Views/Home/Login.cshtml");            
+            var client = new TextClient(new Guid(config.GetSection("ApiKey").Value));
+            var result = await client.SendMessageAsync("Hoi", "CMProftaak", receivers, null).ConfigureAwait(false);
         }
 
         public async Task SendPhoneConversation()
@@ -53,6 +50,11 @@ namespace CM.Controllers
                 ReplayPrompt = "Press 1 to repeat this message."
             };
             var result = await client.SendAsync(instruction).ConfigureAwait(false);
+        }
+
+        public async Task SendEmail()
+        {
+
         }
     }
 }
