@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using CM.Models;
 using CM.Text;
 using CM.Voice.VoiceApi.Sdk;
 using CM.Voice.VoiceApi.Sdk.Models;
@@ -26,6 +27,20 @@ namespace CM.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task<IActionResult> StartHangfire()
+        {
+            APIInteraction api = new APIInteraction(config);
+            await api.StartHangfire();
+            return RedirectToAction("Beheerder", "Account");
+        }
+
+        public async Task<IActionResult> StopHangfire()
+        {
+            APIInteraction api = new APIInteraction(config);
+            await api.StopHangfire();
+            return RedirectToAction("Beheerder", "Account");
         }
 
         public async Task SendSMS()

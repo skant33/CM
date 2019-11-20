@@ -11,6 +11,8 @@ using CM.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
+using Hangfire;
+using Hangfire.Storage;
 
 namespace CM.Controllers
 {
@@ -63,7 +65,7 @@ namespace CM.Controllers
         {
             ViewData["Message"] = "Your agenda";
 
-            return View();
+            return View("~/Views/Home/Beheerder.cshtml");
         }
 
         [HttpPost]
@@ -77,7 +79,6 @@ namespace CM.Controllers
                 HttpContext.Session.SetInt32("AccountID", opgehaald.AccountID);
                 if(accountrepo.CheckIfAdmin(HttpContext.Session.GetInt32("AccountID")) == true)
                 {
-                    
                     HttpContext.Session.SetInt32("Admin", 1);
                 }
                 return RedirectToAction("Index", "Home");

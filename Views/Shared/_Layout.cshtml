@@ -38,6 +38,7 @@
                     @if (Context.Session.GetInt32("Admin") == 1)
                     {
                         <li><a asp-area="" asp-controller="Appointment" asp-action="Appointment">Appointment</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Beheerder">Beheerder</a></li>
                     }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
