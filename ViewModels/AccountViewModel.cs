@@ -8,6 +8,6 @@ namespace CM.ViewModels
 {
     public class AccountViewModel
     {
-        public List<Account> accounts = new List<Account>();
+        public List<AccountDetailViewModel> accounts = new List<AccountDetailViewModel>();
     }
 }

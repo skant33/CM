@@ -62,10 +62,9 @@ namespace CM.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Beheerder()
         {
-            ViewBag.AllDoctors = accountrepo.GetAllDoctors();
-            ViewBag.AllPatients = accountrepo.GetAllPatients();
             return View("~/Views/Home/Beheerder.cshtml");
         }
 
@@ -82,7 +81,7 @@ namespace CM.Controllers
                 {
                     HttpContext.Session.SetInt32("Admin", 1);
                 }
-                await noti.SendPhoneConversation();
+                await noti.SendEmail();
                 return RedirectToAction("Index", "Home");
             }
             else

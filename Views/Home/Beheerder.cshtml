@@ -1,4 +1,5 @@
 ﻿@model CM.ViewModels.AccountDetailViewModel
+@using CM.Models
 @{
     ViewData["Title"] = "Beheerder";
 }
@@ -7,13 +8,13 @@
 
 <form asp-area="" asp-controller="Account" asp-action="LinkAccounts">
     <div class="form-group">
-        <h6>Doctor</h6>
-        @Html.DropDownListFor(m => m.Name,
+        <div>Link Doctor:</div>
+        @Html.DropDownListFor(m => m.AccountID,
         new SelectList(ViewBag.AllDoctors),
         "Select Doctor")
-        <h6>Quantity</h6>
-        @Html.DropDownListFor(m => m.Name,
-        new SelectList(ViewBag.AllPatients),
+        <div>to Patient:</div>
+        @Html.DropDownListFor(m => m.AccountID,
+         new SelectList(ViewBag.AllPatients),
         "Select Patient")
         <button type="submit" class="form-group">Link accounts</button>
     </div>

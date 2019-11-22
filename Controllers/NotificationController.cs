@@ -54,6 +54,15 @@ namespace CM.Controllers
             var result = await client.SendMessageAsync("Hoi", "CMProftaak", receivers, null).ConfigureAwait(false);
         }
 
+        public async Task SendWhatsAppMessage()
+        {
+            List<string> receivers = new List<string>();
+            receivers.Add("0031627404177");
+
+            var client = new TextClient(new Guid(config.GetSection("ApiKey").Value));            
+            var result = await client.SendMessageAsync("Hoi", "CMProftaak", receivers, null).ConfigureAwait(false);
+        }
+
         public async Task SendPhoneConversation()
         {
             var myApiKey = Guid.Parse("E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
@@ -62,9 +71,9 @@ namespace CM.Controllers
             httpClient.DefaultRequestHeaders.Add("X-CM-PRODUCTTOKEN", "E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
             var instruction = new NotificationInstruction
             {
-                Caller = "0031627404177",
-                Callee = "0031634698094",
-                Prompt = "This is a test notification call using the CM voice A P I.",
+                Caller = "",
+                Callee = "0031647688942",
+                Prompt = "",
                 MaxReplays = 2,
                 ReplayPrompt = "Press 1 to repeat this message."
             };           
