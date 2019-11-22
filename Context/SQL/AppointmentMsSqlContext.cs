@@ -66,7 +66,7 @@ namespace CM.Context.SQL
 
             using (connection)
             {
-                SqlCommand command = new SqlCommand(@"SELECT Appointment.* 
+                SqlCommand command = new SqlCommand(@"SELECT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID
                                                     FROM Appointment 
                                                     INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID 
                                                     INNER JOIN Account ON AccountLink.PatientID = Account.AccountID 
