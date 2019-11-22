@@ -64,8 +64,8 @@ namespace CM.Controllers
 
         public IActionResult Beheerder()
         {
-            ViewData["Message"] = "Your agenda";
-
+            ViewBag.AllDoctors = accountrepo.GetAllDoctors();
+            ViewBag.AllPatients = accountrepo.GetAllPatients();
             return View("~/Views/Home/Beheerder.cshtml");
         }
 
@@ -113,6 +113,12 @@ namespace CM.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("MyAccount","Account");
+        }
+
+        public IActionResult LinkAccounts(int doctorid, int patientid)
+        {
+            accountrepo.LinkAccounts(patientid, doctorid);
+            return RedirectToAction("Beheerder", "Account");
         }
     }
 }

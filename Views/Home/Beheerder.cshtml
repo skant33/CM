@@ -1,9 +1,24 @@
-﻿
+﻿@model CM.ViewModels.AccountDetailViewModel
 @{
     ViewData["Title"] = "Beheerder";
 }
 
-<h2>BeheerderView</h2>
+<h1>Link accounts</h1>
 
+<form asp-area="" asp-controller="Account" asp-action="LinkAccounts">
+    <div class="form-group">
+        <h6>Doctor</h6>
+        @Html.DropDownListFor(m => m.Name,
+        new SelectList(ViewBag.AllDoctors),
+        "Select Doctor")
+        <h6>Quantity</h6>
+        @Html.DropDownListFor(m => m.Name,
+        new SelectList(ViewBag.AllPatients),
+        "Select Patient")
+        <button type="submit" class="form-group">Link accounts</button>
+    </div>
+</form>
+
+<h1>Hangfire</h1>
 <a asp-area="" asp-controller="Notification" asp-action="StartHangfire">Start</a>
 <a asp-area="" asp-controller="Notification" asp-action="StopHangfire">Stop</a>

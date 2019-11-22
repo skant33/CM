@@ -192,5 +192,93 @@ namespace CM.Context.SQL
             }
             return uitgaand;
         }
+        public List<Account> GetAllDoctors()
+        {
+            List<Account> doctors = new List<Account>();
+            SqlConnection connection = new SqlConnection(con);
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand("select * from account where AccountRoleID = 2", connection);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            Account uitgaand = new Account();
+                            uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
+                            uitgaand.Password = Convert.ToString(reader["Password"]);
+                            uitgaand.RoleId.ID = Convert.ToInt32(reader["AccountRoleID"]);
+                            uitgaand.Name = Convert.ToString(reader["Name"]);
+                            uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
+                            uitgaand.Email = Convert.ToString(reader["Email"]);
+                            uitgaand.PhoneNumber = Convert.ToInt32(reader["TelephoneNumber"]);
+                            doctors.Add(uitgaand);
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("No rows found.");
+                    }
+                }
+            }
+            return doctors;
+        }
+
+        public List<Account> GetAllPatients()
+        {
+            List<Account> patients = new List<Account>();
+            SqlConnection connection = new SqlConnection(con);
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand("select * from account where AccountRoleID = 1", connection);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            Account uitgaand = new Account();
+                            uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
+                            uitgaand.Password = Convert.ToString(reader["Password"]);
+                            uitgaand.RoleId.ID = Convert.ToInt32(reader["AccountRoleID"]);
+                            uitgaand.Name = Convert.ToString(reader["Name"]);
+                            uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
+                            uitgaand.Email = Convert.ToString(reader["Email"]);
+                            uitgaand.PhoneNumber = Convert.ToInt32(reader["TelephoneNumber"]);
+                            patients.Add(uitgaand);
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("No rows found.");
+                    }
+                }
+            }
+            return patients;
+        }
+
+        public bool LinkAccounts(int patientid, int doctorid)
+        {
+            try
+            {
+                SqlConnection connection = new SqlConnection(con);
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("insert into [AccountLink] (DoctorID, PatientID) values (@DoctorID, @PatientID)", connection);
+                    command.Parameters.AddWithValue("@DoctorID", patientid);
+                    command.Parameters.AddWithValue("@PatientID", doctorid);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

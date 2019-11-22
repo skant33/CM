@@ -40,5 +40,20 @@ namespace CM.Repositories
         {
             return context.GetAccountByEmail(email);
         }
+
+        public List<Account> GetAllPatients()
+        {
+            return context.GetAllPatients();
+        }
+
+        public List<Account> GetAllDoctors()
+        {
+            return context.GetAllDoctors();
+        }
+
+        public bool LinkAccounts(int patientid, int doctorid)
+        {
+            return context.LinkAccounts(patientid, doctorid);
+        }
     }
 }
