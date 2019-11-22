@@ -59,6 +59,7 @@ namespace CM.Controllers
             var myApiKey = Guid.Parse("E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
             var httpClient = new HttpClient();
             var client = new VoiceApiClient(httpClient, myApiKey);
+            httpClient.DefaultRequestHeaders.Add("X-CM-PRODUCTTOKEN", "E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
             var instruction = new NotificationInstruction
             {
                 Caller = "0031627404177",
@@ -66,7 +67,7 @@ namespace CM.Controllers
                 Prompt = "This is a test notification call using the CM voice A P I.",
                 MaxReplays = 2,
                 ReplayPrompt = "Press 1 to repeat this message."
-            };
+            };           
             var result = await client.SendAsync(instruction).ConfigureAwait(false);
         }
 
@@ -74,7 +75,7 @@ namespace CM.Controllers
         {
             Mail mail = new Mail()
             {
-                FromAddressID = new Guid("E4802F51-F6A2-474A-8883-3CDB2EAACDB3"),
+                FromAddressID = new Guid("44D51DE6-3DF0-46A0-BA49-B7D26E3B30B6"),
                 ToAddress = "engbrenghof48@gmail.com",
                 TextBody = "This is a text body",
                 Subject = "My awesome mail"
@@ -84,5 +85,5 @@ namespace CM.Controllers
             client.DefaultRequestHeaders.Add("X-CM-PRODUCTTOKEN", "E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
             HttpResponseMessage message = await client.PostAsync("https://api.cmtelecom.com/bulkemail/v1.0/accounts/44D51DE6-3DF0-46A0-BA49-B7D26E3B30B6/mails", content);
         }
-    }
+    }   
 }

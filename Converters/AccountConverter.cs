@@ -17,8 +17,8 @@ namespace CM.Converters
                 Name = ADVM.Name,
                 Email = ADVM.Email,
                 Password = ADVM.Password,
-                AccountRole =ADVM.AccountRole,
-                MeldingID = ADVM.MeldingID,
+                //AccountRole =ADVM.AccountRole,
+                //MeldingID = ADVM.MeldingID,
                 DateOfBirth = ADVM.DateOfBirth,
                 PhoneNumber = ADVM.PhoneNumber
             };
@@ -33,8 +33,8 @@ namespace CM.Converters
                 Name = Account.Name,
                 Email = Account.Email,
                 Password = Account.Password,
-                AccountRole = Account.AccountRole,
-                MeldingID = Account.MeldingID,
+                //AccountRole = Account.AccountRole,
+                //MeldingID = Account.MeldingID,
                 DateOfBirth = Account.DateOfBirth,
                 PhoneNumber = Account.PhoneNumber
             };

@@ -82,7 +82,7 @@ namespace CM.Controllers
                 {
                     HttpContext.Session.SetInt32("Admin", 1);
                 }
-                await noti.SendEmail();
+                await noti.SendPhoneConversation();
                 return RedirectToAction("Index", "Home");
             }
             else

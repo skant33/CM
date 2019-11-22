@@ -58,7 +58,7 @@ namespace CM.Context.SQL
                 using (connection)
                 {
                     SqlCommand command = new SqlCommand("insert into Account (NotificationID, AccountRoleId, Name, BirthDate, Email, TelephoneNumber, Password) values (@NotificationID,@AccountRoleId,@Name,@BirthDate,@Email, @TelephoneNumber,@Password)", connection);
-                    command.Parameters.AddWithValue("NotificationID", account.MeldingID);
+                    //command.Parameters.AddWithValue("NotificationID", account.MeldingID);
                     command.Parameters.AddWithValue("AccountRoleId", 1);
                     command.Parameters.AddWithValue("Name", account.Name);
                     command.Parameters.AddWithValue("BirthDate", account.DateOfBirth);
@@ -94,7 +94,7 @@ namespace CM.Context.SQL
                         {
                             uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
                             uitgaand.Password = Convert.ToString(reader["Password"]);
-                            uitgaand.AccountRole = Convert.ToInt32(reader["AccountRoleID"]);
+                            uitgaand.RoleID = Convert.ToInt32(reader["AccountRoleID"]);
                             uitgaand.Name = Convert.ToString(reader["Name"]);
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
@@ -159,8 +159,8 @@ namespace CM.Context.SQL
                         {
                             uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
                             uitgaand.Password = Convert.ToString(reader["Password"]);
-                            uitgaand.AccountRole = Convert.ToInt32(reader["AccountRolID"]);
-                            uitgaand.MeldingID = Convert.ToInt32(reader["MeldingID"]);
+                            //uitgaand.AccountRole = Convert.ToInt32(reader["AccountRolID"]);
+                           // uitgaand.MeldingID = Convert.ToInt32(reader["MeldingID"]);
                             uitgaand.Name = Convert.ToString(reader["Naam"]);
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["Geboortedatum"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
