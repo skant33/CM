@@ -38,8 +38,16 @@ namespace CM.Context.SQL
                 {
                     Appointment appointment = new Appointment();
                     appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
-                    //appointment.PatientID = Convert.ToInt32(reader["PatientID"]);
-                    //appointment.DoctorID = Convert.ToInt32(reader["DoctorID"]);
+                    Account patient = new Account()
+                    {
+                        AccountID = Convert.ToInt32(reader["PatientID"])
+                    };
+                    Account doctor = new Account()
+                    {
+                        AccountID = Convert.ToInt32(reader["DoctorID"])
+                    };
+                    appointment.Regarding.Add(patient);
+                    appointment.Regarding.Add(doctor);
                     appointment.Duration = Convert.ToInt32(reader["Duration"]);
                     appointment.Date = Convert.ToDateTime(reader["Date"]);
                     appointment.Coords = Convert.ToInt32(reader["Coords"]);
