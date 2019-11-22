@@ -9,10 +9,11 @@ namespace CM.Models
     {
         public int AccountID { get; set; }
         public string Password { get; set; }
-        public AccountRole  RoleId { get; set; }
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Email { get; set; }
         public int PhoneNumber { get; set; }
+
+        public AccountRole RoleId = new AccountRole();
     }
 }
