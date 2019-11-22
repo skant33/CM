@@ -7,5 +7,7 @@ namespace CM.Models
 {
     public class AccountRole
     {
+        public int AccountRoleID { get; set; }
+        public string Name { get; set; }
     }
 }

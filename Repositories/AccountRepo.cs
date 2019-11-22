@@ -25,5 +25,25 @@ namespace CM.Repositories
         {
             return context.Register(account);
         }
+
+        public List<Account> GetAllDoctors()
+        {
+            return context.GetAllDoctors();
+        }
+
+        public List<Account> GetAllPatients()
+        {
+            return context.GetAllPatients();
+        }
+
+        public bool CheckIfAdmin(int? accountid)
+        {
+            return context.CheckIfAdmin(accountid);
+        }
+
+        public Account GetAccountByID(int AccountID)
+        {
+            return context.GetAccountByID(AccountID);
+        }
     }
 }

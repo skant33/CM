@@ -11,5 +11,13 @@ namespace CM.Context.Interfaces
         Account Login(Account account);
 
         bool Register(Account account);
+
+        List<Account> GetAllDoctors();
+
+        List<Account> GetAllPatients();
+
+        bool CheckIfAdmin(int? accountid);
+
+        Account GetAccountByID(int AccountID);
     }
 }

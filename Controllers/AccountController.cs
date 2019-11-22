@@ -11,21 +11,26 @@ using CM.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
+using Hangfire;
+using Hangfire.Storage;
 
 namespace CM.Controllers
 {
     public class AccountController : Controller
     {
         //account
-        AccountViewModelConverter accountViewModelConverter = new AccountViewModelConverter(); 
+        //AccountConverter accountViewModelConverter = new AccountConverter(); 
         IAccountContext iaccountcontext;
         AccountRepo accountrepo;
+
+        public NotificationController noti;
 
         public AccountController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iaccountcontext = new AccountMsSqlContext(con);
             accountrepo = new AccountRepo(iaccountcontext);
+           // noti = new NotificationController(iconfiguration);
         }
 
         public IActionResult Index()
@@ -33,16 +38,53 @@ namespace CM.Controllers
             return View();
         }
 
+
+        public IActionResult MyAccount()
+        {
+            if (HttpContext.Session.GetInt32("AccountID") == null)
+            {               
+                return View("~/Views/Home/Login.cshtml");
+            }
+            else
+            {
+                Account account = new Account();
+                AccountDetailViewModel accountDetailViewModel = new AccountDetailViewModel();
+                account = accountrepo.GetAccountByID((int)HttpContext.Session.GetInt32("AccountID"));
+                //accountDetailViewModel = accountViewModelConverter.ViewModelFromAccount(account);
+                return View("~/Views/Home/MyAccount.cshtml", accountDetailViewModel);
+            }
+        }
+
+        public IActionResult Register()
+        {
+            ViewData["Message"] = "Your agenda";
+
+            return View();
+        }
+
+        public IActionResult Beheerder()
+        {
+            ViewBag.AllDoctors = accountrepo.GetAllDoctors();
+            ViewBag.AllPatients = accountrepo.GetAllPatients();
+
+            return View("~/Views/Home/Beheerder.cshtml");
+        }
+
         [HttpPost]
-        public IActionResult Login(AccountDetailViewModel viewmodel, string returnUrl = null)
+        public async Task<IActionResult> Login(AccountDetailViewModel viewmodel, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;            
             Account inkomend = accountViewModelConverter.ViewModelToAccount(viewmodel);
-            Account opgehaald = accountrepo.Login(inkomend);            
+            Account opgehaald = accountrepo.Login(inkomend);          
             if (opgehaald.Email == inkomend.Email)
             {
                 HttpContext.Session.SetInt32("AccountID", opgehaald.AccountID);
-                return RedirectToAction("Dashboard", "Home");
+                if(accountrepo.CheckIfAdmin(HttpContext.Session.GetInt32("AccountID")) == true)
+                {
+                    HttpContext.Session.SetInt32("Admin", 1);
+                }
+                //await noti.SendPhoneConversation();
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -51,7 +93,7 @@ namespace CM.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(AccountDetailViewModel viewmodel, string returnUrl = null)
+        public IActionResult Register(AccountDetailViewModel viewmodel, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             Account inkomend = accountViewModelConverter.ViewModelToAccount(viewmodel);
@@ -65,6 +107,19 @@ namespace CM.Controllers
                 //mislukt
                 return View("~/Views/Home/Login.cshtml");
             }
+        }
+
+        [HttpGet]
+        public IActionResult LogOut(AccountDetailViewModel viewmodel)
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("MyAccount","Account");
+        }
+
+        public IActionResult LinkAccounts(int accountid)
+        {
+
+            return RedirectToAction("Beheerder", "Account");
         }
     }
 }

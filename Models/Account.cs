@@ -9,8 +9,7 @@ namespace CM.Models
     {
         public int AccountID { get; set; }
         public string Password { get; set; }
-        public int AccountRole { get; set; }
-        public int MeldingID { get; set; }
+        public AccountRole AccountRole = new AccountRole();
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Email { get; set; }
