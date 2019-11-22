@@ -18,35 +18,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body>
-
-
-    @*<nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">CM</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Appointment" asp-action="Agenda">Agenda</a></li>
-                        @if (Context.Session.GetInt32("Admin") == 1)
-                        {
-                            <li><a asp-area="" asp-controller="Appointment" asp-action="Appointment">Appointment</a></li>
-                            <li><a asp-area="" asp-controller="Account" asp-action="Beheerder">Beheerder</a></li>
-                        }
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a asp-area="" asp-controller="Account" asp-action="MyAccount"><span aria-hidden="true" class="glyphicon glyphicon-user"></span></a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>*@
+<body class="dark">
     <input type="checkbox" id="cm-sidenav-toggle" checked>
     <label for="cm-sidenav-toggle"></label>
     <cm-sidenav>
