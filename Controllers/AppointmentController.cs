@@ -80,7 +80,7 @@ namespace CM.Controllers
         {
             AppointmentDetailViewModel ADVM = appointmentconverter.ViewModelFromAppointment(appointmentrepo.GetAppointmentByID(id));
             Appointment appointment = appointmentrepo.GetAppointmentByID(id);
-            ADVM.DoctorEmail = accountrepo.GetAccountByID(appointment.DoctorID).Email;
+            //ADVM.DoctorEmail = accountrepo.GetAccountByID(appointment.DoctorID).Email;
             return View("~/Views/Afspraak/AfspraakDetail.cshtml", ADVM);
         }
 

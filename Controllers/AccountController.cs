@@ -23,11 +23,14 @@ namespace CM.Controllers
         IAccountContext iaccountcontext;
         AccountRepo accountrepo;
 
+        public NotificationController noti;
+
         public AccountController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iaccountcontext = new AccountMsSqlContext(con);
-            accountrepo = new AccountRepo(iaccountcontext);                      
+            accountrepo = new AccountRepo(iaccountcontext);
+            noti = new NotificationController(iconfiguration);
         }
 
         public IActionResult Index()
@@ -61,13 +64,13 @@ namespace CM.Controllers
 
         public IActionResult Beheerder()
         {
-            ViewData["Message"] = "Your agenda";
-
+            ViewBag.AllDoctors = accountrepo.GetAllDoctors();
+            ViewBag.AllPatients = accountrepo.GetAllPatients();
             return View("~/Views/Home/Beheerder.cshtml");
         }
 
         [HttpPost]
-        public IActionResult Login(AccountDetailViewModel viewmodel, string returnUrl = null)
+        public async Task<IActionResult> Login(AccountDetailViewModel viewmodel, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;            
             Account inkomend = accountViewModelConverter.ViewModelToAccount(viewmodel);
@@ -79,6 +82,7 @@ namespace CM.Controllers
                 {
                     HttpContext.Session.SetInt32("Admin", 1);
                 }
+                await noti.SendPhoneConversation();
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -109,6 +113,12 @@ namespace CM.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("MyAccount","Account");
+        }
+
+        public IActionResult LinkAccounts(int doctorid, int patientid)
+        {
+            accountrepo.LinkAccounts(patientid, doctorid);
+            return RedirectToAction("Beheerder", "Account");
         }
     }
 }

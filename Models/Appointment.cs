@@ -8,12 +8,12 @@ namespace CM.Models
     public class Appointment
     {
         public int AppointmentID { get; set; }
-        public int PatientID { get; set; }
-        public int DoctorID { get; set; }
         public int Duration { get; set; }
         public DateTime Date { get; set; }
         public int Coords { get; set; }
         public string Description { get; set; }
         public string DoctorEmail { get; set; }
+
+        public List<Account> Regarding = new List<Account>();
     }
 }

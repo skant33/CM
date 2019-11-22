@@ -16,5 +16,10 @@ namespace CM.Context.Interfaces
 
         bool CheckIfAdmin(int? accountid);
         Account GetAccountByEmail(string email);
+
+        List<Account> GetAllPatients();
+        List<Account> GetAllDoctors();
+
+        bool LinkAccounts(int patientid, int doctorid);
     }
 }

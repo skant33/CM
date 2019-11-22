@@ -24,13 +24,17 @@ namespace CM.Context.SQL
         public Account Login(Account account)
         {
             Account uitgaand = new Account();
+
             SqlConnection connection = new SqlConnection(con);
+
             using (connection)
             {
                 SqlCommand command = new SqlCommand("select AccountID, Email, Password from Account where Email = @Email and Password = @Password", connection);
                 command.Parameters.AddWithValue("@Email", account.Email);
                 command.Parameters.AddWithValue("@Password", account.Password);
+
                 connection.Open();
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     try
@@ -55,18 +59,23 @@ namespace CM.Context.SQL
             try
             {
                 SqlConnection connection = new SqlConnection(con);
+
                 using (connection)
                 {
-                    SqlCommand command = new SqlCommand("insert into Account (NotificationID, AccountRoleId, Name, BirthDate, Email, TelephoneNumber, Password) values (@NotificationID,@AccountRoleId,@Name,@BirthDate,@Email, @TelephoneNumber,@Password)", connection);
-                    command.Parameters.AddWithValue("NotificationID", account.MeldingID);
+                    SqlCommand command = new SqlCommand("insert into Account (AccountRoleId, Name, BirthDate, Email, TelephoneNumber, Password) values (@AccountRoleId, @Name, @BirthDate, @Email, @TelephoneNumber, @Password)", connection);
                     command.Parameters.AddWithValue("AccountRoleId", 1);
                     command.Parameters.AddWithValue("Name", account.Name);
                     command.Parameters.AddWithValue("BirthDate", account.DateOfBirth);
                     command.Parameters.AddWithValue("Email", account.Email);
                     command.Parameters.AddWithValue("TelephoneNumber", account.PhoneNumber);
                     command.Parameters.AddWithValue("Password", account.Password);
+
+                    //Meldinggegevens moeten ook nog opgeslagen worden
+
                     connection.Open();
+
                     command.ExecuteNonQuery();
+
                     return true;
                 }
             }
@@ -79,7 +88,9 @@ namespace CM.Context.SQL
         public Account GetAccountByID(int AccountID)
         {
             Account uitgaand = new Account();
+
             SqlConnection connection = new SqlConnection(con);
+
             using (connection)
             {
                 SqlCommand command = new SqlCommand("select * from Account where AccountID = @AccountID", connection);
@@ -94,7 +105,7 @@ namespace CM.Context.SQL
                         {
                             uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
                             uitgaand.Password = Convert.ToString(reader["Password"]);
-                            uitgaand.AccountRole = Convert.ToInt32(reader["AccountRoleID"]);
+                            uitgaand.RoleId.ID = Convert.ToInt32(reader["AccountRoleID"]);
                             uitgaand.Name = Convert.ToString(reader["Name"]);
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
@@ -113,12 +124,16 @@ namespace CM.Context.SQL
         public bool CheckIfAdmin(int? accountid)
         {
             int id;
+
             SqlConnection connection = new SqlConnection(con);
+
             using (connection)
             {
-                SqlCommand command = new SqlCommand("select AccountRole.AccountRoleID from AccountRole inner join Account on AccountRole.AccountRoleID = Account.AccountRoleID where AccountID = @AccountID", connection);
+                SqlCommand command = new SqlCommand("SELECT Account.AccountRoleID FROM Account WHERE AccountID = @AccountID", connection);
                 command.Parameters.AddWithValue("@AccountID", accountid);
+
                 connection.Open();
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     try
@@ -144,13 +159,16 @@ namespace CM.Context.SQL
         public Account GetAccountByEmail(string Email)
         {
             Account uitgaand = new Account();
+
             SqlConnection connection = new SqlConnection(con);
+
             using (connection)
             {
                 SqlCommand command = new SqlCommand("select * from Account where Email = @Email", connection);
                 command.Parameters.AddWithValue("@Email", Email);
 
                 connection.Open();
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     try
@@ -159,8 +177,7 @@ namespace CM.Context.SQL
                         {
                             uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
                             uitgaand.Password = Convert.ToString(reader["Password"]);
-                            uitgaand.AccountRole = Convert.ToInt32(reader["AccountRolID"]);
-                            uitgaand.MeldingID = Convert.ToInt32(reader["MeldingID"]);
+                            uitgaand.RoleId.ID = Convert.ToInt32(reader["AccountRolID"]);
                             uitgaand.Name = Convert.ToString(reader["Naam"]);
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["Geboortedatum"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
@@ -174,6 +191,94 @@ namespace CM.Context.SQL
                 }
             }
             return uitgaand;
+        }
+        public List<Account> GetAllDoctors()
+        {
+            List<Account> doctors = new List<Account>();
+            SqlConnection connection = new SqlConnection(con);
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand("select * from account where AccountRoleID = 2", connection);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            Account uitgaand = new Account();
+                            uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
+                            uitgaand.Password = Convert.ToString(reader["Password"]);
+                            uitgaand.RoleId.ID = Convert.ToInt32(reader["AccountRoleID"]);
+                            uitgaand.Name = Convert.ToString(reader["Name"]);
+                            uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
+                            uitgaand.Email = Convert.ToString(reader["Email"]);
+                            uitgaand.PhoneNumber = Convert.ToInt32(reader["TelephoneNumber"]);
+                            doctors.Add(uitgaand);
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("No rows found.");
+                    }
+                }
+            }
+            return doctors;
+        }
+
+        public List<Account> GetAllPatients()
+        {
+            List<Account> patients = new List<Account>();
+            SqlConnection connection = new SqlConnection(con);
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand("select * from account where AccountRoleID = 1", connection);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            Account uitgaand = new Account();
+                            uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
+                            uitgaand.Password = Convert.ToString(reader["Password"]);
+                            uitgaand.RoleId.ID = Convert.ToInt32(reader["AccountRoleID"]);
+                            uitgaand.Name = Convert.ToString(reader["Name"]);
+                            uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
+                            uitgaand.Email = Convert.ToString(reader["Email"]);
+                            uitgaand.PhoneNumber = Convert.ToInt32(reader["TelephoneNumber"]);
+                            patients.Add(uitgaand);
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("No rows found.");
+                    }
+                }
+            }
+            return patients;
+        }
+
+        public bool LinkAccounts(int patientid, int doctorid)
+        {
+            try
+            {
+                SqlConnection connection = new SqlConnection(con);
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("insert into [AccountLink] (DoctorID, PatientID) values (@DoctorID, @PatientID)", connection);
+                    command.Parameters.AddWithValue("@DoctorID", patientid);
+                    command.Parameters.AddWithValue("@PatientID", doctorid);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
