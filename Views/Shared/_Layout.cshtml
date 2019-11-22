@@ -7,7 +7,7 @@
     <title>@ViewData["Title"] - CM</title>
 
     <environment include="Development">
-        @*<link href="https://cm.com/en-gb/app/aurora/css/v2/aurora.css" rel="stylesheet">*@
+        <link href="https://cm.com/en-gb/app/aurora/css/v2/aurora.css" rel="stylesheet">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
@@ -21,32 +21,54 @@
 <body>
 
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">CM</a>
+    @*<nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">CM</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Appointment" asp-action="Agenda">Agenda</a></li>
+                        @if (Context.Session.GetInt32("Admin") == 1)
+                        {
+                            <li><a asp-area="" asp-controller="Appointment" asp-action="Appointment">Appointment</a></li>
+                            <li><a asp-area="" asp-controller="Account" asp-action="Beheerder">Beheerder</a></li>
+                        }
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a asp-area="" asp-controller="Account" asp-action="MyAccount"><span aria-hidden="true" class="glyphicon glyphicon-user"></span></a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Appointment" asp-action="Agenda">Agenda</a></li>
-                    @if (Context.Session.GetInt32("Admin") == 1)
-                    {
-                        <li><a asp-area="" asp-controller="Appointment" asp-action="Appointment">Appointment</a></li>
-                        <li><a asp-area="" asp-controller="Account" asp-action="Beheerder">Beheerder</a></li>
-                    }
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a asp-area="" asp-controller="Account" asp-action="MyAccount"></a><img src="~/images/banner1.svg" class="img-responsive"></a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+        </nav>*@
+    <input type="checkbox" id="cm-sidenav-toggle" checked>
+    <label for="cm-sidenav-toggle"></label>
+    <cm-sidenav>
+        <cm-sidenav-header data-open data-display="Aurora">
+            <span class="badge middle-right sidenav-badge" slot="badge">CM.com</span>
+            <cm-sidenav-option><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></cm-sidenav-option>
+            <cm-sidenav-option><a asp-area="" asp-controller="Appointment" asp-action="Agenda">Agenda</a></cm-sidenav-option>
+        </cm-sidenav-header>
+        @if (Context.Session.GetInt32("Admin") == 1)
+        {
+            <cm-sidenav-header data-display="Components">
+                <cm-sidenav-option><a asp-area="" asp-controller="Appointment" asp-action="Appointment">Appointment</a></cm-sidenav-option>
+                <cm-sidenav-option><a asp-area="" asp-controller="Account" asp-action="Beheerder">Beheerder</a></cm-sidenav-option>
+            </cm-sidenav-header>
+        }
+        <cm-sidenav-header data-display="Components">
+            <cm-sidenav-option><a asp-area="" asp-controller="Account" asp-action="MyAccount"><span aria-hidden="true" class="glyphicon glyphicon-user"></span></a></cm-sidenav-option>
+        </cm-sidenav-header>
+            <cm-sidenav-header data-display="Layout"></cm-sidenav-header>
+            <cm-sidenav-header data-render-bottom data-display="Layout"></cm-sidenav-header>
+        </cm-sidenav>
+    <platform-header title-text="Aurora™"></platform-header>
 
     <partial name="_CookieConsentPartial" />
 
