@@ -24,10 +24,14 @@ namespace CM.Context.SQL
         public List<Appointment> GetAllAppointments()
         {
             List<Appointment> appointments = new List<Appointment>();
+
             SqlConnection connection = new SqlConnection(con);
-            string query = "select * from Appointment";
-            SqlCommand sqlCommand = new SqlCommand(query, connection);
+
+            SqlCommand sqlCommand = new SqlCommand(@"SELECT * 
+                                                    FROM Appointment", connection);
+
             connection.Open();
+
             using (SqlDataReader reader = sqlCommand.ExecuteReader())
             {
                 while (reader.Read())
@@ -52,10 +56,10 @@ namespace CM.Context.SQL
             SqlConnection connection = new SqlConnection(con);
             using (connection)
             {
-                SqlCommand command = new SqlCommand(@"SELECT Appointment.*
-                                                    FROM Appointment
-                                                    INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
-                                                    INNER JOIN Account ON AccountLink.PatientID = Account.AccountID
+                SqlCommand command = new SqlCommand(@"SELECT Appointment.* 
+                                                    FROM Appointment 
+                                                    INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID 
+                                                    INNER JOIN Account ON AccountLink.PatientID = Account.AccountID 
                                                     WHERE Account.AccountID = @PatientID", connection);
                 command.Parameters.AddWithValue("@PatientID", account.AccountID);
                 connection.Open();
@@ -67,6 +71,7 @@ namespace CM.Context.SQL
                         {
                             Appointment appointment = new Appointment();
                             appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
+                            appointment.Regarding[0].AccountID = Convert.ToInt32(reader["PatientID"]);
                             //appointment.PatientID = Convert.ToInt32(reader["PatientID"]);
                             //appointment.DoctorID = Convert.ToInt32(reader["DoctorID"]);
                             appointment.Duration = Convert.ToInt32(reader["Duration"]);
@@ -91,7 +96,9 @@ namespace CM.Context.SQL
             SqlConnection connection = new SqlConnection(con);
             using (connection)
             {
-                SqlCommand command = new SqlCommand("Select * FROM Appointment Where AppointmentID = @AppointmentID", connection);
+                SqlCommand command = new SqlCommand(@"SELECT * 
+                                                    FROM Appointment 
+                                                    WHERE AppointmentID = @AppointmentID", connection);
                 command.Parameters.AddWithValue("@AppointmentID", id);
                 connection.Open();
                 using (SqlDataReader reader = command.ExecuteReader())
