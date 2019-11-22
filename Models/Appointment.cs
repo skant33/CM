@@ -8,8 +8,8 @@ namespace CM.Models
     public class Appointment
     {
         public int AppointmentID { get; set; }
-        public int PatientID { get; set; }
-        public int DoctorID { get; set; }
+        public Account Client { get; set; }
+        public Account Doctor { get; set; }
         public int Duration { get; set; }
         public DateTime Date { get; set; }
         public int Coords { get; set; }

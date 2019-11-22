@@ -23,11 +23,14 @@ namespace CM.Controllers
         IAccountContext iaccountcontext;
         AccountRepo accountrepo;
 
+        public NotificationController noti;
+
         public AccountController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iaccountcontext = new AccountMsSqlContext(con);
-            accountrepo = new AccountRepo(iaccountcontext);                      
+            accountrepo = new AccountRepo(iaccountcontext);
+            noti = new NotificationController(iconfiguration);
         }
 
         public IActionResult Index()
@@ -67,7 +70,7 @@ namespace CM.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(AccountDetailViewModel viewmodel, string returnUrl = null)
+        public async Task<IActionResult> Login(AccountDetailViewModel viewmodel, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;            
             Account inkomend = accountViewModelConverter.ViewModelToAccount(viewmodel);
@@ -79,6 +82,7 @@ namespace CM.Controllers
                 {
                     HttpContext.Session.SetInt32("Admin", 1);
                 }
+                await noti.SendEmail();
                 return RedirectToAction("Index", "Home");
             }
             else

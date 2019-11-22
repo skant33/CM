@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using CM.Helpers.MailClasses;
 using CM.Models;
 using CM.Text;
 using CM.Voice.VoiceApi.Sdk;
@@ -12,6 +13,7 @@ using CM.Voice.VoiceApi.Sdk.Models;
 using CM.Voice.VoiceApi.Sdk.Models.Instructions.Apps;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace CM.Controllers
 {
@@ -70,7 +72,17 @@ namespace CM.Controllers
 
         public async Task SendEmail()
         {
-
+            Mail mail = new Mail()
+            {
+                FromAddressID = new Guid("E4802F51-F6A2-474A-8883-3CDB2EAACDB3"),
+                ToAddress = "engbrenghof48@gmail.com",
+                TextBody = "This is a text body",
+                Subject = "My awesome mail"
+            };
+            StringContent content = new StringContent(JsonConvert.SerializeObject(mail), Encoding.UTF8, "application/json");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("X-CM-PRODUCTTOKEN", "E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
+            HttpResponseMessage message = await client.PostAsync("https://api.cmtelecom.com/bulkemail/v1.0/accounts/44D51DE6-3DF0-46A0-BA49-B7D26E3B30B6/mails", content);
         }
     }
 }
