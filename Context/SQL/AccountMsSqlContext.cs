@@ -109,7 +109,7 @@ namespace CM.Context.SQL
                             uitgaand.Name = Convert.ToString(reader["Name"]);
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
-                            uitgaand.PhoneNumber = Convert.ToInt32(reader["TelephoneNumber"]);
+                            uitgaand.PhoneNumber = Convert.ToString(reader["TelephoneNumber"]);
                         }
                     }
                     catch
@@ -181,7 +181,7 @@ namespace CM.Context.SQL
                             uitgaand.Name = Convert.ToString(reader["Naam"]);
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["Geboortedatum"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
-                            uitgaand.PhoneNumber = Convert.ToInt32(reader["Telefoonnummer"]);
+                            uitgaand.PhoneNumber = Convert.ToString(reader["Telefoonnummer"]);
                         }
                     }
                     catch
@@ -213,7 +213,7 @@ namespace CM.Context.SQL
                             uitgaand.Name = Convert.ToString(reader["Name"]);
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
-                            uitgaand.PhoneNumber = Convert.ToInt32(reader["TelephoneNumber"]);
+                            uitgaand.PhoneNumber = Convert.ToString(reader["TelephoneNumber"]);
                             doctors.Add(uitgaand);
                         }
                     }
@@ -247,7 +247,7 @@ namespace CM.Context.SQL
                             uitgaand.Name = Convert.ToString(reader["Name"]);
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
-                            uitgaand.PhoneNumber = Convert.ToInt32(reader["TelephoneNumber"]);
+                            uitgaand.PhoneNumber = Convert.ToString(reader["TelephoneNumber"]);
                             patients.Add(uitgaand);
                         }
                     }

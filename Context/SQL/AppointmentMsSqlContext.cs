@@ -166,10 +166,11 @@ namespace CM.Context.SQL
         {
             List<Appointment> appointments = new List<Appointment>();
             SqlConnection connection = new SqlConnection(con);
-            SqlCommand sqlCommand = new SqlCommand(@"SELECT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID
+            SqlCommand sqlCommand = new SqlCommand(@"SELECT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID, FORMAT(DATEADD(HOUR, -[Notification].TimeTillSend, Appointment.[DateTime]),'dd-MM-yyyy HH:mm:ss') as 'SendTime'
                                                     FROM Appointment
                                                     INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
                                                     INNER JOIN Account ON AccountLink.PatientID = Account.AccountID
+                                                    INNER JOIN [Notification] on Account.AccountID = [Notification].AccountID
                                                     WHERE Appointment.[DateTime] > CURRENT_TIMESTAMP", connection);
             connection.Open();
             using (SqlDataReader reader = sqlCommand.ExecuteReader())
@@ -184,6 +185,7 @@ namespace CM.Context.SQL
                     appointment.Date = Convert.ToDateTime(reader["DateTime"]);
                     appointment.Coords = Convert.ToInt32(reader["Coords"]);
                     appointment.Description = Convert.ToString(reader["Description"]);
+                    appointment.SendTime = Convert.ToDateTime(reader["SendTime"]);
                     appointments.Add(appointment);
                 }
             }

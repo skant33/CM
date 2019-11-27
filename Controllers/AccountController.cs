@@ -90,7 +90,6 @@ namespace CM.Controllers
                     HttpContext.Session.SetInt32("Admin", 1);
                 }
                 APIInteraction api = new APIInteraction(config);
-                await api.CheckForNotification();
                 return RedirectToAction("Index", "Home");
             }
             else

@@ -15,5 +15,7 @@ namespace CM.Models
         public Account doctor = new Account();
 
         public Account patient = new Account();
+
+        public DateTime SendTime { get; set; }
     }
 }
