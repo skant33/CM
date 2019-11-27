@@ -24,6 +24,7 @@ namespace CM.Controllers
         AccountRepo accountrepo;
 
         public NotificationController noti;
+        private IConfiguration config;
 
         public AccountController(IConfiguration iconfiguration)
         {
@@ -31,6 +32,7 @@ namespace CM.Controllers
             iaccountcontext = new AccountMsSqlContext(con);
             accountrepo = new AccountRepo(iaccountcontext);
             noti = new NotificationController(iconfiguration);
+            this.config = iconfiguration;
         }
 
         public IActionResult Index()
@@ -87,6 +89,8 @@ namespace CM.Controllers
                 {
                     HttpContext.Session.SetInt32("Admin", 1);
                 }
+                APIInteraction api = new APIInteraction(config);
+                await api.CheckForNotification();
                 return RedirectToAction("Index", "Home");
             }
             else

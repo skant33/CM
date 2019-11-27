@@ -170,7 +170,7 @@ namespace CM.Context.SQL
                                                     FROM Appointment
                                                     INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
                                                     INNER JOIN Account ON AccountLink.PatientID = Account.AccountID
-                                                    WHERE Account.AccountID = 6", connection);
+                                                    WHERE Appointment.[DateTime] > CURRENT_TIMESTAMP", connection);
             connection.Open();
             using (SqlDataReader reader = sqlCommand.ExecuteReader())
             {

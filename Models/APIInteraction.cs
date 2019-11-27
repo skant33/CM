@@ -75,13 +75,13 @@ namespace CM.Models
 
         public List<Appointment> AllSendableAppointments()
         {
-            List<Appointment> appointments = appointmentrepo.AllUpcomingAppointments();
+            List<Appointment> appointments = new List<Appointment>();
 
             //marge
             DateTime margemin2 = DateTime.Now.AddMinutes(-2);
             DateTime margeplus2 = DateTime.Now.AddMinutes(2);
 
-            foreach (Appointment appointment in appointments)
+            foreach (Appointment appointment in appointmentrepo.AllUpcomingAppointments())
             {
                 if (appointment.Date > margemin2 && appointment.Date < margeplus2)
                 {
