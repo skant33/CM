@@ -14,12 +14,11 @@ namespace CM.Converters
             Appointment appointment = new Appointment()
             {
                 AppointmentID = viewmodel.AppointmentID,
-                PatientID = viewmodel.PatientID,
-                DoctorID = viewmodel.DoctorID,
+                LinkID = viewmodel.LinkID,
                 Duration = viewmodel.Duration,
                 Date = viewmodel.Date,
                 Coords = viewmodel.Coords,
-                Done = viewmodel.Done,
+                Description = viewmodel.Description,
             };
             return appointment;
         }
@@ -28,12 +27,11 @@ namespace CM.Converters
             AppointmentDetailViewModel viewmodel = new AppointmentDetailViewModel()
             {
                 AppointmentID = appointment.AppointmentID,
-                PatientID = appointment.PatientID,
-                DoctorID = appointment.DoctorID,
+                LinkID = appointment.LinkID,
                 Duration = appointment.Duration,
                 Date = appointment.Date,
                 Coords = appointment.Coords,
-                Done = appointment.Done,
+                Description = appointment.Description,
             };
             return viewmodel;
         }

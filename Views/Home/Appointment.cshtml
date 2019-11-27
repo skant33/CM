@@ -3,5 +3,27 @@
     ViewData["Title"] = "Appointment";
 }
 
-<h2>AppointmentView</h2>
+<h2>Appointment aanmaken</h2>
+@model CM.ViewModels.AppointmentDetailViewModel
+<form asp-area="" asp-controller="Appointment" asp-action="MakeAppointment">
+    <div class="form-group">
+        <h6>Patient</h6>
+        @Html.DropDownList("LinkID", new SelectList(ViewBag.LinkedPatients))
+        <h6>Duration</h6>
+        @Html.TextBoxFor(m => m.Duration, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.Duration)
+        <h6>Date YYYY-MM-DD</h6>
+        @Html.TextBoxFor(m => m.Date, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.Date)
+        <h6>Location</h6>
+        @Html.TextBoxFor(m => m.Coords, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.Coords)
+        <h6>Description</h6>
+        @Html.TextBoxFor(m => m.Description, new { maxlength = "200", size = "60" })
+        @Html.ValidationMessageFor(m => m.Description)
+        <button type="submit" class="form-group">Plan afspraak</button>
+    </div>
+</form>
+
+<a asp-area="" asp-controller="Home" asp-action="Login">Log in</a>
 

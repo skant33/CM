@@ -11,5 +11,7 @@ namespace CM.Context.Interfaces
         List<Appointment> GetAllAppointments();
 
         List<Appointment> GetAppointmentsByUserId(Account account);
+
+       bool MakeAppointment(Appointment appointment);
     }
 }

@@ -29,12 +29,11 @@ namespace CM.Context.SQL
                 {
                     Appointment appointment = new Appointment();
                     appointment.AppointmentID = Convert.ToInt32(reader["AfspraakID"]);
-                    appointment.PatientID = Convert.ToInt32(reader["GebruikerID"]);
-                    appointment.DoctorID = Convert.ToInt32(reader["ArtsID"]);
+                    appointment.LinkID = Convert.ToInt32(reader["LinkID"]);
                     appointment.Duration = Convert.ToInt32(reader["Duur"]);
                     appointment.Date = Convert.ToDateTime(reader["Datum"]);
                     appointment.Coords = Convert.ToInt32(reader["Coords"]);
-                    appointment.Done = Convert.ToBoolean(reader["Done"]);
+                    appointment.Description = Convert.ToString(reader["Description"]);
                     appointments.Add(appointment);
                 }
             }
@@ -57,13 +56,12 @@ namespace CM.Context.SQL
                         while (reader.Read())
                         {
                             Appointment appointment = new Appointment();
-                            appointment.AppointmentID = Convert.ToInt32(reader["AfspraakID"]);
-                            appointment.PatientID = Convert.ToInt32(reader["GebruikerID"]);
-                            appointment.DoctorID = Convert.ToInt32(reader["ArtsID"]);
-                            appointment.Duration = Convert.ToInt32(reader["Duur"]);
-                            appointment.Date = Convert.ToDateTime(reader["Datum"]);
+                            appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
+                            appointment.LinkID = Convert.ToInt32(reader["LinkID"]);
+                            appointment.Duration = Convert.ToInt32(reader["Duration"]);
+                            appointment.Date = Convert.ToDateTime(reader["Date"]);
                             appointment.Coords = Convert.ToInt32(reader["Coords"]);
-                            appointment.Done = Convert.ToBoolean(reader["Done"]);
+                            appointment.Description = Convert.ToString(reader["Description"]);
                             appointments.Add(appointment);
                         }
                     }
@@ -75,5 +73,30 @@ namespace CM.Context.SQL
             }
             return appointments;
         }
+
+        public bool MakeAppointment(Appointment appointment)
+        {
+            try
+            {
+                SqlConnection connection = new SqlConnection(con);
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("insert into Apoointment (AppointmentID, LinkID, Duration, Date, Coords, Description) values (insert into Apoointment (@AppointmentID,@LinkID,@Duration,@Date,@Coords,@Description)", connection);
+                    command.Parameters.AddWithValue("PatientID", appointment.LinkID);
+                    command.Parameters.AddWithValue("Duration", appointment.Duration);
+                    command.Parameters.AddWithValue("Date", appointment.Date);
+                    command.Parameters.AddWithValue("Coords", appointment.Coords);
+                    command.Parameters.AddWithValue("Description", appointment.Description);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        } 
+        
     }
 }

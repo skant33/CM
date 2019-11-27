@@ -31,6 +31,21 @@ namespace CM.Controllers
         {
             return View();
         }
-       
+        public async Task<IActionResult> MakeAppointment(AppointmentDetailViewModel viewmodel, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            Appointment inkomend = appointmentViewModelConverter.ViewModelToAccount(viewmodel);
+            if (appointmentrepo.MakeAppointment(inkomend) == true)
+            {
+                //afspraak gepland
+                return View("~/Views/Home/Index.cshtml");
+            }
+            else
+            {
+                //mislukt
+                return View("~/Views/Home/Login.cshtml");
+            }
+        }
+
     }
 }

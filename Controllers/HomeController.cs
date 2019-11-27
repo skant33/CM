@@ -24,6 +24,12 @@ namespace CM.Controllers
 
         public IActionResult Appointment()
         {
+            List<Account> LinkedPatients = new List<Account>();
+
+           
+            //LinkedPatients.Add(Account.Name);
+            ViewBag.CustomerRoles = LinkedPatients;
+
             ViewData["Message"] = "Your agenda";
 
             return View();

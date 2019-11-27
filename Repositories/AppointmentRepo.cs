@@ -23,5 +23,10 @@ namespace CM.Repositories
         {
             return context.GetAppointmentsByUserId(account);
         }
+
+        public bool MakeAppointment(Appointment appointment)
+        {
+            return context.MakeAppointment(appointment);
+        }
     }
 }
