@@ -10,15 +10,11 @@
     <div class="form-group" align="left">
         <div class="form-row">
             <h6>Email</h6>
-            <div class="form-input success">
-                @*@Html.TextBoxFor(m => m.Email, new { maxlength = "50", size = "30" })
-                    @Html.ValidationMessageFor(m => m.Email)*@
+            <div class="form-input">
                 <input asp-for="Email" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Voer email in">
             </div>
             <h6>Password</h6>
-            <div class="form-input success">
-                @*@Html.TextBoxFor(m => m.Password, new { maxlength = "50", size = "30" })
-                    @Html.ValidationMessageFor(m => m.Password)*@
+            <div class="form-input">
                 <input asp-for="Password" type="password" class="form-control" id="exampleFormControlInput4" placeholder="Voer wachtwoord in">
             </div>
         </div>

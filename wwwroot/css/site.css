@@ -35,3 +35,7 @@ body {
         display: none;
     }
 }
+
+#cm-sidenav-toggle:checked {
+    padding-left: 100px;
+}
