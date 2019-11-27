@@ -65,6 +65,12 @@ namespace CM.Controllers
         [HttpGet]
         public IActionResult Beheerder()
         {
+            List<Account> doctorlist = accountrepo.GetAllDoctors();
+            ViewBag.AllDoctors = doctorlist;
+
+            List<Account> patientlist = accountrepo.GetAllPatients();
+            ViewBag.AllPatients = patientlist;
+
             return View("~/Views/Home/Beheerder.cshtml");
         }
 
@@ -114,6 +120,7 @@ namespace CM.Controllers
             return RedirectToAction("MyAccount","Account");
         }
 
+        [HttpPost]
         public IActionResult LinkAccounts(int doctorid, int patientid)
         {
             accountrepo.LinkAccounts(patientid, doctorid);
