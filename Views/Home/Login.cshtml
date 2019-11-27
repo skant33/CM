@@ -12,18 +12,18 @@
             <h6>Email</h6>
             <div class="form-input success">
                 @*@Html.TextBoxFor(m => m.Email, new { maxlength = "50", size = "30" })
-                @Html.ValidationMessageFor(m => m.Email)*@
+                    @Html.ValidationMessageFor(m => m.Email)*@
                 <input asp-for="Email" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Voer email in">
             </div>
             <h6>Password</h6>
             <div class="form-input success">
                 @*@Html.TextBoxFor(m => m.Password, new { maxlength = "50", size = "30" })
-                @Html.ValidationMessageFor(m => m.Password)*@
+                    @Html.ValidationMessageFor(m => m.Password)*@
                 <input asp-for="Password" type="password" class="form-control" id="exampleFormControlInput4" placeholder="Voer wachtwoord in">
             </div>
         </div>
-            <button type="submit" class="btn btn-cta">Log in</button>
+        <button type="submit" class="btn btn-cta">Log in</button>
     </div>
 </form>
 
-<a asp-area="" asp-controller="Notification" asp-action="SendSMS">Register now</a>
+<a asp-area="" asp-controller="Account" asp-action="Register">Register now</a>

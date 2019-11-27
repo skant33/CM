@@ -45,13 +45,13 @@ namespace CM.Controllers
             return RedirectToAction("Beheerder", "Account");
         }
 
-        public async Task SendSMS(Account account, Appointment appointment)
+        public async Task SendSMS(Appointment appointment)
         {
             List<string> receivers = new List<string>();
-            receivers.Add(account.PhoneNumber.ToString());
+            receivers.Add(appointment.patient.PhoneNumber);
 
             var client = new TextClient(new Guid(config.GetSection("ApiKey").Value));
-            var result = await client.SendMessageAsync("Hoi", "CMProftaak", receivers, null).ConfigureAwait(false);
+            var result = await client.SendMessageAsync(String.Format("You have a appointment at {0} with doctor {1}. {2}", appointment.Date, appointment.doctor.Name, appointment.Description), "CMProftaak", receivers, null).ConfigureAwait(false);
         }
 
         public async Task SendWhatsAppMessage()
@@ -63,7 +63,7 @@ namespace CM.Controllers
             var result = await client.SendMessageAsync("Hoi", "CMProftaak", receivers, null).ConfigureAwait(false);
         }
 
-        public async Task SendPhoneConversation(Account account, Appointment appointment)
+        public async Task SendPhoneConversation(Appointment appointment)
         {
             var myApiKey = Guid.Parse("E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
             var httpClient = new HttpClient();
@@ -72,22 +72,22 @@ namespace CM.Controllers
             var instruction = new NotificationInstruction
             {
                 Caller = "0031627404177",
-                Callee = account.PhoneNumber.ToString(),
-                Prompt = "",
+                Callee = appointment.patient.PhoneNumber,
+                Prompt = String.Format("You have a appointment at {0} with doctor {1}. {2}", appointment.Date, appointment.doctor.Name , appointment.Description),
                 MaxReplays = 2,
                 ReplayPrompt = "Press 1 to repeat this message."
             };           
             var result = await client.SendAsync(instruction).ConfigureAwait(false);
         }
 
-        public async Task SendEmail(Account account, Appointment appointment)
+        public async Task SendEmail(Appointment appointment)
         {
             Mail mail = new Mail()
             {
-                FromAddressID = new Guid("E4802F51-F6A2-474A-8883-3CDB2EAACDB3"),
-                ToAddress = account.Email.ToString(),
-                TextBody = "This is a text body",
-                Subject = "My awesome mail"
+                FromAddressID = new Guid("c10d75e0-bb6b-4bad-8050-a1d0f794acda"),
+                ToAddress = appointment.patient.Email,
+                TextBody = String.Format("You have a appointment at {0} with doctor {1}. {2}", appointment.Date, appointment.doctor.Name, appointment.Description),
+                Subject = String.Format("Appointment at {0}", appointment.Date)
             };
             StringContent content = new StringContent(JsonConvert.SerializeObject(mail), Encoding.UTF8, "application/json");
             HttpClient client = new HttpClient();

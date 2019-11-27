@@ -57,18 +57,15 @@ namespace CM.Models
             {
                 if (notificationrepo.GetNotificationTypeByAppointmentID(appointment) == "SMS")
                 {
-                    Account patient = accountrepo.GetAccountByID(appointment.patient.AccountID);
-                    await notificationController.SendSMS(patient, appointment);
+                    await notificationController.SendSMS(appointment);
                 }
                 else if (notificationrepo.GetNotificationTypeByAppointmentID(appointment) == "eMail")
                 {
-                    Account patient = accountrepo.GetAccountByID(appointment.patient.AccountID);
-                    await notificationController.SendEmail(patient, appointment);
+                    await notificationController.SendEmail(appointment);
                 }
                 else if (notificationrepo.GetNotificationTypeByAppointmentID(appointment) == "ByPhone")
                 {
-                    Account patient = accountrepo.GetAccountByID(appointment.patient.AccountID);
-                    await notificationController.SendPhoneConversation(patient, appointment);
+                    await notificationController.SendPhoneConversation(appointment);
                 }
             }                      
         }
@@ -85,6 +82,8 @@ namespace CM.Models
             {
                 if (appointment.SendTime > margemin2 && appointment.SendTime < margeplus2)
                 {
+                    appointment.doctor = accountrepo.GetAccountByID(appointment.doctor.AccountID);
+                    appointment.patient = accountrepo.GetAccountByID(appointment.patient.AccountID);
                     appointments.Add(appointment);
                 }
             }

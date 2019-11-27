@@ -81,15 +81,14 @@ namespace CM.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;            
             Account inkomend = accountViewModelConverter.ViewModelToAccount(viewmodel);
-            Account opgehaald = accountrepo.Login(inkomend);          
+            Account opgehaald = accountrepo.Login(inkomend);
             if (opgehaald.Email == inkomend.Email)
             {
                 HttpContext.Session.SetInt32("AccountID", opgehaald.AccountID);
-                if(accountrepo.CheckIfAdmin(HttpContext.Session.GetInt32("AccountID")) == true)
+                if (accountrepo.CheckIfAdmin(HttpContext.Session.GetInt32("AccountID")) == true)
                 {
                     HttpContext.Session.SetInt32("Admin", 1);
                 }
-                APIInteraction api = new APIInteraction(config);
                 return RedirectToAction("Index", "Home");
             }
             else
