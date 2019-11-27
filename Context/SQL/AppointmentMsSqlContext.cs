@@ -38,16 +38,8 @@ namespace CM.Context.SQL
                 {
                     Appointment appointment = new Appointment();
                     appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
-                    Account patient = new Account()
-                    {
-                        AccountID = Convert.ToInt32(reader["PatientID"])
-                    };
-                    Account doctor = new Account()
-                    {
-                        AccountID = Convert.ToInt32(reader["DoctorID"])
-                    };
-                    appointment.Regarding.Add(patient);
-                    appointment.Regarding.Add(doctor);
+                    appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
+                    appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
                     appointment.Duration = Convert.ToInt32(reader["Duration"]);
                     appointment.Date = Convert.ToDateTime(reader["Date"]);
                     appointment.Coords = Convert.ToInt32(reader["Coords"]);
@@ -83,14 +75,10 @@ namespace CM.Context.SQL
                         {
                             Appointment appointment = new Appointment();
                             appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
-                            Account doctor = new Account()
-                            {
-                                AccountID = Convert.ToInt32(reader["DoctorID"])
-                            };
-                            appointment.Regarding.Add(account);
-                            appointment.Regarding.Add(doctor);
+                            appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
+                            appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
                             appointment.Duration = Convert.ToInt32(reader["Duration"]);
-                            appointment.Date = Convert.ToDateTime(reader["DateTime"]);
+                            appointment.Date = Convert.ToDateTime(reader["Date"]);
                             appointment.Coords = Convert.ToInt32(reader["Coords"]);
                             appointment.Description = Convert.ToString(reader["Description"]);
                             appointments.Add(appointment);
@@ -127,18 +115,10 @@ namespace CM.Context.SQL
                         while (reader.Read())
                         {
                             appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
-                            Account patient = new Account()
-                            {
-                                AccountID = Convert.ToInt32(reader["PatientID"])
-                            };
-                            Account doctor = new Account()
-                            {
-                                AccountID = Convert.ToInt32(reader["DoctorID"])
-                            };
-                            appointment.Regarding.Add(patient);
-                            appointment.Regarding.Add(doctor);
+                            appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
+                            appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
                             appointment.Duration = Convert.ToInt32(reader["Duration"]);
-                            appointment.Date = Convert.ToDateTime(reader["DateTime"]);
+                            appointment.Date = Convert.ToDateTime(reader["Date"]);
                             appointment.Coords = Convert.ToInt32(reader["Coords"]);
                             appointment.Description = Convert.ToString(reader["Description"]);
                         }
@@ -179,6 +159,34 @@ namespace CM.Context.SQL
                 }
             }
             
+            return appointments;
+        }
+
+        public List<Appointment> AllUpcomingAppointments()
+        {
+            List<Appointment> appointments = new List<Appointment>();
+            SqlConnection connection = new SqlConnection(con);
+            SqlCommand sqlCommand = new SqlCommand(@"SELECT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID
+                                                    FROM Appointment
+                                                    INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
+                                                    INNER JOIN Account ON AccountLink.PatientID = Account.AccountID
+                                                    WHERE Account.AccountID = 6", connection);
+            connection.Open();
+            using (SqlDataReader reader = sqlCommand.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Appointment appointment = new Appointment();
+                    appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
+                    appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
+                    appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
+                    appointment.Duration = Convert.ToInt32(reader["Duration"]); 
+                    appointment.Date = Convert.ToDateTime(reader["DateTime"]);
+                    appointment.Coords = Convert.ToInt32(reader["Coords"]);
+                    appointment.Description = Convert.ToString(reader["Description"]);
+                    appointments.Add(appointment);
+                }
+            }
             return appointments;
         }
     }

@@ -45,10 +45,10 @@ namespace CM.Controllers
             return RedirectToAction("Beheerder", "Account");
         }
 
-        public async Task SendSMS()
+        public async Task SendSMS(Account account, Appointment appointment)
         {
             List<string> receivers = new List<string>();
-            receivers.Add("0031627404177");
+            receivers.Add(account.PhoneNumber.ToString());
 
             var client = new TextClient(new Guid(config.GetSection("ApiKey").Value));
             var result = await client.SendMessageAsync("Hoi", "CMProftaak", receivers, null).ConfigureAwait(false);
@@ -63,7 +63,7 @@ namespace CM.Controllers
             var result = await client.SendMessageAsync("Hoi", "CMProftaak", receivers, null).ConfigureAwait(false);
         }
 
-        public async Task SendPhoneConversation()
+        public async Task SendPhoneConversation(Account account, Appointment appointment)
         {
             var myApiKey = Guid.Parse("E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
             var httpClient = new HttpClient();
@@ -71,8 +71,8 @@ namespace CM.Controllers
             httpClient.DefaultRequestHeaders.Add("X-CM-PRODUCTTOKEN", "E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
             var instruction = new NotificationInstruction
             {
-                Caller = "",
-                Callee = "0031647688942",
+                Caller = "0031627404177",
+                Callee = account.PhoneNumber.ToString(),
                 Prompt = "",
                 MaxReplays = 2,
                 ReplayPrompt = "Press 1 to repeat this message."
@@ -80,12 +80,12 @@ namespace CM.Controllers
             var result = await client.SendAsync(instruction).ConfigureAwait(false);
         }
 
-        public async Task SendEmail()
+        public async Task SendEmail(Account account, Appointment appointment)
         {
             Mail mail = new Mail()
             {
-                FromAddressID = new Guid("44D51DE6-3DF0-46A0-BA49-B7D26E3B30B6"),
-                ToAddress = "engbrenghof48@gmail.com",
+                FromAddressID = new Guid("E4802F51-F6A2-474A-8883-3CDB2EAACDB3"),
+                ToAddress = account.Email.ToString(),
                 TextBody = "This is a text body",
                 Subject = "My awesome mail"
             };
@@ -93,6 +93,7 @@ namespace CM.Controllers
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("X-CM-PRODUCTTOKEN", "E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
             HttpResponseMessage message = await client.PostAsync("https://api.cmtelecom.com/bulkemail/v1.0/accounts/44D51DE6-3DF0-46A0-BA49-B7D26E3B30B6/mails", content);
+            string response = await message.Content.ReadAsStringAsync();
         }
     }   
 }

@@ -12,8 +12,8 @@ namespace CM.Models
         public DateTime Date { get; set; }
         public int Coords { get; set; }
         public string Description { get; set; }
-        public string DoctorEmail { get; set; }
+        public Account doctor = new Account();
 
-        public List<Account> Regarding = new List<Account>();
+        public Account patient = new Account();
     }
 }

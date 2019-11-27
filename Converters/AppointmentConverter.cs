@@ -21,8 +21,7 @@ namespace CM.Converters
                 AppointmentID = ADVM.AppointmentID,
                 Date = ADVM.Date,
                 Duration = ADVM.Duration,
-                //DoctorID = AccountRepo.GetAccountByEmail(ADVM.DoctorEmail).AccountID,
-                DoctorEmail = ADVM.DoctorEmail,
+                doctor = ADVM.Doctor
             };
             return appointment;
         }
@@ -34,8 +33,7 @@ namespace CM.Converters
                 AppointmentID = appointment.AppointmentID,
                 Date = appointment.Date,
                 Duration = appointment.Duration,
-                //Doctor = AccountRepo.GetAccountByID(appointment.DoctorID).Name,
-                DoctorEmail = appointment.DoctorEmail
+                Doctor = appointment.doctor
             };
             return ADVM;
         }

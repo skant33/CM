@@ -81,7 +81,6 @@ namespace CM.Controllers
                 {
                     HttpContext.Session.SetInt32("Admin", 1);
                 }
-                await noti.SendEmail();
                 return RedirectToAction("Index", "Home");
             }
             else

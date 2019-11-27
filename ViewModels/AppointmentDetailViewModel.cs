@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +15,8 @@ namespace CM.ViewModels
         public DateTime Date { get; set; }
         public int Coords { get; set; }
         public string Description { get; set; }
-        public string Doctor { get; set; }
-        public string DoctorEmail { get; set; }
+        public Account Doctor = new Account();
+        public Account Patient = new Account();
+        
     }
 }

@@ -33,5 +33,10 @@ namespace CM.Repositories
         {
             return context.AppointmentsCurrentWeek(id);
         }
+
+        public List<Appointment> AllUpcomingAppointments()
+        {
+            return context.AllUpcomingAppointments();
+        }
     }
 }

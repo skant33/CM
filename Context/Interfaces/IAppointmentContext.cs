@@ -13,5 +13,6 @@ namespace CM.Context.Interfaces
         List<Appointment> GetAppointmentsByUserId(Account account);
         Appointment GetAppointmentByID(int id);
         List<Appointment> AppointmentsCurrentWeek(int id);
+        List<Appointment> AllUpcomingAppointments();
     }
 }
