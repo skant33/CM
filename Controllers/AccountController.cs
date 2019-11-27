@@ -57,11 +57,12 @@ namespace CM.Controllers
             }
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             ViewData["Message"] = "Your agenda";
 
-            return View();
+            return View("~/Views/Home/Register.cshtml");
         }
 
         [HttpGet]
