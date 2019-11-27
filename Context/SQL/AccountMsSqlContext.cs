@@ -268,8 +268,8 @@ namespace CM.Context.SQL
                 using (connection)
                 {
                     SqlCommand command = new SqlCommand("insert into [AccountLink] (DoctorID, PatientID) values (@DoctorID, @PatientID)", connection);
-                    command.Parameters.AddWithValue("@DoctorID", patientid);
-                    command.Parameters.AddWithValue("@PatientID", doctorid);
+                    command.Parameters.AddWithValue("@DoctorID", doctorid);
+                    command.Parameters.AddWithValue("@PatientID", patientid);
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
