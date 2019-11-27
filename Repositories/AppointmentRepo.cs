@@ -38,5 +38,11 @@ namespace CM.Repositories
         {
             return context.AllUpcomingAppointments();
         }
+
+        public bool MakeAppointment(Appointment appointment)
+        {
+            return context.MakeAppointment(appointment);
+        }
+
     }
 }

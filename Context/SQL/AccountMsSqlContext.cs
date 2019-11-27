@@ -121,12 +121,10 @@ namespace CM.Context.SQL
             return uitgaand;
         }
 
-        public bool CheckIfAdmin(int? accountid)
+        public int CheckRoleID(int? accountid)
         {
-            int id;
-
+            int id = 0;
             SqlConnection connection = new SqlConnection(con);
-
             using (connection)
             {
                 SqlCommand command = new SqlCommand("SELECT Account.AccountRoleID FROM Account WHERE AccountID = @AccountID", connection);
@@ -141,10 +139,6 @@ namespace CM.Context.SQL
                         while (reader.Read())
                         {
                             id = Convert.ToInt32(reader["AccountroleID"]);
-                            if (id == 1)
-                            {
-                                return false;
-                            }
                         }
                     }
                     catch
@@ -153,7 +147,7 @@ namespace CM.Context.SQL
                     }
                 }
             }
-            return true;
+            return id;
         }
 
         public Account GetAccountByEmail(string Email)
@@ -279,6 +273,47 @@ namespace CM.Context.SQL
             {
                 return false;
             }
+        }
+
+        public List<Account> GetLinkedPatientsByDoctorID(int doctorid)
+        {
+            List<Account> patients = new List<Account>();
+            SqlConnection connection = new SqlConnection(con);
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand(@"SELECT Account.*
+                                                    FROM Account
+                                                    WHERE AccountID IN (
+		                                                    SELECT AccountLink.PatientID as 'Patient'
+		                                                    FROM Account
+		                                                    INNER JOIN AccountLink ON Account.AccountID = AccountLink.DoctorID
+		                                                    WHERE AccountID = @AccountID )", connection);
+                command.Parameters.AddWithValue("@AccountID", doctorid);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            Account uitgaand = new Account();
+                            uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
+                            uitgaand.Password = Convert.ToString(reader["Password"]);
+                            uitgaand.RoleId.ID = Convert.ToInt32(reader["AccountRoleID"]);
+                            uitgaand.Name = Convert.ToString(reader["Name"]);
+                            uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
+                            uitgaand.Email = Convert.ToString(reader["Email"]);
+                            uitgaand.PhoneNumber = Convert.ToString(reader["TelephoneNumber"]);
+                            patients.Add(uitgaand);
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("No rows found.");
+                    }
+                }
+            }
+            return patients;
         }
     }
 }

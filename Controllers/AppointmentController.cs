@@ -22,6 +22,8 @@ namespace CM.Controllers
         AppointmentViewModel appointmentViewModel = new AppointmentViewModel();
         IAppointmentContext iappointmentcontext;
         AppointmentRepo appointmentrepo;
+
+        IAccountContext iaccountcontext;
         AccountRepo accountrepo;
 
         //helpers
@@ -33,25 +35,11 @@ namespace CM.Controllers
             iappointmentcontext = new AppointmentMsSqlContext(con);
             appointmentrepo = new AppointmentRepo(iappointmentcontext);
 
+            iaccountcontext = new AccountMsSqlContext(con);
+            accountrepo = new AccountRepo(iaccountcontext);
+
             //helpers
             accountVerification = new AccountVerification(con);
-        }
-
-        public IActionResult Appointment()
-        {
-            if (accountVerification.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == true)
-            {
-                if (accountVerification.CheckIfAdmin(HttpContext.Session.GetInt32("AccountID")) == true)
-                {
-                    return View("~/Views/Home/Appointment.cshtml");
-                }
-                else
-                {
-                    //return geen admin
-                }
-            }
-            //return niet ingelogd
-            return View("~/Views/Home/Login.cshtml");
         }
 
         public IActionResult Agenda()
@@ -65,14 +53,22 @@ namespace CM.Controllers
                 {
                     viewmodel.appointment.Add(appointmentconverter.ViewModelFromAppointment(appointment));
                 }
-                return View("~/Views/Afspraak/AfspraakPage.cshtml",viewmodel);
+                return View("~/Views/Afspraak/AfspraakPage.cshtml", viewmodel);
             }
             return View("~/Views/Home/Login.cshtml");
         }
 
         public IActionResult Index()
         {
-            return View();
+            if (HttpContext.Session.GetInt32("Doctor") == 1 || HttpContext.Session.GetInt32("Admin") == 1)
+            {
+                List<Account> LinkedPatients = new List<Account>();
+                int id = (int)HttpContext.Session.GetInt32("AccountID");
+                LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(id);
+                ViewBag.LinkedPatients = LinkedPatients;
+                return View("~/Views/Home/Appointment.cshtml");
+            }
+            return View("~/Views/Home/Login.cshtml");
         }
 
         [HttpGet]
@@ -96,6 +92,21 @@ namespace CM.Controllers
                 AVM.appointment.Add(ADVM);
             }
             return View("~/Views/Afspraak/AfspraakPage.cshtml", AVM);
+        }
+
+        public IActionResult MakeAppointment(AppointmentDetailViewModel viewmodel)
+        {
+            Appointment inkomend = appointmentconverter.ViewModelToAppointment(viewmodel);
+            if (appointmentrepo.MakeAppointment(inkomend) == true)
+            {
+                //afspraak gepland
+                return View("~/Views/Home/Index.cshtml");
+            }
+            else
+            {
+                //mislukt
+                return View("~/Views/Home/Appointment.cshtml");
+            }
         }
 
     }

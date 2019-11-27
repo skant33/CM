@@ -92,9 +92,13 @@ namespace CM.Controllers
             if (opgehaald.Email == inkomend.Email)
             {
                 HttpContext.Session.SetInt32("AccountID", opgehaald.AccountID);
-                if (accountrepo.CheckIfAdmin(HttpContext.Session.GetInt32("AccountID")) == true)
+                if (accountrepo.CheckRoleID(HttpContext.Session.GetInt32("AccountID")) == 3)
                 {
                     HttpContext.Session.SetInt32("Admin", 1);
+                }
+                else if (accountrepo.CheckRoleID(HttpContext.Session.GetInt32("AccountID")) == 2)
+                {
+                    HttpContext.Session.SetInt32("Doctor", 1);
                 }
                 return RedirectToAction("Index", "Home");
             }

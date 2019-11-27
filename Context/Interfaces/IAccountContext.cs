@@ -14,12 +14,16 @@ namespace CM.Context.Interfaces
 
         Account GetAccountByID(int AccountID);
 
-        bool CheckIfAdmin(int? accountid);
+        int CheckRoleID(int? accountid);
+
         Account GetAccountByEmail(string email);
 
         List<Account> GetAllPatients();
+
         List<Account> GetAllDoctors();
 
         bool LinkAccounts(int patientid, int doctorid);
+
+        List<Account> GetLinkedPatientsByDoctorID(int doctorid);
     }
 }

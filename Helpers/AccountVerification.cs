@@ -37,17 +37,5 @@ namespace CM.Helpers
                 return true;
             }
         }
-
-        public bool CheckIfAdmin(int? accountid)
-        {
-            if (accountrepo.CheckIfAdmin(accountid) == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
 }

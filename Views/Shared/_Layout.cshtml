@@ -27,19 +27,27 @@
             <cm-sidenav-option><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></cm-sidenav-option>
             <cm-sidenav-option><a asp-area="" asp-controller="Appointment" asp-action="Agenda">Agenda</a></cm-sidenav-option>
         </cm-sidenav-header>
+
         @if (Context.Session.GetInt32("Admin") == 1)
         {
             <cm-sidenav-header data-display="Components">
-                <cm-sidenav-option><a asp-area="" asp-controller="Appointment" asp-action="Appointment">Appointment</a></cm-sidenav-option>
                 <cm-sidenav-option><a asp-area="" asp-controller="Account" asp-action="Beheerder">Beheerder</a></cm-sidenav-option>
             </cm-sidenav-header>
         }
+
+        @if (Context.Session.GetInt32("Admin") == 1 || Context.Session.GetInt32("Doctor") == 1)
+        {
+            <cm-sidenav-header data-display="Components">
+                <cm-sidenav-option><a asp-area="" asp-controller="Appointment" asp-action="Index">Appointment</a></cm-sidenav-option>
+            </cm-sidenav-header>
+        }
+
         <cm-sidenav-header data-display="Components">
             <cm-sidenav-option><a asp-area="" asp-controller="Account" asp-action="MyAccount"><span aria-hidden="true" class="glyphicon glyphicon-user"></span></a></cm-sidenav-option>
         </cm-sidenav-header>
-            <cm-sidenav-header data-display="Layout"></cm-sidenav-header>
-            <cm-sidenav-header data-render-bottom data-display="Layout"></cm-sidenav-header>
-        </cm-sidenav>
+        <cm-sidenav-header data-display="Layout"></cm-sidenav-header>
+        <cm-sidenav-header data-render-bottom data-display="Layout"></cm-sidenav-header>
+    </cm-sidenav>
     <platform-header title-text="Aurora™"></platform-header>
 
     <partial name="_CookieConsentPartial" />

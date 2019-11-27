@@ -31,9 +31,9 @@ namespace CM.Repositories
             return context.GetAccountByID(AccountID);
         }
 
-        public bool CheckIfAdmin (int? accountid)
+        public int CheckRoleID (int? accountid)
         {
-            return context.CheckIfAdmin(accountid);
+            return context.CheckRoleID(accountid);
         }
 
         public Account GetAccountByEmail(string email)
@@ -54,6 +54,11 @@ namespace CM.Repositories
         public bool LinkAccounts(int patientid, int doctorid)
         {
             return context.LinkAccounts(patientid, doctorid);
+        }
+
+        public List<Account> GetLinkedPatientsByDoctorID(int doctorid)
+        {
+            return context.GetLinkedPatientsByDoctorID(doctorid);
         }
     }
 }
