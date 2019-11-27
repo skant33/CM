@@ -9,9 +9,6 @@
 <form asp-area="" asp-controller="Account" asp-action="LinkAccounts">
     <div class="form-group">
         <div>Link Doctor:</div>
-        @*@Html.DropDownListFor(m => m.AccountID,
-        new SelectList(ViewBag.AllDoctors),
-        "Select Doctor")*@
         <select asp-for="DoctorID">
             @foreach (var item in ViewBag.AllDoctors)
             {
@@ -19,16 +16,13 @@
             }
         </select>
         <div>to Patient:</div>
-        @*@Html.DropDownListFor(m => m.AccountID,
-         new SelectList(ViewBag.AllPatients),
-        "Select Patient")*@
         <select asp-for="PatientID">
             @foreach (var item in ViewBag.AllPatients)
             {
                 <option value="@item.AccountID">@item.Name</option>
             }
         </select>
-        <button type="submit" class="form-group">Link accounts</button>
+        <button type="submit" class="btn btn-cba">Link accounts</button>
     </div>
 </form>
 
