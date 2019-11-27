@@ -41,7 +41,7 @@ namespace CM.Context.SQL
                     appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
                     appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
                     appointment.Duration = Convert.ToInt32(reader["Duration"]);
-                    appointment.Date = Convert.ToDateTime(reader["Date"]);
+                    appointment.Date = Convert.ToDateTime(reader["DateTime"]);
                     appointment.Coords = Convert.ToInt32(reader["Coords"]);
                     appointment.Description = Convert.ToString(reader["Description"]);
                     appointments.Add(appointment);
@@ -78,7 +78,7 @@ namespace CM.Context.SQL
                             appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
                             appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
                             appointment.Duration = Convert.ToInt32(reader["Duration"]);
-                            appointment.Date = Convert.ToDateTime(reader["Date"]);
+                            appointment.Date = Convert.ToDateTime(reader["DateTime"]);
                             appointment.Coords = Convert.ToInt32(reader["Coords"]);
                             appointment.Description = Convert.ToString(reader["Description"]);
                             appointments.Add(appointment);
@@ -139,25 +139,32 @@ namespace CM.Context.SQL
 
             SqlConnection connection = new SqlConnection(con);
 
-            using (connection)
-            {
-                SqlCommand command = new SqlCommand("GetAllAfsprakenCurrentWeek", connection);
-                command.Parameters.AddWithValue("@GebruikerID", id);
+                SqlCommand command = new SqlCommand(@"Set DateFirst 1
+	                                                  Select * 
+	                                                  from Appointment
+	                                                  INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
+	                                                  Where [DateTime] >= dateadd(day, 1-datepart(dw, getdate()), CONVERT(date,getdate())) 
+	                                                  AND [DateTime] <  dateadd(day, 8-datepart(dw, getdate()), CONVERT(date,getdate()))
+	                                                  And AccountLink.PatientID = @AccountID
+	                                                  order by [DateTime] asc", connection);
+
+            connection.Open();
+                command.Parameters.AddWithValue("@AccountID", id);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Appointment appointment = new Appointment()
-                        {
-                            AppointmentID = Convert.ToInt32(reader["AppointmentID"]),
-                            Duration = Convert.ToInt32(reader["Duration"]),
-                            Date = Convert.ToDateTime(reader["Date"]),
-                            //DoctorID = Convert.ToInt32(reader["DoctorID"])
-                        };
+                        Appointment appointment = new Appointment();
+                        appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
+                        appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
+                        appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
+                        appointment.Duration = Convert.ToInt32(reader["Duration"]);
+                        appointment.Date = Convert.ToDateTime(reader["DateTime"]);
+                        appointment.Coords = Convert.ToInt32(reader["Coords"]);
+                        appointment.Description = Convert.ToString(reader["Description"]);
                         appointments.Add(appointment);
                     }
                 }
-            }
             
             return appointments;
         }

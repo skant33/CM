@@ -77,6 +77,12 @@ namespace CM.Controllers
             return View("~/Views/Home/Beheerder.cshtml");
         }
 
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View("~/Views/Home/Login.cshtml");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(AccountDetailViewModel viewmodel, string returnUrl = null)
         {

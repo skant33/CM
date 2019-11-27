@@ -61,7 +61,7 @@ namespace CM.Controllers
                 AppointmentViewModel viewmodel = new AppointmentViewModel();
                 Account account = new Account();
                 account.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
-                foreach (Appointment appointment in appointmentrepo.GetAppointmentsByUserID(account))
+                foreach (Appointment appointment in appointmentrepo.AppointmentsCurrentWeek(account.AccountID))
                 {
                     viewmodel.appointment.Add(appointmentconverter.ViewModelFromAppointment(appointment));
                 }

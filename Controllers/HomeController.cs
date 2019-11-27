@@ -42,7 +42,7 @@ namespace CM.Controllers
             appointmentViewModel.appointments = new List<Appointment>();
             Account opgehaald = new Account();
             opgehaald.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
-            foreach (Appointment appointment in appointmentrepo.GetAppointmentsByUserID(opgehaald))
+            foreach (Appointment appointment in appointmentrepo.AppointmentsCurrentWeek(opgehaald.AccountID))
             {
                 appointmentViewModel.appointments.Add(appointment);
             }
