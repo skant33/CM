@@ -1,5 +1,6 @@
 ﻿@model CM.ViewModels.AppointmentViewModel
-
+@using Microsoft.AspNetCore.Http;
+@using CM.Models
 @{
     ViewData["Title"] = "AfspraakPage";
 }
@@ -20,7 +21,7 @@
                             <label> Afspraak : @item.AppointmentID </label>
                             <label> Tijd : @item.Date.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                            <label> Duur : @item.Description Minuten</label>
                         </div>
                     }
                 }
@@ -37,7 +38,7 @@
                             <label> Afspraak : @item.AppointmentID </label>
                             <label> Tijd : @item.Date.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                            <label> Duur : @item.Description Minuten</label>
                         </div>
                     }
                 }
@@ -54,7 +55,7 @@
                             <label> Afspraak : @item.AppointmentID </label>
                             <label> Tijd : @item.Date.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                            <label> Duur : @item.Description Minuten</label>
                         </div>
                     }
                 }
@@ -71,7 +72,7 @@
                             <label> Afspraak : @item.AppointmentID </label>
                             <label> Tijd : @item.Date.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                            <label> Duur : @item.Description Minuten</label>
                         </div>
                     }
                 }
@@ -88,7 +89,7 @@
                             <label> Afspraak : @item.AppointmentID </label>
                             <label> Tijd : @item.Date.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                            <label> Duur : @item.Description Minuten</label>
                         </div>
                     }
                 }
@@ -108,12 +109,9 @@
                         <div style="border-color: black; border-style:solid; border-width:thin">
                             <br \ />
                             <label> Afspraak : @item.AppointmentID </label>
-                            <br \ />
                             <label> Tijd : @item.Date.TimeOfDay </label>
-                            <br \ />
                             <label> Duur : @item.Duration Minuten</label>
-                            <br \ />
-                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                            <label> Duur : @item.Description Minuten</label>
                         </div>
                     }
                 }
@@ -126,14 +124,10 @@
                     {
                         <br \ />
                         <div style="border-color: black; border-style:solid; border-width:thin">
-                            <br \ />
                             <label> Afspraak : @item.AppointmentID </label>
-                            <br \ />
                             <label> Tijd : @item.Date.TimeOfDay </label>
-                            <br \ />
                             <label> Duur : @item.Duration Minuten</label>
-                            <br \ />
-                            @Html.ActionLink("ViewAfspraak", "ViewAfspraak", new { id = item.AppointmentID })
+                            <label> Duur : @item.Description Minuten</label>
                         </div>
                     }
                 }
@@ -142,3 +136,12 @@
         </div>
     </tbody>
 </table>
+
+@if (Context.Session.GetInt32("Admin") == 1 || Context.Session.GetInt32("Doctor") == 1)
+{
+    foreach (Appointment appointment in ViewBag.Appointments)
+    {
+
+    }
+}
+
