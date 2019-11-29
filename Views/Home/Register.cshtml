@@ -6,6 +6,7 @@
 
 <h2>Register</h2>
 @model CM.ViewModels.AccountDetailViewModel
+
 <form asp-area="" asp-controller="Account" asp-action="Register">
     <div class="form-group">
         <h6>Name</h6>
@@ -54,5 +55,30 @@
         <button type="submit" class="btn btn-cta">Register</button>
     </div>
 </form>
+
+@if (ViewBag.succes != null)
+{
+    <div class="inline-notification-container">
+        @if (ViewBag.succes == true)
+        {
+            <div class="inline-notification">
+                <div class="item-left">
+                    <span aria-hidden="true" class="cm-icon cm-icon-information cl-green-100"></span>
+                </div>
+                <div class="title">Account Registration Succeful</div>
+            </div>
+        }
+        else
+        {
+            <div class="inline-notification">
+                <div class="item-left">
+                    <span class="cm-icon cm-icon-warning cl-red-100" aria-hidden="true"></span>
+                </div>
+                <div class="title">Account Registration Failed</div>
+            </div>
+        }
+
+    </div>
+}
 
 <a asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
