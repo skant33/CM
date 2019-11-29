@@ -36,7 +36,7 @@ namespace CM.Context.SQL
                     notificationtype  = Convert.ToString(reader["Type"]);
                 }
             }
-
+            connection.Close();
             return notificationtype;
         }
     }

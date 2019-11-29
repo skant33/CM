@@ -8,7 +8,7 @@ namespace CM.Models
     public class Link
     {
         public int LinkID { get; set; }
-        public int DoctorID { get; set; }
-        public int PatientID { get; set; }
+        public Account Doctor = new Account();
+        public Account Patient = new Account();
     }
 }
