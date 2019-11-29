@@ -56,6 +56,7 @@ namespace CM.Context.SQL
 
         public bool Register(Account account)
         {
+            int accountid= 0;
             try
             {
                 SqlConnection connection = new SqlConnection(con);
@@ -69,13 +70,24 @@ namespace CM.Context.SQL
                     command.Parameters.AddWithValue("Email", account.Email);
                     command.Parameters.AddWithValue("TelephoneNumber", account.PhoneNumber);
                     command.Parameters.AddWithValue("Password", account.Password);
-
-                    //Meldinggegevens moeten ook nog opgeslagen worden
-
                     connection.Open();
-
                     command.ExecuteNonQuery();
 
+                    //accountid dat aangemaakt is lezen
+                    SqlCommand sqlCommand = new SqlCommand("select AccountID from [Account] where AccountID = IDENT_CURRENT('Account')", connection);
+                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            accountid = Convert.ToInt32(reader["AccountID"]);
+                        }
+                    }
+
+                    SqlCommand comman2 = new SqlCommand("insert into Notification(TypeID, TimeTillSend, AccountID) values(@TypeID, @TimeTillSend, @AccountID)", connection);
+                    comman2.Parameters.AddWithValue("TypeId", account.MeldingID);
+                    comman2.Parameters.AddWithValue("TimeTillSend", 5);
+                    comman2.Parameters.AddWithValue("AccountID", accountid);
+                    comman2.ExecuteNonQuery();
                     return true;
                 }
             }

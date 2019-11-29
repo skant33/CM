@@ -16,10 +16,12 @@
         <div class="form-input">
             <input asp-for="Password" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input password">
         </div>
-        <h6>Melding ID</h6>
-        <div class="form-input">
-            <input asp-for="MeldingID" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input notification">
-        </div>
+        <h6>Soort melding</h6>
+        <select asp-for="MeldingID">
+            <option value="1">SMS</option>
+            <option value="2">Email</option>
+            <option value="3">Phone conversation</option>
+        </select>
         <h6>Date of Birth YYYY-MM-DD</h6>
         <div class="form-input">
             <input asp-for="DateOfBirth" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input date of birth">
