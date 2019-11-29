@@ -53,7 +53,15 @@ namespace CM.Repositories
 
         public bool LinkAccounts(int patientid, int doctorid)
         {
-            return context.LinkAccounts(patientid, doctorid);
+            if (context.CheckLinkedAccounts(patientid, doctorid))
+            {
+                return context.LinkAccounts(patientid, doctorid);
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         public List<Account> GetLinkedPatientsByDoctorID(int doctorid)

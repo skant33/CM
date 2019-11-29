@@ -24,6 +24,8 @@ namespace CM.Context.Interfaces
 
         bool LinkAccounts(int patientid, int doctorid);
 
+        bool CheckLinkedAccounts(int patientid, int doctorid);
+
         List<Account> GetLinkedPatientsByDoctorID(int doctorid);
     }
 }
