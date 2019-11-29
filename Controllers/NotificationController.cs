@@ -51,7 +51,7 @@ namespace CM.Controllers
             receivers.Add(appointment.patient.PhoneNumber);
 
             var client = new TextClient(new Guid(config.GetSection("ApiKey").Value));
-            var result = await client.SendMessageAsync(String.Format("You have a appointment at {0} with doctor {1}. {2}", appointment.Date, appointment.doctor.Name, appointment.Description), "CMProftaak", receivers, null).ConfigureAwait(false);
+            var result = await client.SendMessageAsync(String.Format("You have a appointment at {0} with doctor {1}. {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description), "CMProftaak", receivers, null).ConfigureAwait(false);
         }
 
         public async Task SendWhatsAppMessage()
@@ -73,7 +73,7 @@ namespace CM.Controllers
             {
                 Caller = "0031627404177",
                 Callee = appointment.patient.PhoneNumber,
-                Prompt = String.Format("You have a appointment at {0} with doctor {1}. {2}", appointment.Date, appointment.doctor.Name , appointment.Description),
+                Prompt = String.Format("You have a appointment at {0} with doctor {1}. {2}", appointment.DateTime, appointment.doctor.Name , appointment.Description),
                 MaxReplays = 2,
                 ReplayPrompt = "Press 1 to repeat this message."
             };           
@@ -86,8 +86,8 @@ namespace CM.Controllers
             {
                 FromAddressID = new Guid("c10d75e0-bb6b-4bad-8050-a1d0f794acda"),
                 ToAddress = appointment.patient.Email,
-                TextBody = String.Format("You have a appointment at {0} with doctor {1}. {2}", appointment.Date, appointment.doctor.Name, appointment.Description),
-                Subject = String.Format("Appointment at {0}", appointment.Date)
+                TextBody = String.Format("You have a appointment at {0} with doctor {1}. {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description),
+                Subject = String.Format("Appointment at {0}", appointment.DateTime)
             };
             StringContent content = new StringContent(JsonConvert.SerializeObject(mail), Encoding.UTF8, "application/json");
             HttpClient client = new HttpClient();

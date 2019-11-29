@@ -7,18 +7,14 @@
 <form asp-area="" asp-controller="Appointment" asp-action="MakeAppointment">
     <div class="form-group">
         <h6>Patient</h6>
-            <select asp-for="@Model.Patient.AccountID">
-                @foreach (var item in ViewBag.LinkedPatients)
-                {
-                    <option value="@item.AccountID">@item.Name</option>
-                }
-            </select>
+        @Html.TextBoxFor(m => m.Patient.AccountID, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.Duration)
         <h6>Duration</h6>
         @Html.TextBoxFor(m => m.Duration, new { maxlength = "50", size = "30" })
         @Html.ValidationMessageFor(m => m.Duration)
         <h6>Date YYYY-MM-DD 21:00:00.000</h6>
-        @Html.TextBoxFor(m => m.Date, new { maxlength = "50", size = "30" })
-        @Html.ValidationMessageFor(m => m.Date)
+        @Html.TextBoxFor(m => m.DateTime, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.DateTime)
         <h6>Location</h6>
         @Html.TextBoxFor(m => m.Coords, new { maxlength = "50", size = "30" })
         @Html.ValidationMessageFor(m => m.Coords)

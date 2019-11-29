@@ -19,7 +19,7 @@ namespace CM.Converters
             Appointment appointment = new Appointment()
             {
                 AppointmentID = ADVM.AppointmentID,
-                Date = ADVM.Date,
+                DateTime = ADVM.DateTime,
                 Duration = ADVM.Duration,
                 Description = ADVM.Description,
                 doctor = ADVM.Doctor
@@ -32,7 +32,7 @@ namespace CM.Converters
             AppointmentDetailViewModel ADVM = new AppointmentDetailViewModel()
             {
                 AppointmentID = appointment.AppointmentID,
-                Date = appointment.Date,
+                DateTime = appointment.DateTime,
                 Duration = appointment.Duration,
                 Description = appointment.Description,
                 Doctor = appointment.doctor

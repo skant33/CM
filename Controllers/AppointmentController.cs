@@ -97,6 +97,7 @@ namespace CM.Controllers
         public IActionResult MakeAppointment(AppointmentDetailViewModel viewmodel)
         {
             Appointment inkomend = appointmentconverter.ViewModelToAppointment(viewmodel);
+            inkomend.doctor.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
             if (appointmentrepo.MakeAppointment(inkomend) == true)
             {
                 //afspraak gepland

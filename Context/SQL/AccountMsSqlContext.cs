@@ -52,6 +52,7 @@ namespace CM.Context.SQL
                     }
                 }
             }
+            connection.Close();
             return uitgaand;
         }
 
@@ -75,12 +76,15 @@ namespace CM.Context.SQL
                         return false;
                     }
                 }
+                connection.Close();
                 return true;
             }
             catch
             {
+
                 return false;
             }
+
         }
 
         public bool Register(Account account)
@@ -117,8 +121,9 @@ namespace CM.Context.SQL
                     comman2.Parameters.AddWithValue("TimeTillSend", 5);
                     comman2.Parameters.AddWithValue("AccountID", accountid);
                     comman2.ExecuteNonQuery();
-                    return true;
                 }
+                connection.Close();
+                return true;
             }
             catch
             {
@@ -159,6 +164,7 @@ namespace CM.Context.SQL
                     }
                 }
             }
+            connection.Close();
             return uitgaand;
         }
 
@@ -188,6 +194,7 @@ namespace CM.Context.SQL
                     }
                 }
             }
+            connection.Close();
             return id;
         }
 
@@ -225,6 +232,7 @@ namespace CM.Context.SQL
                     }
                 }
             }
+            connection.Close();
             return uitgaand;
         }
         public List<Account> GetAllDoctors()
@@ -258,6 +266,7 @@ namespace CM.Context.SQL
                     }
                 }
             }
+            connection.Close();
             return doctors;
         }
 
@@ -292,6 +301,7 @@ namespace CM.Context.SQL
                     }
                 }
             }
+            connection.Close();
             return patients;
         }
 
@@ -307,6 +317,7 @@ namespace CM.Context.SQL
                     command.Parameters.AddWithValue("@PatientID", patientid);
                     connection.Open();
                 }
+                connection.Close();
                 return true;
             }
             catch
@@ -336,6 +347,7 @@ namespace CM.Context.SQL
                         return false;
                     }
                 }
+                connection.Close();
                 return true;
             }
             catch
@@ -382,6 +394,7 @@ namespace CM.Context.SQL
                     }
                 }
             }
+            connection.Close();
             return patients;
         }
     }
