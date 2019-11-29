@@ -1,0 +1,39 @@
+﻿@model CM.ViewModels.NotificationDetailViewModel
+@{
+    ViewData["Title"] = "EditNotification";
+}
+
+<h2>EditNotification</h2>
+<form asp-area="" asp-controller="Account" asp-action="EditNotification">
+    <div class="form-group">
+        <h6>Reminder Type</h6>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="form-radio">
+                    <input class="form-check-input" type="radio"
+                           id="exampleRadios1" value="1" asp-for="TypeID">
+                    <label class="form-check-label" for="exampleRadios1">
+                        SMS
+                    </label>
+                    <input class="form-check-input" type="radio"
+                           id="exampleRadios2" value="2" asp-for="TypeID">
+                    <label class="form-check-label" for="exampleRadios2">
+                        Email
+                    </label>
+                    <input class="form-check-input" type="radio"
+                           id="exampleRadios3" value="3" asp-for="TypeID">
+                    <label class="form-check-label" for="exampleRadios3">
+                        Phone
+                    </label>
+                </div>
+            </div>
+        </div>
+        <h6>Time till send (in hours)</h6>
+        <div class="form-input">
+            <input asp-for="TimeTillSend" type="number" class="form-control" id="exampleFormControlInput4" placeholder="Input time until send" />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-cta">Save</button>
+    </div>
+</form>
+

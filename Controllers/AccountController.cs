@@ -23,6 +23,11 @@ namespace CM.Controllers
         IAccountContext iaccountcontext;
         AccountRepo accountrepo;
 
+        //notification
+        NotificationConverter notificationViewModelConverter = new NotificationConverter();
+        INotificationContext inotificationcontext;
+        NotificationRepo notificationrepo;
+
         public NotificationController noti;
         private IConfiguration config;
 
@@ -31,6 +36,8 @@ namespace CM.Controllers
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iaccountcontext = new AccountMsSqlContext(con);
             accountrepo = new AccountRepo(iaccountcontext);
+            inotificationcontext = new NotificationMsSqlContext(con);
+            notificationrepo = new NotificationRepo(inotificationcontext);
             noti = new NotificationController(iconfiguration);
             this.config = iconfiguration;
         }
@@ -145,6 +152,30 @@ namespace CM.Controllers
         {
             accountrepo.LinkAccounts(patientid, doctorid);
             return RedirectToAction("Beheerder", "Account");
+        }
+
+        [HttpGet]
+        public IActionResult EditNotification()
+        {
+            int accountid = (int)HttpContext.Session.GetInt32("AccountID");
+            Notification notification = notificationrepo.GetNotificationForUser(accountid);
+            NotificationDetailViewModel notificationDetailViewModel = new NotificationDetailViewModel();
+            notificationDetailViewModel = notificationViewModelConverter.ViewModelFromNotification(notification);
+            return View("~/Views/Home/EditNotification.cshtml", notificationDetailViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult EditNotification(int typeid, int timetillsend)
+        {
+            int accountid = (int)HttpContext.Session.GetInt32("AccountID");
+            if(notificationrepo.UpdateNotificationForUser(accountid, typeid, timetillsend) == false)
+            {
+                return RedirectToAction("MyAccount", "Account");
+            }
+            else
+            {
+                return RedirectToAction("EditNotification", "Account");
+            }
         }
     }
 }
