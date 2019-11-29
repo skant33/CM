@@ -55,6 +55,34 @@ namespace CM.Context.SQL
             return uitgaand;
         }
 
+        public bool CheckAccountExist(Account account)
+        {
+            try
+            {
+                SqlConnection connection = new SqlConnection(con);
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("SELECT * FROM Account WHERE Email = @Email", connection);
+                    command.Parameters.AddWithValue("@Email", account.Email);
+
+                    connection.Open();
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    if (dt.Rows.Count == 1)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool Register(Account account)
         {
             int accountid= 0;

@@ -113,14 +113,22 @@ namespace CM.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
             Account inkomend = accountViewModelConverter.ViewModelToAccount(viewmodel);
-            if (accountrepo.Register(inkomend) == true)
+            if(accountrepo.CheckAccountExist(inkomend))
             {
-                //geregistreerd
-                return View("~/Views/Home/Login.cshtml");
+                if (accountrepo.Register(inkomend) == true)
+                {
+                    //geregistreerd
+                    return View("~/Views/Home/Login.cshtml");
+                }
+                else
+                {
+                    //mislukt (fout met database)
+                    return View("~/Views/Home/Login.cshtml");
+                }
             }
             else
             {
-                //mislukt
+                //mislukt (bestaat al)
                 return View("~/Views/Home/Login.cshtml");
             }
         }

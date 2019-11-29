@@ -21,6 +21,11 @@ namespace CM.Repositories
             return context.Login(account);
         }
 
+        public bool CheckAccountExist(Account account)
+        {
+            return context.CheckAccountExist(account);
+        }
+
         public bool Register(Account account)
         {
             return context.Register(account);
