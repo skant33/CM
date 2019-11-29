@@ -93,6 +93,49 @@ namespace CM.Context.SQL
             return appointments;
         }
 
+        public List<Appointment> GetAppointmentsByDoctorId(Account account)
+        {
+            List<Appointment> appointments = new List<Appointment>();
+
+            SqlConnection connection = new SqlConnection(con);
+
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand(@"SELECT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID
+                                                    FROM Appointment 
+                                                    INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID 
+                                                    INNER JOIN Account ON AccountLink.DoctorID = Account.AccountID 
+                                                    WHERE Account.AccountID = @PatientID", connection);
+                command.Parameters.AddWithValue("@PatientID", account.AccountID);
+
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            Appointment appointment = new Appointment();
+                            appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
+                            appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
+                            appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
+                            appointment.Duration = Convert.ToInt32(reader["Duration"]);
+                            appointment.Date = Convert.ToDateTime(reader["DateTime"]);
+                            appointment.Coords = Convert.ToInt32(reader["Coords"]);
+                            appointment.Description = Convert.ToString(reader["Description"]);
+                            appointments.Add(appointment);
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("No rows found.");
+                    }
+                }
+            }
+            return appointments;
+        }
+
         public Appointment GetAppointmentByID(int id)
         {
             Appointment appointment = new Appointment();
