@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -277,7 +278,35 @@ namespace CM.Context.SQL
                     command.Parameters.AddWithValue("@DoctorID", doctorid);
                     command.Parameters.AddWithValue("@PatientID", patientid);
                     connection.Open();
-                    command.ExecuteNonQuery();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool CheckLinkedAccounts(int patientid, int doctorid)
+        {
+            try
+            {
+                SqlConnection connection = new SqlConnection(con);
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("SELECT LinkId FROM AccountLink WHERE DoctorID = @DoctorID AND PatientID = @PatientID", connection);
+                    command.Parameters.AddWithValue("@DoctorID", doctorid);
+                    command.Parameters.AddWithValue("@PatientID", patientid);
+
+                    connection.Open();
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    if (dt.Rows.Count == 1)
+                    {
+                        return false;
+                    }
                 }
                 return true;
             }
