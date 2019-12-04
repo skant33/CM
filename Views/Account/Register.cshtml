@@ -11,11 +11,11 @@
     <div class="form-group">
         <h6>Name</h6>
         <div class="form-input">
-            <input asp-for="Name" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input name">
+            <input asp-for="Name" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input name" required>
         </div>
         <h6>Password</h6>
         <div class="form-input">
-            <input asp-for="Password" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input password">
+            <input asp-for="Password" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input password" required>
         </div>
         <h6>Reminder Type</h6>
         <div class="form-group">
@@ -44,16 +44,25 @@
             <input asp-for="DateOfBirth" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input date">
         </div>
         <h6>Email</h6>
+      
         <div class="form-input">
-            <input asp-for="Email" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input email">
+            <input asp-for="Email" id="exampleFormControlInput4"class=" form-control" placeholder="Input email"
+                   size="30" required>
         </div>
+<<<<<<< HEAD
+
+            <h6>Phone number</h6>
+            <div class="form-input">
+                <input asp-for="PhoneNumber" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input phone number">
+            </div>
+            <br />
+            <button type="submit" class="btn btn-cta">Register</button>
+=======
         <h6>Phone number</h6>
         <div class="form-input">
             <input asp-for="PhoneNumber" type="text" step="0.03" class="form-control" id="exampleFormControlInput4" placeholder="Input phone number">
+>>>>>>> e4eb012c731a2688e9d7162e5c6c43abe7739315
         </div>
-        <br />
-        <button type="submit" class="btn btn-cta">Register</button>
-    </div>
 </form>
 
 @if (ViewBag.succes != null)
