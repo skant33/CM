@@ -272,6 +272,7 @@ namespace CM.Context.SQL
                 checkAppCommand.Parameters.AddWithValue("DateNewAppointment", appointment.DateTime);
                 checkAppCommand.Parameters.AddWithValue("DurationNewAppointment", appointment.Duration);
                 checkAppCommand.Parameters.AddWithValue("DoctorID", appointment.doctor.AccountID);
+
                 using(SqlDataReader r = checkAppCommand.ExecuteReader())
                 {
                     DataTable dt = new DataTable();
