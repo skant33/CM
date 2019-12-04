@@ -7,12 +7,13 @@
 <form asp-area="" asp-controller="Appointment" asp-action="MakeAppointment">
     <div class="form-group">
         <h6>Patient</h6>
-            <select asp-for="Patient.AccountID">
-                @foreach (var item in ViewBag.LinkedPatients)
-                {
-                    <option value="@item.AccountID">@item.Name</option>
-                }
-            </select>
+        <select asp-for="Patient.AccountID">
+            @foreach (var item in ViewBag.LinkedPatients)
+            {
+                <option value="@item.AccountID">@item.Name</option>
+            }
+           
+        </select>
         <h6>Duration</h6>
         @Html.TextBoxFor(m => m.Duration, new { maxlength = "50", size = "30" })
         @Html.ValidationMessageFor(m => m.Duration)

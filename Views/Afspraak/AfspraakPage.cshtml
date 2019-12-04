@@ -137,11 +137,4 @@
     </tbody>
 </table>
 
-@if (Context.Session.GetInt32("Admin") == 1 || Context.Session.GetInt32("Doctor") == 1)
-{
-    foreach (Appointment appointment in ViewBag.Appointments)
-    {
-
-    }
-}
 
