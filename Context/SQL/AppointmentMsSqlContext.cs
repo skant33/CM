@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -186,7 +187,7 @@ namespace CM.Context.SQL
 
             SqlConnection connection = new SqlConnection(con);
 
-                SqlCommand command = new SqlCommand(@"Set DateFirst 1
+            SqlCommand command = new SqlCommand(@"Set DateFirst 1
 	                                                  Select * 
 	                                                  from Appointment
 	                                                  INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
@@ -196,22 +197,22 @@ namespace CM.Context.SQL
 	                                                  order by [DateTime] asc", connection);
 
             connection.Open();
-                command.Parameters.AddWithValue("@AccountID", id);
-                using (SqlDataReader reader = command.ExecuteReader())
+            command.Parameters.AddWithValue("@AccountID", id);
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        Appointment appointment = new Appointment();
-                        appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
-                        appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
-                        appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
-                        appointment.Duration = Convert.ToInt32(reader["Duration"]);
-                        appointment.DateTime = Convert.ToDateTime(reader["DateTime"]);
-                        appointment.Coords = Convert.ToInt32(reader["Coords"]);
-                        appointment.Description = Convert.ToString(reader["Description"]);
-                        appointments.Add(appointment);
-                    }
+                    Appointment appointment = new Appointment();
+                    appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
+                    appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
+                    appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
+                    appointment.Duration = Convert.ToInt32(reader["Duration"]);
+                    appointment.DateTime = Convert.ToDateTime(reader["DateTime"]);
+                    appointment.Coords = Convert.ToInt32(reader["Coords"]);
+                    appointment.Description = Convert.ToString(reader["Description"]);
+                    appointments.Add(appointment);
                 }
+            }
             connection.Close();
             return appointments;
         }
@@ -235,7 +236,7 @@ namespace CM.Context.SQL
                     appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
                     appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
                     appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
-                    appointment.Duration = Convert.ToInt32(reader["Duration"]); 
+                    appointment.Duration = Convert.ToInt32(reader["Duration"]);
                     appointment.DateTime = Convert.ToDateTime(reader["DateTime"]);
                     appointment.Coords = Convert.ToInt32(reader["Coords"]);
                     appointment.Description = Convert.ToString(reader["Description"]);
@@ -248,6 +249,7 @@ namespace CM.Context.SQL
         }
         public bool MakeAppointment(Appointment appointment)
         {
+            bool canAdd = true;
             int linkid = 0;
             try
             {
@@ -266,18 +268,39 @@ namespace CM.Context.SQL
                     }
                 }
 
-                using (connection)
+                SqlCommand checkAppCommand = new SqlCommand(@"SELECT Appointment.* FROM Appointment INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID INNER JOIN Account ON AccountLink.DoctorID = Account.AccountID WHERE([DateTime] BETWEEN @DateNewAppointment AND DATEADD(MINUTE, @DurationNewAppointment, @DateNewAppointment) OR DATEADD(MINUTE, Duration, [DateTime]) BETWEEN @DateNewAppointment AND DATEADD(MINUTE, @DurationNewAppointment, @DateNewAppointment)) AND DoctorID = @DoctorID");
+                checkAppCommand.Parameters.AddWithValue("DateNewAppointment", appointment.DateTime);
+                checkAppCommand.Parameters.AddWithValue("DurationNewAppointment", appointment.Duration);
+                checkAppCommand.Parameters.AddWithValue("DoctorID", appointment.doctor.AccountID);
+                using(SqlDataReader r = checkAppCommand.ExecuteReader())
                 {
-                    SqlCommand command = new SqlCommand("insert into Apoointment ( LinkID, Duration, DateTime, Coords, Description) values (insert into Apoointment (@AppointmentID,@LinkID,@Duration,@DateTime,@Coords,@Description)", connection);
-                    command.Parameters.AddWithValue("LinkID", linkid);
-                    command.Parameters.AddWithValue("Duration", appointment.Duration);
-                    command.Parameters.AddWithValue("DateTime", appointment.DateTime);
-                    command.Parameters.AddWithValue("Coords", appointment.Coords);
-                    command.Parameters.AddWithValue("Description", appointment.Description);
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                    return true;
+                    DataTable dt = new DataTable();
+                    dt.Load(r);
+                    if(dt.Rows.Count > 0)
+                    {
+                        canAdd = false;
+                    }
+                }
+
+                if (canAdd)
+                {
+                    using (connection)
+                    {
+                        SqlCommand command = new SqlCommand("insert into Apoointment ( LinkID, Duration, DateTime, Coords, Description) values (insert into Apoointment (@AppointmentID,@LinkID,@Duration,@DateTime,@Coords,@Description)", connection);
+                        command.Parameters.AddWithValue("LinkID", linkid);
+                        command.Parameters.AddWithValue("Duration", appointment.Duration);
+                        command.Parameters.AddWithValue("DateTime", appointment.DateTime);
+                        command.Parameters.AddWithValue("Coords", appointment.Coords);
+                        command.Parameters.AddWithValue("Description", appointment.Description);
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                        return true;
+                    }
+                }
+                else
+                {
+                    return false;
                 }
             }
             catch
