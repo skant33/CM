@@ -43,6 +43,7 @@ namespace CM.Models
         {
             backgroundJobServer = new BackgroundJobServer();
             RecurringJob.AddOrUpdate(() => CheckForNotification(), Cron.MinuteInterval(5));
+
         }
 
         public async Task StopHangfire()
