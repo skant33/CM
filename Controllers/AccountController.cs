@@ -42,17 +42,12 @@ namespace CM.Controllers
             this.config = iconfiguration;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
-        }
-
-
-        public IActionResult MyAccount()
-        {
             if (HttpContext.Session.GetInt32("AccountID") == null)
-            {               
-                return View("~/Views/Home/Login.cshtml");
+            {
+                return RedirectToAction("Login", "Account");
             }
             else
             {
@@ -60,16 +55,17 @@ namespace CM.Controllers
                 AccountDetailViewModel accountDetailViewModel = new AccountDetailViewModel();
                 account = accountrepo.GetAccountByID((int)HttpContext.Session.GetInt32("AccountID"));
                 accountDetailViewModel = accountViewModelConverter.ViewModelFromAccount(account);
-                return View("~/Views/Home/MyAccount.cshtml", accountDetailViewModel);
+                return View(accountDetailViewModel);
             }
         }
+
 
         [HttpGet]
         public IActionResult Register()
         {
             ViewData["Message"] = "Your agenda";
 
-            return View("~/Views/Home/Register.cshtml");
+            return View();
         }
 
         [HttpGet]
@@ -81,13 +77,13 @@ namespace CM.Controllers
             List<Account> patientlist = accountrepo.GetAllPatients();
             ViewBag.AllPatients = patientlist;
 
-            return View("~/Views/Home/Beheerder.cshtml");
+            return View();
         }
 
         [HttpGet]
         public IActionResult Login()
         {
-            return View("~/Views/Home/Login.cshtml");
+            return View();
         }
 
         [HttpPost]
@@ -111,7 +107,7 @@ namespace CM.Controllers
             }
             else
             {
-                return View("~/Views/Home/Login.cshtml");
+                return View();
             }
         }
 
@@ -125,18 +121,18 @@ namespace CM.Controllers
                 if (accountrepo.Register(inkomend) == true)
                 {
                     //geregistreerd
-                    return View("~/Views/Home/Login.cshtml");
+                    return RedirectToAction("Login", "Account");
                 }
                 else
                 {
                     //mislukt (fout met database)
-                    return View("~/Views/Home/Login.cshtml");
+                    return RedirectToAction("Register", "Account");
                 }
             }
             else
             {
                 //mislukt (bestaat al)
-                return View("~/Views/Home/Login.cshtml");
+                return RedirectToAction("Register", "Account");
             }
         }
 
@@ -144,7 +140,7 @@ namespace CM.Controllers
         public IActionResult LogOut(AccountDetailViewModel viewmodel)
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("MyAccount","Account");
+            return RedirectToAction("Index","Account");
         }
 
         [HttpPost]
@@ -161,7 +157,7 @@ namespace CM.Controllers
             Notification notification = notificationrepo.GetNotificationForUser(accountid);
             NotificationDetailViewModel notificationDetailViewModel = new NotificationDetailViewModel();
             notificationDetailViewModel = notificationViewModelConverter.ViewModelFromNotification(notification);
-            return View("~/Views/Home/EditNotification.cshtml", notificationDetailViewModel);
+            return View(notificationDetailViewModel);
         }
 
         [HttpPost]
@@ -170,7 +166,7 @@ namespace CM.Controllers
             int accountid = (int)HttpContext.Session.GetInt32("AccountID");
             if(notificationrepo.UpdateNotificationForUser(accountid, typeid, timetillsend) == false)
             {
-                return RedirectToAction("MyAccount", "Account");
+                return RedirectToAction("Index", "Account");
             }
             else
             {

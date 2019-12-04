@@ -46,7 +46,7 @@ namespace CM.Controllers
             {
                 appointmentViewModel.appointments.Add(appointment);
             }
-            return View("~/Views/Home/Dashboard.cshtml", appointmentViewModel);
+            return View("~/Views/Home/Index.cshtml", appointmentViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

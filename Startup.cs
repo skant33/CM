@@ -82,7 +82,7 @@ namespace CM
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Account}/{action=MyAccount}/{id?}");
+                    template: "{controller=Account}/{action=Index}/{id?}");
             });
         }
     }

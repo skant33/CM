@@ -53,9 +53,9 @@ namespace CM.Controllers
                 {
                     viewmodel.appointment.Add(appointmentconverter.ViewModelFromAppointment(appointment));
                 }
-                return View("~/Views/Afspraak/AfspraakPage.cshtml", viewmodel);
+                return View("~/Views/Appointment/Agenda.cshtml", viewmodel);
             }
-            return View("~/Views/Home/Login.cshtml");
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Index()
@@ -66,33 +66,11 @@ namespace CM.Controllers
                 int id = (int)HttpContext.Session.GetInt32("AccountID");
                 LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(id);
                 ViewBag.LinkedPatients = LinkedPatients;
-                return View("~/Views/Home/Appointment.cshtml");
+                return View("~/Views/Appointment/Index.cshtml");
             }
-            return View("~/Views/Home/Login.cshtml");
+            return RedirectToAction("Login", "Account");
         }
 
-        [HttpGet]
-        public IActionResult ViewAfspraak(int id)
-        {
-            AppointmentDetailViewModel ADVM = appointmentconverter.ViewModelFromAppointment(appointmentrepo.GetAppointmentByID(id));
-            Appointment appointment = appointmentrepo.GetAppointmentByID(id);
-            //ADVM.DoctorEmail = accountrepo.GetAccountByID(appointment.DoctorID).Email;
-            return View("~/Views/Afspraak/AfspraakDetail.cshtml", ADVM);
-        }
-
-        [HttpGet]
-        public IActionResult BackToList()
-        {
-            Account CurrentUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString("CurrentUser"));
-            List<Appointment> afspraken = appointmentrepo.AppointmentsCurrentWeek(CurrentUser.AccountID);
-            AppointmentViewModel AVM = new AppointmentViewModel();
-            foreach (var item in afspraken)
-            {
-                AppointmentDetailViewModel ADVM = appointmentconverter.ViewModelFromAppointment(item);
-                AVM.appointment.Add(ADVM);
-            }
-            return View("~/Views/Afspraak/AfspraakPage.cshtml", AVM);
-        }
 
         public IActionResult MakeAppointment(AppointmentDetailViewModel viewmodel)
         {
@@ -106,7 +84,7 @@ namespace CM.Controllers
             else
             {
                 //mislukt
-                return View("~/Views/Home/Appointment.cshtml");
+                return RedirectToAction("Index", "Appointment");
             }
         }
 
