@@ -9,9 +9,10 @@ namespace CM.Models
     {
         public int AppointmentID { get; set; }
         public int Duration { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime DateTime { get; set; }
         public int Coords { get; set; }
         public string Description { get; set; }
+
         public Account doctor = new Account();
 
         public Account patient = new Account();

@@ -1,4 +1,4 @@
-﻿@model CM.ViewModels.LinkDetailViewModel
+﻿@model CM.ViewModels.AppointmentDetailViewModel
 @using CM.Models
 @{
     ViewData["Title"] = "Beheerder";
@@ -9,14 +9,14 @@
 <form asp-area="" asp-controller="Account" asp-action="LinkAccounts">
     <div class="form-group">
         <div>Link Doctor:</div>
-        <select asp-for="DoctorID">
+        <select asp-for="Doctor.AccountID">
             @foreach (var item in ViewBag.AllDoctors)
             {
                 <option value="@item.AccountID">@item.Name</option>
             }
         </select>
         <div>to Patient:</div>
-        <select asp-for="PatientID">
+        <select asp-for="Patient.AccountID">
             @foreach (var item in ViewBag.AllPatients)
             {
                 <option value="@item.AccountID">@item.Name</option>

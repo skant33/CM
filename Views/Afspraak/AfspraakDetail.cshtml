@@ -17,10 +17,10 @@
             @Html.DisplayFor(model => model.AppointmentID)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DoctorID)
+            @Html.DisplayNameFor(model => model.Doctor.AccountID)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DoctorID)
+            @Html.DisplayFor(model => model.Doctor.AccountID)
         </dd>
         @*<dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ArtsEmail)
@@ -35,16 +35,16 @@
             @Html.DisplayFor(model => model.Duration)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Date.TimeOfDay)
+            @Html.DisplayNameFor(model => model.DateTime.TimeOfDay)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Date.TimeOfDay)
+            @Html.DisplayFor(model => model.DateTime.TimeOfDay)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Date.DayOfWeek)
+            @Html.DisplayNameFor(model => model.DateTime.DayOfWeek)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Date.DayOfWeek)
+            @Html.DisplayFor(model => model.DateTime.DayOfWeek)
         </dd>
     </dl>
 </div>

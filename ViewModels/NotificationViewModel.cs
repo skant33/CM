@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace CM.ViewModels
 {
-    public class LinkViewModel
+    public class NotificationViewModel
     {
-        public List<LinkDetailViewModel> link = new List<LinkDetailViewModel>();
+        public List<NotificationDetailViewModel> link = new List<NotificationDetailViewModel>();
     }
 }

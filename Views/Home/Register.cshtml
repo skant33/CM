@@ -6,6 +6,7 @@
 
 <h2>Register</h2>
 @model CM.ViewModels.AccountDetailViewModel
+
 <form asp-area="" asp-controller="Account" asp-action="Register">
     <div class="form-group">
         <h6>Name</h6>
@@ -38,9 +39,9 @@
                 </div>
             </div>
         </div>
-        <h6>Date of Birth YYYY-MM-DD</h6>
+        <h6>Date of Birth</h6>
         <div class="form-input">
-            <input asp-for="DateOfBirth" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input date of birth">
+            <input asp-for="DateOfBirth" type="text" class="form-control" id="exampleFormControlInput4" placeholder="Input date">
         </div>
         <h6>Email</h6>
       
@@ -48,6 +49,7 @@
             <input asp-for="Email" id="exampleFormControlInput4"class=" form-control" placeholder="Input email"
                    size="30" required>
         </div>
+<<<<<<< HEAD
 
             <h6>Phone number</h6>
             <div class="form-input">
@@ -55,7 +57,37 @@
             </div>
             <br />
             <button type="submit" class="btn btn-cta">Register</button>
+=======
+        <h6>Phone number</h6>
+        <div class="form-input">
+            <input asp-for="PhoneNumber" type="text" step="0.03" class="form-control" id="exampleFormControlInput4" placeholder="Input phone number">
+>>>>>>> e4eb012c731a2688e9d7162e5c6c43abe7739315
         </div>
 </form>
+
+@if (ViewBag.succes != null)
+{
+    <div class="inline-notification-container">
+        @if (ViewBag.succes == true)
+        {
+            <div class="inline-notification">
+                <div class="item-left">
+                    <span aria-hidden="true" class="cm-icon cm-icon-information cl-green-100"></span>
+                </div>
+                <div class="title">Account Registration Succeful</div>
+            </div>
+        }
+        else
+        {
+            <div class="inline-notification">
+                <div class="item-left">
+                    <span class="cm-icon cm-icon-warning cl-red-100" aria-hidden="true"></span>
+                </div>
+                <div class="title">Account Registration Failed</div>
+            </div>
+        }
+
+    </div>
+}
 
 <a asp-area="" asp-controller="Account" asp-action="Login">Log in</a>

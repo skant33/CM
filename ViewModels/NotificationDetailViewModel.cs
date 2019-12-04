@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CM.Models
+namespace CM.ViewModels
 {
-    public class Notification
+    public class NotificationDetailViewModel
     {
         public int NotificationID { get; set; }
         public int AccountID { get; set; }

@@ -36,8 +36,52 @@ namespace CM.Context.SQL
                     notificationtype  = Convert.ToString(reader["Type"]);
                 }
             }
-
+            connection.Close();
             return notificationtype;
+        }
+
+        public bool UpdateNotificationForUser(int accountid, int typeid, int timetillsend)
+        {
+            bool isUpdated = false;
+            SqlConnection connection = new SqlConnection(con);
+            SqlCommand sqlCommand = new SqlCommand("UPDATE [Notification] SET TypeID = @TypeID, TimeTillSend = @TimeTillSend WHERE AccountID = @AccountID", connection);
+            sqlCommand.Parameters.AddWithValue("@AccountID", accountid);
+            sqlCommand.Parameters.AddWithValue("@TypeID", typeid);
+            sqlCommand.Parameters.AddWithValue("@TimeTillSend", timetillsend);
+            connection.Open();
+
+            using(SqlDataReader reader= sqlCommand.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    isUpdated = true;
+                }
+            }
+            connection.Close();
+
+            return isUpdated;
+        }
+
+        public Notification GetNotificationForUser(int accountid)
+        {
+            Notification uitgaand = new Notification();
+            SqlConnection connection = new SqlConnection(con);
+            SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [Notification] WHERE AccountID = @AccountID", connection);
+            sqlCommand.Parameters.AddWithValue("@AccountID", accountid);
+            connection.Open();
+
+            using(SqlDataReader reader = sqlCommand.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    uitgaand.AccountID = (int)reader["AccountID"];
+                    uitgaand.TypeID = (int)reader["TypeID"];
+                    uitgaand.TimeTillSend = (int)reader["TimeTillSend"];
+                }
+            }
+            connection.Close();
+
+            return uitgaand;
         }
     }
 }

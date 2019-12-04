@@ -9,87 +9,87 @@
 <table class="table">
     <tbody>
         <div class="row">
-            <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
+            <div class="col-md-2">
                 <h3> @DayOfWeek.Monday </h3>
                 @foreach (var item in Model.appointment)
                 {
-                    @if (item.Date.DayOfWeek == DayOfWeek.Monday)
+                    @if (item.DateTime.DayOfWeek == DayOfWeek.Monday)
                     {
                         <br \ />
-                        <div style="border-color: black; border-style:solid; border-width:thin">
+                        <div style="border-color: #1657EA; border-style:solid; border-width:thin">
                             <br \ />
                             <label> Afspraak : @item.AppointmentID </label>
-                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Tijd : @item.DateTime.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            <label> Duur : @item.Description Minuten</label>
+                            <label> Description : @item.Description</label>
                         </div>
                     }
                 }
             </div>
-            <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
+            <div class="col-md-2">
                 <h3> @DayOfWeek.Tuesday </h3>
                 @foreach (var item in Model.appointment)
                 {
-                    @if (item.Date.DayOfWeek == DayOfWeek.Tuesday)
+                    @if (item.DateTime.DayOfWeek == DayOfWeek.Tuesday)
                     {
                         <br \ />
-                        <div style="border-color: black; border-style:solid; border-width:thin">
+                        <div style="border-color: #1657EA; border-style:solid; border-width:thin">
                             <br \ />
                             <label> Afspraak : @item.AppointmentID </label>
-                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Tijd : @item.DateTime.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            <label> Duur : @item.Description Minuten</label>
+                            <label> Description : @item.Description</label>
                         </div>
                     }
                 }
             </div>
-            <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
+            <div class="col-md-2">
                 <h3> @DayOfWeek.Wednesday </h3>
                 @foreach (var item in Model.appointment)
                 {
-                    @if (item.Date.DayOfWeek == DayOfWeek.Wednesday)
+                    @if (item.DateTime.DayOfWeek == DayOfWeek.Wednesday)
                     {
                         <br \ />
-                        <div style="border-color: black; border-style:solid; border-width:thin">
+                        <div style="border-color: #1657EA; border-style:solid; border-width:thin">
                             <br \ />
                             <label> Afspraak : @item.AppointmentID </label>
-                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Tijd : @item.DateTime.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            <label> Duur : @item.Description Minuten</label>
+                            <label> Description : @item.Description</label>
                         </div>
                     }
                 }
             </div>
-            <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
+            <div class="col-md-2">
                 <h3> @DayOfWeek.Thursday </h3>
                 @foreach (var item in Model.appointment)
                 {
-                    @if (item.Date.DayOfWeek == DayOfWeek.Thursday)
+                    @if (item.DateTime.DayOfWeek == DayOfWeek.Thursday)
                     {
                         <br \ />
-                        <div style="border-color: black; border-style:solid; border-width:thin">
+                        <div style="border-color: #1657EA; border-style:solid; border-width:thin">
                             <br \ />
                             <label> Afspraak : @item.AppointmentID </label>
-                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Tijd : @item.DateTime.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            <label> Duur : @item.Description Minuten</label>
+                            <label> Description : @item.Description</label>
                         </div>
                     }
                 }
             </div>
-            <div class="col-md-2" style="border-color: black; border-style:solid; border-width:medium">
+            <div class="col-md-2">
                 <h3> @DayOfWeek.Friday </h3>
                 @foreach (var item in Model.appointment)
                 {
-                    @if (item.Date.DayOfWeek == DayOfWeek.Friday)
+                    @if (item.DateTime.DayOfWeek == DayOfWeek.Friday)
                     {
                         <br \ />
-                        <div style="border-color: black; border-style:solid; border-width:thin">
+                        <div style="border-color: #1657EA; border-style:solid; border-width:thin">
                             <br \ />
                             <label> Afspraak : @item.AppointmentID </label>
-                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Tijd : @item.DateTime.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            <label> Duur : @item.Description Minuten</label>
+                            <label> Description : @item.Description</label>
                         </div>
                     }
                 }
@@ -99,35 +99,35 @@
         <br \ />
         <br \ />
         <div class="row">
-            <div class="col-md-5" style="border-color: black; border-style:solid; border-width:medium">
+            <div class="col-md-5">
                 <h3> @DayOfWeek.Saturday </h3>
                 @foreach (var item in Model.appointment)
                 {
-                    @if (item.Date.DayOfWeek == DayOfWeek.Monday)
+                    @if (item.DateTime.DayOfWeek == DayOfWeek.Monday)
                     {
                         <br \ />
-                        <div style="border-color: black; border-style:solid; border-width:thin">
+                        <div style="border-color: #1657EA; border-style:solid; border-width:thin">
                             <br \ />
                             <label> Afspraak : @item.AppointmentID </label>
-                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Tijd : @item.DateTime.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            <label> Duur : @item.Description Minuten</label>
+                            <label> Description : @item.Description</label>
                         </div>
                     }
                 }
             </div>
-            <div class="col-md-5" style="border-color: black; border-style:solid; border-width:medium">
+            <div class="col-md-5">
                 <h3> @DayOfWeek.Sunday </h3>
                 @foreach (var item in Model.appointment)
                 {
-                    @if (item.Date.DayOfWeek == DayOfWeek.Sunday)
+                    @if (item.DateTime.DayOfWeek == DayOfWeek.Sunday)
                     {
                         <br \ />
-                        <div style="border-color: black; border-style:solid; border-width:thin">
+                        <div style="border-color: #1657EA; border-style:solid; border-width:thin">
                             <label> Afspraak : @item.AppointmentID </label>
-                            <label> Tijd : @item.Date.TimeOfDay </label>
+                            <label> Tijd : @item.DateTime.TimeOfDay </label>
                             <label> Duur : @item.Duration Minuten</label>
-                            <label> Duur : @item.Description Minuten</label>
+                            <label> Description : @item.Description</label>
                         </div>
                     }
                 }

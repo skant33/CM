@@ -9,5 +9,7 @@ namespace CM.Context.Interfaces
     public interface INotificationContext
     {
         string GetNotificationTypeByAppointmentID(Appointment appointment);
+        bool UpdateNotificationForUser(int accountid, int typeid, int timetillsend);
+        Notification GetNotificationForUser(int accountid);
     }
 }
