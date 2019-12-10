@@ -84,7 +84,7 @@ namespace CM.Controllers
             else
             {
                 //mislukt
-                return RedirectToAction("Index", "Appointment");
+                return View("~/Views/Home/Appointment.cshtml");
             }
         }
 
