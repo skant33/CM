@@ -63,9 +63,19 @@ namespace CM.Controllers
             if (HttpContext.Session.GetInt32("Doctor") == 1 || HttpContext.Session.GetInt32("Admin") == 1)
             {
                 List<Account> LinkedPatients = new List<Account>();
-                int id = (int)HttpContext.Session.GetInt32("AccountID");
-                LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(id);
-                ViewBag.LinkedPatients = LinkedPatients;
+                
+                    // List<Account> LinkedPatients = new List<Account>();
+                    List<Appointment> appointments = new List<Appointment>();
+                    int id = (int)HttpContext.Session.GetInt32("AccountID");
+                    // LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(id);
+                    //foreach (Account account in accountrepo.GetLinkedPatientsByDoctorID(id))
+                    //{
+                    //    Appointment appointment = new Appointment();
+                    //    appointment.patient = account;
+                    //    appointments.Add(appointment);
+                    //}
+
+                    ViewBag.LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(id);
                 return View("~/Views/Appointment/Index.cshtml");
             }
             return RedirectToAction("Login", "Account");
@@ -76,6 +86,7 @@ namespace CM.Controllers
         {
             Appointment inkomend = appointmentconverter.ViewModelToAppointment(viewmodel);
             inkomend.doctor.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
+
             if (appointmentrepo.MakeAppointment(inkomend) == true)
             {
                 //afspraak gepland
