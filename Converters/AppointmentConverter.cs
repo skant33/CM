@@ -22,6 +22,7 @@ namespace CM.Converters
                 DateTime = ADVM.DateTime,
                 Duration = ADVM.Duration,
                 Description = ADVM.Description,
+                patient = ADVM.Patient,
                 doctor = ADVM.Doctor
             };
             return appointment;
@@ -35,6 +36,7 @@ namespace CM.Converters
                 DateTime = appointment.DateTime,
                 Duration = appointment.Duration,
                 Description = appointment.Description,
+                Patient = appointment.patient,
                 Doctor = appointment.doctor
             };
             return ADVM;

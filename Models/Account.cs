@@ -17,5 +17,10 @@ namespace CM.Models
         public int MeldingID { get; set; }
 
         public AccountRole RoleId = new AccountRole();
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
