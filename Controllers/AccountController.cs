@@ -181,7 +181,7 @@ namespace CM.Controllers
             Appointment appointment = new Appointment();
             appointment.doctor.Name = "Steven Kant";
             appointment.DateTime = DateTime.Now;
-            appointment.Description = "Vervolgafspraak naar aanleiding van resultaten onderzoek";
+            appointment.Description = "Follow-up appointment based on research results";
             appointment.patient.PhoneNumber = "0031643189496";
             try
             {

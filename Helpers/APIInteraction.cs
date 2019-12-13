@@ -75,8 +75,8 @@ namespace CM.Models
             List<Appointment> appointments = new List<Appointment>();
             List<Appointment> upcoming = appointmentrepo.AllUpcomingAppointments();
             //marge
-            DateTime margemin2 = DateTime.Now.AddMinutes(-2);
-            DateTime margeplus2 = DateTime.Now.AddMinutes(2);
+            DateTime margemin2 = DateTime.Now.AddMinutes(-2.5);
+            DateTime margeplus2 = DateTime.Now.AddMinutes(2.5);
 
             foreach (Appointment appointment in upcoming)
             {
