@@ -173,5 +173,25 @@ namespace CM.Controllers
                 return RedirectToAction("EditNotification", "Account");
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Example()
+        {
+            NotificationController noti = new NotificationController(config);
+            Appointment appointment = new Appointment();
+            appointment.doctor.Name = "Steven Kant";
+            appointment.DateTime = DateTime.Now;
+            appointment.Description = "Vervolgafspraak naar aanleiding van resultaten onderzoek";
+            appointment.patient.PhoneNumber = "0031643189496";
+            try
+            {
+                 await noti.SendPhoneExampleConversation(appointment);
+            }
+            catch
+            {
+
+            }
+            return RedirectToAction("Beheerder", "Account");
+        }
     }
 }
