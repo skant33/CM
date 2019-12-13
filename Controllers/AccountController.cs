@@ -94,9 +94,6 @@ namespace CM.Controllers
             Account opgehaald = accountrepo.Login(inkomend);
             if (opgehaald.Email == inkomend.Email)
             {
-                APIInteraction api = new APIInteraction(config);
-                api.AllSendableAppointments();
-
                 HttpContext.Session.SetInt32("AccountID", opgehaald.AccountID);
                 if (accountrepo.CheckRoleID(HttpContext.Session.GetInt32("AccountID")) == 3)
                 {
