@@ -71,8 +71,9 @@ namespace CM
                 app.UseHsts();
             }
 
-            app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/hangfire");
             app.UseHangfireServer();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
