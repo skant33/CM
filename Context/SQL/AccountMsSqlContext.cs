@@ -316,6 +316,7 @@ namespace CM.Context.SQL
                     command.Parameters.AddWithValue("@DoctorID", doctorid);
                     command.Parameters.AddWithValue("@PatientID", patientid);
                     connection.Open();
+                    command.ExecuteNonQuery();
                 }
                 connection.Close();
                 return true;
