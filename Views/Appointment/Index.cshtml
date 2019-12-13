@@ -7,11 +7,12 @@
 <form asp-area="" asp-controller="Appointment" asp-action="MakeAppointment">
     <div class="form-group">
         <h6>Patient</h6>
-     
-        @Html.DropDownListFor(m => m.Patient.Name,
-                    new SelectList(ViewBag.LinkedPatients),
-                    "Select patient")
-
+     <select asp-for="Patient.AccountID">
+         @foreach(Account a in ViewBag.LinkedPatients)
+         {
+            <option value="@a.AccountID" >@a.Name</option>
+         } 
+     </select>
         <h6>Duration</h6>
         @Html.TextBoxFor(m => m.Duration, new { maxlength = "50", size = "30" })
         @Html.ValidationMessageFor(m => m.Duration)
