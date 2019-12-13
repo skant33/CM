@@ -134,6 +134,7 @@ namespace CM.Controllers
                 //mislukt (bestaat al)
                 return RedirectToAction("Register", "Account");
             }
+            
         }
 
         [HttpGet]
