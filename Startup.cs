@@ -71,7 +71,10 @@ namespace CM
                 app.UseHsts();
             }
 
-            app.UseHangfireDashboard("/hangfire");
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new AuthorizationFilter() }
+            });
             app.UseHangfireServer();
 
             app.UseHttpsRedirection();
