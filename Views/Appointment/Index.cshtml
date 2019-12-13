@@ -17,8 +17,9 @@
      </select>
 
         <h6>Duration</h6>
-        @Html.TextBoxFor(m => m.Duration, new { maxlength = "50", size = "30" })
-        @Html.ValidationMessageFor(m => m.Duration)
+        <div class="form-input">
+            <input asp-for="Duration" type="text" required class="form-control" id="exampleFormControlInput4" placeholder="Voer tijd in">
+        </div>
         <h6>Date YYYY-MM-DD 21:00:00.000</h6>
             <div class="row">
                 <div class='col-sm-6'>
@@ -33,11 +34,13 @@
         @*@Html.TextBoxFor(m => m.DateTime, new { maxlength = "50", size = "30" })
         @Html.ValidationMessageFor(m => m.DateTime)*@
         <h6>Location</h6>
-        @Html.TextBoxFor(m => m.Coords, new { maxlength = "50", size = "30" })
-        @Html.ValidationMessageFor(m => m.Coords)
+        <div class="form-input">
+            <input asp-for="Coords" type="text" required class="form-control" id="exampleFormControlInput4" placeholder="Voer coördinaten in">
+        </div>
         <h6>Description (max 200)</h6>
-        @Html.TextBoxFor(m => m.Description, new { maxlength = "200", size = "60" })
-        @Html.ValidationMessageFor(m => m.Description)
+        <div class="form-input">
+            <input asp-for="Description" type="text" required class="form-control" id="exampleFormControlInput4" placeholder="Voer beschrijving in">
+        </div>
 
         <button type="submit" class="form-group">Make appointment</button>
     </div>
