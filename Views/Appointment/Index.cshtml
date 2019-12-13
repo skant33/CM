@@ -8,18 +8,14 @@
 <form asp-area="" asp-controller="Appointment" asp-action="MakeAppointment">
     <div class="form-group">
         <h6>Patient</h6>
-<<<<<<< HEAD
 
-        @Html.DropDownListFor(M => M.Patient.AccountID, new SelectList(ViewBag.LinkedPatients, "AccountID", "Name"))
-
-=======
      <select asp-for="Patient.AccountID">
          @foreach(Account a in ViewBag.LinkedPatients)
          {
             <option value="@a.AccountID" >@a.Name</option>
          } 
      </select>
->>>>>>> 5740fd09d9c4aebce1aff2c45b193a72a4072b75
+
         <h6>Duration</h6>
         @Html.TextBoxFor(m => m.Duration, new { maxlength = "50", size = "30" })
         @Html.ValidationMessageFor(m => m.Duration)
