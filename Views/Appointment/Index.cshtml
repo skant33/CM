@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Appointment";
+    Layout = "~/Views/Shared/_CreateAppointmentLayout.cshtml";
 }
 
 <h2>Appointment aanmaken</h2>
@@ -17,8 +18,18 @@
         @Html.TextBoxFor(m => m.Duration, new { maxlength = "50", size = "30" })
         @Html.ValidationMessageFor(m => m.Duration)
         <h6>Date YYYY-MM-DD 21:00:00.000</h6>
-        @Html.TextBoxFor(m => m.DateTime, new { maxlength = "50", size = "30" })
-        @Html.ValidationMessageFor(m => m.DateTime)
+            <div class="row">
+                <div class='col-sm-6'>
+                    <input type='text' asp-for="DateTime" class="form-control" id='datetimepicker4' />
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker4').datetimepicker();
+                    });
+                </script>
+            </div>
+        @*@Html.TextBoxFor(m => m.DateTime, new { maxlength = "50", size = "30" })
+        @Html.ValidationMessageFor(m => m.DateTime)*@
         <h6>Location</h6>
         @Html.TextBoxFor(m => m.Coords, new { maxlength = "50", size = "30" })
         @Html.ValidationMessageFor(m => m.Coords)
