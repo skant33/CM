@@ -269,7 +269,7 @@ namespace CM.Context.SQL
                 }
 
                 SqlCommand checkAppCommand = new SqlCommand(@"SELECT Appointment.* FROM Appointment INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID INNER JOIN Account ON AccountLink.DoctorID = Account.AccountID WHERE([DateTime] BETWEEN @DateNewAppointment AND DATEADD(MINUTE, @DurationNewAppointment, @DateNewAppointment) OR DATEADD(MINUTE, Duration, [DateTime]) BETWEEN @DateNewAppointment AND DATEADD(MINUTE, @DurationNewAppointment, @DateNewAppointment)) AND DoctorID = @DoctorID");
-                string appoin = appointment.DateTime.Year + "-" + appointment.DateTime.Month + "-" + appointment.DateTime.Day + " " + appointment.DateTime.Hour + ":" + appointment.DateTime.Minute;
+                string appoin = string.Format("{0}-{1}-{2} {3}:{4}:{5}:{6}", appointment.DateTime.Year, appointment.DateTime.Month, appointment.DateTime.Day, appointment.DateTime.Hour, appointment.DateTime.Minute, appointment.DateTime.Second, appointment.DateTime.Millisecond);
                 checkAppCommand.Parameters.AddWithValue("DateNewAppointment", appoin);
                 checkAppCommand.Parameters.AddWithValue("DurationNewAppointment", appointment.Duration);
                 checkAppCommand.Parameters.AddWithValue("DoctorID", appointment.doctor.AccountID);
