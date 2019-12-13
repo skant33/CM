@@ -144,9 +144,11 @@ namespace CM.Controllers
         }
 
         [HttpPost]
-        public IActionResult LinkAccounts(int doctorid, int patientid)
+        public IActionResult LinkAccounts(AppointmentDetailViewModel Advm)
         {
-            accountrepo.LinkAccounts(patientid, doctorid);
+            int patientId = Advm.Patient.AccountID;
+            int doctorId = Advm.Doctor.AccountID;
+            accountrepo.LinkAccounts(patientId, doctorId);
             return RedirectToAction("Beheerder", "Account");
         }
 
