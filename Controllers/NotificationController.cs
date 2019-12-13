@@ -63,7 +63,7 @@ namespace CM.Controllers
             var result = await client.SendMessageAsync("Hoi", "CMProftaak", receivers, null).ConfigureAwait(false);
         }
 
-        public async Task SendPhoneConversation(Appointment appointment)
+        public async Task<IActionResult> SendPhoneConversation(Appointment appointment)
         {
             var myApiKey = Guid.Parse("E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
             var httpClient = new HttpClient();
@@ -78,6 +78,7 @@ namespace CM.Controllers
                 ReplayPrompt = "Press 1 to repeat this message."
             };           
             var result = await client.SendAsync(instruction).ConfigureAwait(false);
+            return RedirectToAction("Login", "Account");
         }
 
         public async Task SendEmail(Appointment appointment)
@@ -96,22 +97,6 @@ namespace CM.Controllers
             string response = await message.Content.ReadAsStringAsync();
         }
 
-        public async Task SendPhoneExampleConversation(Appointment appointment)
-        {
-            var myApiKey = Guid.Parse("E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
-            var httpClient = new HttpClient();
-            var client = new VoiceApiClient(httpClient, myApiKey);
-            httpClient.DefaultRequestHeaders.Add("X-CM-PRODUCTTOKEN", "E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
-            var instruction = new NotificationInstruction
-            {
-                Caller = "0031637328840", // stevensnummer
-                Callee = appointment.patient.PhoneNumber,
-                Prompt = String.Format("You have an appointment at {0} with doctor {1}. Description: {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description),
-                MaxReplays = 2,
-                ReplayPrompt = "Press 1 to repeat this message."
-            };
-            var result = await client.SendAsync(instruction).ConfigureAwait(false);
-        }
     }   
 
 }
