@@ -173,7 +173,7 @@ namespace CM.Context.SQL
         {
             List<Appointment> appointments = new List<Appointment>();
             SqlConnection connection = new SqlConnection(con);
-            SqlCommand sqlCommand = new SqlCommand(@"SELECT DISTINCT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID, FORMAT(DATEADD(HOUR, -[Notification].TimeTillSend, Appointment.[DateTime]),'dd-MM-yyyy HH:mm:ss') as 'SendTime'
+            SqlCommand sqlCommand = new SqlCommand(@"SELECT DISTINCT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID, FORMAT(DATEADD(HOUR, -[Notification].TimeTillSend, Appointment.[DateTime]),'MM-dd-yyyy HH:mm:ss') as 'SendTime'
                                                     FROM Appointment
                                                     INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
                                                     INNER JOIN Account ON AccountLink.PatientID = Account.AccountID

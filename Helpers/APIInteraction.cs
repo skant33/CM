@@ -21,6 +21,7 @@ namespace CM.Models
 
         INotificationContext inotificationcontext;
         NotificationRepo notificationrepo;
+        NotificationController notificationController;
 
         IAccountContext iaccountcontext;
         AccountRepo accountrepo;
@@ -52,7 +53,7 @@ namespace CM.Models
 
         public async Task CheckForNotification()
         {
-            NotificationController notificationController = new NotificationController(config);            
+            NotificationController notificationController = new NotificationController(config);
             foreach (Appointment appointment in AllSendableAppointments())
             {
                 if (notificationrepo.GetNotificationTypeByAppointmentID(appointment) == "SMS")
@@ -67,7 +68,8 @@ namespace CM.Models
                 {
                     await notificationController.SendPhoneConversation(appointment);
                 }
-            }                      
+            }
+            //await notificationController.SendMessage(null);
         }
 
         public List<Appointment> AllSendableAppointments()
