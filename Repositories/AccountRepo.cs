@@ -73,5 +73,10 @@ namespace CM.Repositories
         {
             return context.GetLinkedPatientsByDoctorID(doctorid);
         }
+
+        public List<Account> GetDoctorsFromPatient(int patientid)
+        {
+            return context.DoctorsFromPatient(patientid);
+        }
     }
 }
