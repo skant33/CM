@@ -42,8 +42,11 @@ namespace CM.Controllers
             appointmentViewModel.appointments = new List<Appointment>();
             Account opgehaald = new Account();
             opgehaald.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
-            List<Account> doctors = accountrepo.GetDoctorsFromPatient(opgehaald.AccountID);
-            ViewBag.LinkedDoctors = doctors;
+            if(HttpContext.Session.GetInt32("Doctor") != 1 && HttpContext.Session.GetInt32("Admin") != 1)
+            {
+                List<Account> doctors = accountrepo.GetDoctorsFromPatient(opgehaald.AccountID);
+                ViewBag.LinkedDoctors = doctors;
+            }           
             foreach (Appointment appointment in appointmentrepo.AppointmentsCurrentWeek(opgehaald.AccountID))
             {
                 appointmentViewModel.appointments.Add(appointment);

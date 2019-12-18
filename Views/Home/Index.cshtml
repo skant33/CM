@@ -65,7 +65,10 @@ else
 }
 
 <h4>Your doctors</h4>
-@foreach(Account account in ViewBag.LinkedDoctors)
+@if (ViewBag.LinkedDoctors != null)
 {
-    <div>@account.Name</div>
+    @foreach (Account account in ViewBag.LinkedDoctors)
+    {
+        <div>Name: @account.Name</div>
+    }
 }

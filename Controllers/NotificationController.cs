@@ -54,6 +54,16 @@ namespace CM.Controllers
             var result = await client.SendMessageAsync(String.Format("You have an appointment at {0} with doctor {1}. Description: {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description), "CMProftaak", receivers, null).ConfigureAwait(false);
         }
 
+        public async Task<IActionResult> SendMessage(Appointment appointment)
+        {
+            List<string> receivers = new List<string>();
+            receivers.Add("0031627404177");
+
+            var client = new TextClient(new Guid(config.GetSection("ApiKey").Value));
+            var result = await client.SendMessageAsync(String.Format("You have an appointment at {0} with doctor {1}. Description: {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description), "CMProftaak", receivers, null).ConfigureAwait(false);
+            return RedirectToAction("Login", "Account");
+        }
+
         public async Task SendWhatsAppMessage()
         {
             List<string> receivers = new List<string>();
