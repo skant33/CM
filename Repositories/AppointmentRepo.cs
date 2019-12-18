@@ -24,11 +24,6 @@ namespace CM.Repositories
             return context.GetAppointmentsByUserId(account);
         }
 
-        public List<Appointment> GetAppointmentsByDoctorId(Account account)
-        {
-            return context.GetAppointmentsByDoctorId(account);
-        }
-
         public Appointment GetAppointmentByID (int id)
         {
             return context.GetAppointmentByID(id);

@@ -90,7 +90,7 @@ namespace CM.Controllers
             if (appointmentrepo.MakeAppointment(inkomend) == true)
             {
                 //afspraak gepland
-                return View("~/Views/Home/Index.cshtml");
+                return RedirectToAction("Index", "Home");
             }
             else
             {

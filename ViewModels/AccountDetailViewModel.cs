@@ -14,7 +14,9 @@ namespace CM.ViewModels
         public int MeldingID { get; set; }
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
+        [EmailAddress]
         public string Email { get; set; }
+        [Phone]
         public string PhoneNumber { get; set; }
     }
 }
