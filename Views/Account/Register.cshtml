@@ -64,37 +64,13 @@
                             <input asp-for="Email" id="exampleFormControlInput4" class=" form-control" placeholder="Input email" size="30" required>
                         </div>
 
-                        <h6>Phone number</h6>
+                        <h6>Phone number</h6>   
                         <div class="form-input">
-                            <input asp-for="PhoneNumber" type="text" required class="form-control" id="exampleFormControlInput4" placeholder="Input phone number">
+                            <input asp-for="PhoneNumber" type="text" minlength="13" maxlength="13" class="form-control" id="exampleFormControlInput4" placeholder="00316">
                         </div>
                         <br />
                         <button type="submit" class="btn btn-cta">Register</button>
 </form>
 
-@if (ViewBag.succes != null)
-{
-    <div class="inline-notification-container">
-        @if (ViewBag.succes == true)
-        {
-            <div class="inline-notification">
-                <div class="item-left">
-                    <span aria-hidden="true" class="cm-icon cm-icon-information cl-green-100"></span>
-                </div>
-                <div class="title">Account Registration Succeful</div>
-            </div>
-        }
-        else
-        {
-            <div class="inline-notification">
-                <div class="item-left">
-                    <span class="cm-icon cm-icon-warning cl-red-100" aria-hidden="true"></span>
-                </div>
-                <div class="title">Account Registration Failed</div>
-            </div>
-        }
-
-    </div>
-}
 
 <a asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
