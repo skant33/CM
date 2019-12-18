@@ -398,5 +398,16 @@ namespace CM.Context.SQL
             connection.Close();
             return patients;
         }
+
+        //DOE JE BEST 
+        //    SELECT *
+        //    FROM Account
+        //    WHERE AccountID IN(
+        //        SELECT AccountLink.DoctorID
+        //        FROM Account
+        //        INNER JOIN AccountLink ON Account.AccountID = PatientID
+
+        //        WHERE Account.AccountID = @AccountID
+        //    )
     }
 }
