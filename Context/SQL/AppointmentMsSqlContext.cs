@@ -62,50 +62,7 @@ namespace CM.Context.SQL
                 SqlCommand command = new SqlCommand(@"SELECT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID
                                                     FROM Appointment 
                                                     INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID 
-                                                    INNER JOIN Account ON AccountLink.PatientID = Account.AccountID 
-                                                    WHERE Account.AccountID = @PatientID", connection);
-                command.Parameters.AddWithValue("@PatientID", account.AccountID);
-
-                connection.Open();
-
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    try
-                    {
-                        while (reader.Read())
-                        {
-                            Appointment appointment = new Appointment();
-                            appointment.AppointmentID = Convert.ToInt32(reader["AppointmentID"]);
-                            appointment.patient.AccountID = Convert.ToInt32(reader["PatientID"]);
-                            appointment.doctor.AccountID = Convert.ToInt32(reader["DoctorID"]);
-                            appointment.Duration = Convert.ToInt32(reader["Duration"]);
-                            appointment.DateTime = Convert.ToDateTime(reader["DateTime"]);
-                            appointment.Description = Convert.ToString(reader["Description"]);
-                            appointments.Add(appointment);
-                        }
-                    }
-                    catch
-                    {
-                        Console.WriteLine("No rows found.");
-                    }
-                }
-            }
-            connection.Close();
-            return appointments;
-        }
-
-        public List<Appointment> GetAppointmentsByDoctorId(Account account)
-        {
-            List<Appointment> appointments = new List<Appointment>();
-
-            SqlConnection connection = new SqlConnection(con);
-
-            using (connection)
-            {
-                SqlCommand command = new SqlCommand(@"SELECT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID
-                                                    FROM Appointment 
-                                                    INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID 
-                                                    INNER JOIN Account ON AccountLink.DoctorID = Account.AccountID 
+                                                    INNER JOIN Account ON AccountLink.PatientID = Account.AccountID OR AccountLink.DoctorID = Account.AccountID
                                                     WHERE Account.AccountID = @PatientID", connection);
                 command.Parameters.AddWithValue("@PatientID", account.AccountID);
 
@@ -183,14 +140,14 @@ namespace CM.Context.SQL
 
             SqlConnection connection = new SqlConnection(con);
 
-            SqlCommand command = new SqlCommand(@"Set DateFirst 1
-	                                                  Select * 
-	                                                  from Appointment
-	                                                  INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
-	                                                  Where [DateTime] >= dateadd(day, 1-datepart(dw, getdate()), CONVERT(date,getdate())) 
-	                                                  AND [DateTime] <  dateadd(day, 8-datepart(dw, getdate()), CONVERT(date,getdate()))
-	                                                  And AccountLink.PatientID = @AccountID Or AccountLink.DoctorID = @AccountID
-	                                                  order by [DateTime] asc", connection);
+            SqlCommand command = new SqlCommand(@"Select Appointment.*, AccountLink.*
+                                                  from Appointment
+                                                  INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
+                                                  INNER JOIN Account ON AccountLink.PatientID = Account.AccountID OR AccountLink.DoctorID = Account.AccountID
+                                                  WHERE [DateTime] BETWEEN CURRENT_TIMESTAMP
+                                                  AND DATEADD(DAY, 7, CURRENT_TIMESTAMP)
+                                                  AND AccountID = @AccountID
+                                                  order by [DateTime] asc", connection);
 
             connection.Open();
             command.Parameters.AddWithValue("@AccountID", id);
