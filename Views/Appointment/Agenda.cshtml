@@ -5,24 +5,20 @@
     ViewData["Title"] = "AfspraakPage";
 }
 
-<h1>Agenda</h1>
+<h2>Agenda</h2>
 
 
 
-    @if (Model.appointment.Count == 0)
-    {
+@if (Model.appointment.Count == 0)
+{
 
     <label> No appointments this week</label>
-    }
+}
 
-    else
-    {
-        <h3> Werkweek : @DateTime.Now.AddDays(DayOfWeek.Monday - DateTime.Now.DayOfWeek).Day / @DateTime.Now.AddDays(DayOfWeek.Monday - DateTime.Now.DayOfWeek).Month tot @DateTime.Now.AddDays(DayOfWeek.Friday - DateTime.Now.DayOfWeek).Day / @DateTime.Now.AddDays(DayOfWeek.Monday - DateTime.Now.DayOfWeek).Month </h3>
-
+else
+{
+    <h3> Werkweek : @DateTime.Now.AddDays(DayOfWeek.Monday - DateTime.Now.DayOfWeek).Day / @DateTime.Now.AddDays(DayOfWeek.Monday - DateTime.Now.DayOfWeek).Month tot @DateTime.Now.AddDays(DayOfWeek.Friday - DateTime.Now.DayOfWeek).Day / @DateTime.Now.AddDays(DayOfWeek.Monday - DateTime.Now.DayOfWeek).Month </h3>
     <table class="table">
-
-
-
         <tbody>
             <div class="row">
                 <div class="col-md-2">
@@ -150,9 +146,9 @@
                 </div>
 
             </div>
-            
+
         </tbody>
-        
+
     </table>
 
-    }
+}
