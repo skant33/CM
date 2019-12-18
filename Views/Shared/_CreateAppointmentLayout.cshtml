@@ -35,8 +35,9 @@
     <input type="checkbox" id="cm-sidenav-toggle" checked>
     <label for="cm-sidenav-toggle"></label>
     <cm-sidenav style="padding-left:50px; padding-right:50px;">
-        <span class="badge middle-right sidenav-badge" slot="badge">CM.com</span>
-        <cm-sidenav-option><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></cm-sidenav-option>
+        <span class="badge middle-right sidenav-badge" slot="badge"></span>
+        <img src="~/images/Logo.jpeg" alt="CM" height="50" width="50">
+        <cm-sidenav-option><a asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a></cm-sidenav-option>
         <cm-sidenav-option><a asp-area="" asp-controller="Appointment" asp-action="Agenda">Agenda</a></cm-sidenav-option>
 
         @if (Context.Session.GetInt32("Admin") == 1)
@@ -49,7 +50,7 @@
             <cm-sidenav-option><a asp-area="" asp-controller="Appointment" asp-action="Index">Appointment</a></cm-sidenav-option>
         }
 
-        <cm-sidenav-option><a asp-area="" asp-controller="Account" asp-action="Index"><span aria-hidden="true" class="glyphicon glyphicon-user"></span></a></cm-sidenav-option>
+        <cm-sidenav-option><a asp-area="" asp-controller="Account" asp-action="Index">Account</a></cm-sidenav-option>
     </cm-sidenav>
     <platform-header title-text="Aurora™"></platform-header>
 
