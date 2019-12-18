@@ -6,8 +6,8 @@
 
 
 <h2>Dashboard</h2>
-<h4>Your appointments</h4>
-@if (Model.appointment.Count == 0)
+<h4 style="color:rgb(22, 87, 234);">Your appointments</h4>
+@if (Model.appointments.Count == 0)
 {
 
     <label> No appointments this week</label>
@@ -61,14 +61,22 @@ else
                 </div>
             </div>
         }
+
+       <br/>
     </div>
 }
 
-<h4>Your doctors</h4>
-@if (ViewBag.LinkedDoctors != null)
-{
-    @foreach (Account account in ViewBag.LinkedDoctors)
+
+<h4 style="color:rgb(22, 87, 234);">Your doctors</h4>
+
+    @if (ViewBag.LinkedDoctors != null)
     {
-        <div>Name: @account.Name</div>
+        @foreach (Account account in ViewBag.LinkedDoctors)
+        {
+            <div>Name: @account.Name</div>
+        }
     }
-}
+    else
+    {
+        <label> Not linked to any doctors</label>
+    }

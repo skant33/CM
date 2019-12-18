@@ -54,6 +54,7 @@ namespace CM.Controllers
             var result = await client.SendMessageAsync(String.Format("You have an appointment at {0} with doctor {1}. Description: {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description), "CMProftaak", receivers, null).ConfigureAwait(false);
         }
 
+        //voorbeeld
         public async Task<IActionResult> SendMessage(Appointment appointment)
         {
             List<string> receivers = new List<string>();

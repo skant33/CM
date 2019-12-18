@@ -35,6 +35,9 @@ namespace CM.Controllers
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iappointmentContext = new AppointmentMsSqlContext(con);
             appointmentrepo = new AppointmentRepo(iappointmentContext);
+
+            iaccountcontext = new AccountMsSqlContext(con);
+            accountrepo = new AccountRepo(iaccountcontext);
         }
 
         public IActionResult Index()
@@ -42,7 +45,7 @@ namespace CM.Controllers
             appointmentViewModel.appointments = new List<Appointment>();
             Account opgehaald = new Account();
             opgehaald.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
-            if(HttpContext.Session.GetInt32("Doctor") != 1 && HttpContext.Session.GetInt32("Admin") != 1)
+            if((HttpContext.Session.GetInt32("Doctor") != 1 && HttpContext.Session.GetInt32("Admin") != 1))
             {
                 List<Account> doctors = accountrepo.GetDoctorsFromPatient(opgehaald.AccountID);
                 ViewBag.LinkedDoctors = doctors;
