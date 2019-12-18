@@ -399,15 +399,47 @@ namespace CM.Context.SQL
             return patients;
         }
 
-        //DOE JE BEST 
-        //    SELECT *
-        //    FROM Account
-        //    WHERE AccountID IN(
-        //        SELECT AccountLink.DoctorID
-        //        FROM Account
-        //        INNER JOIN AccountLink ON Account.AccountID = PatientID
-
-        //        WHERE Account.AccountID = @AccountID
-        //    )
+        public List<Account> DoctorsFromPatient(int patientid)
+        {
+            List<Account> doctors = new List<Account>();
+            SqlConnection connection = new SqlConnection(con);
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand(@"SELECT*
+                                                    FROM Account
+                                                    WHERE AccountID IN (
+                                                        SELECT AccountLink.DoctorID
+                                                        FROM Account
+                                                        INNER JOIN AccountLink ON Account.AccountID = PatientID
+                                                        WHERE Account.AccountID = @AccountID)", connection);
+                command.Parameters.AddWithValue("@AccountID", patientid);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    try
+                    {
+                        while (reader.Read())
+                        {
+                            Account uitgaand = new Account();
+                            uitgaand.AccountID = Convert.ToInt32(reader["AccountID"]);
+                            uitgaand.Password = Convert.ToString(reader["Password"]);
+                            uitgaand.RoleId.ID = Convert.ToInt32(reader["AccountRoleID"]);
+                            uitgaand.Name = Convert.ToString(reader["Name"]);
+                            uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
+                            uitgaand.Email = Convert.ToString(reader["Email"]);
+                            uitgaand.PhoneNumber = Convert.ToString(reader["TelephoneNumber"]);
+                            doctors.Add(uitgaand);
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("No rows found.");
+                    }
+                }
+            }
+            connection.Close();
+            return doctors;
+        }
+            
     }
 }
