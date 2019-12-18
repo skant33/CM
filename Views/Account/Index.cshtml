@@ -4,10 +4,10 @@
 }
 
 <h2>MyAccountView</h2>
-<div>@Model.Name</div>
-<div>@Model.DateOfBirth</div>
-<div>@Model.Email</div>
-<div>@Model.PhoneNumber</div>
+<div>Name: @Model.Name</div>
+<div>Date of birth: @Model.DateOfBirth.Day - @Model.DateOfBirth.Month - @Model.DateOfBirth.Year</div>
+<div>Email: @Model.Email</div>
+<div>Phone number: @Model.PhoneNumber</div>
 <a class="btn btn-cta" asp-area="" asp-controller="Account" asp-action="EditNotification">Edit notification</a>
 <a class="btn btn-cta" asp-area="" asp-controller="Account" asp-action="LogOut">Log out</a>
 
