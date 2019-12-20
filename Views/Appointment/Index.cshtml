@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_CreateAppointmentLayout.cshtml";
 }
 
-<h2>Appointment aanmaken</h2>
+<h2>Make appointment</h2>
 @model CM.ViewModels.AppointmentDetailViewModel
 <form asp-area="" asp-controller="Appointment" asp-action="MakeAppointment">
     <div class="form-group">
@@ -18,7 +18,7 @@
 
         <h6>Duration</h6>
         <div class="form-input">
-            <input asp-for="Duration" type="text" required class="form-control" id="exampleFormControlInput4" placeholder="Voer tijd in">
+            <input asp-for="Duration" type="text" required class="form-control" id="exampleFormControlInput4" placeholder="Add duration">
         </div>
         <h6>Date YYYY-MM-DD 21:00:00.000</h6>
             <div class="row">
@@ -33,15 +33,11 @@
             </div>
         @*@Html.TextBoxFor(m => m.DateTime, new { maxlength = "50", size = "30" })
         @Html.ValidationMessageFor(m => m.DateTime)*@
-        <h6>Location</h6>
-        <div class="form-input">
-            <input asp-for="Coords" type="text" required class="form-control" id="exampleFormControlInput4" placeholder="Voer coördinaten in">
-        </div>
         <h6>Description (max 200)</h6>
         <div class="form-input">
-            <input asp-for="Description" type="text" required class="form-control" id="exampleFormControlInput4" placeholder="Voer beschrijving in">
+            <input asp-for="Description" type="text" required class="form-control" id="exampleFormControlInput4" placeholder="Add description">
         </div>
-
-        <button type="submit" class="form-group">Make appointment</button>
+        <br />
+        <button type="submit" class="btn btn-cta">Make appointment</button>
     </div>
 </form>

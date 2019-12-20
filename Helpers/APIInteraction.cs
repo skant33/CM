@@ -69,7 +69,6 @@ namespace CM.Models
                     await notificationController.SendPhoneConversation(appointment);
                 }
             }
-            //await notificationController.SendMessage(null);
         }
 
         public List<Appointment> AllSendableAppointments()

@@ -54,27 +54,7 @@ namespace CM.Controllers
             var result = await client.SendMessageAsync(String.Format("You have an appointment at {0} with doctor {1}. Description: {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description), "CMProftaak", receivers, null).ConfigureAwait(false);
         }
 
-        //voorbeeld
-        public async Task<IActionResult> SendMessage(Appointment appointment)
-        {
-            List<string> receivers = new List<string>();
-            receivers.Add("0031627404177");
-
-            var client = new TextClient(new Guid(config.GetSection("ApiKey").Value));
-            var result = await client.SendMessageAsync(String.Format("You have an appointment at {0} with doctor {1}. Description: {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description), "CMProftaak", receivers, null).ConfigureAwait(false);
-            return RedirectToAction("Login", "Account");
-        }
-
-        public async Task SendWhatsAppMessage()
-        {
-            List<string> receivers = new List<string>();
-            receivers.Add("0031627404177");
-
-            var client = new TextClient(new Guid(config.GetSection("ApiKey").Value));            
-            var result = await client.SendMessageAsync("Hoi", "CMProftaak", receivers, null).ConfigureAwait(false);
-        }
-
-        public async Task<IActionResult> SendPhoneConversation(Appointment appointment)
+        public async Task SendPhoneConversation(Appointment appointment)
         {
             var myApiKey = Guid.Parse("E4802F51-F6A2-474A-8883-3CDB2EAACDB3");
             var httpClient = new HttpClient();
@@ -89,7 +69,6 @@ namespace CM.Controllers
                 ReplayPrompt = "Press 1 to repeat this message."
             };           
             var result = await client.SendAsync(instruction).ConfigureAwait(false);
-            return RedirectToAction("Login", "Account");
         }
 
         public async Task SendEmail(Appointment appointment)
