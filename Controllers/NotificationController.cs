@@ -65,8 +65,8 @@ namespace CM.Controllers
                 var instruction = new NotificationInstruction
                 {
                     Caller = "0031637328840", // stevensnummer
-                    Callee = appointment.patient.PhoneNumber ,
-                    Prompt = "You have an appointment at " + appointment.DateTime + " with doctor " + appointment.doctor.Name + ". Description: " + appointment.Description      ,
+                    Callee = appointment.patient.PhoneNumber,
+                    Prompt = "You have an appointment at" + appointment.DateTime.ToLongDateString() + " on " + appointment.DateTime.Hour.ToString() + appointment.DateTime.Minute.ToString() + "with doctor" + appointment.doctor.Name + "Description is" + appointment.Description ,
                     MaxReplays = 2,
                     ReplayPrompt = "Press 1 to repeat this message."
                 };           
