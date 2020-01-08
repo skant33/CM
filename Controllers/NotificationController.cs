@@ -66,7 +66,7 @@ namespace CM.Controllers
                 {
                     Caller = "0031637328840", // stevensnummer
                     Callee = appointment.patient.PhoneNumber ,
-                    Prompt = "You have an appointment ",
+                    Prompt = "You have an appointment at " + appointment.DateTime + " with doctor " + appointment.doctor.Name + ". Description: " + appointment.Description      ,
                     MaxReplays = 2,
                     ReplayPrompt = "Press 1 to repeat this message."
                 };           
