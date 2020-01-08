@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Hangfire;
 using Hangfire.Storage;
+using CM.Helpers;
 
 namespace CM.Controllers
 {
@@ -30,6 +31,7 @@ namespace CM.Controllers
 
         public NotificationController noti;
         private IConfiguration config;
+        private AccountVerification accVeri;
 
         public AccountController(IConfiguration iconfiguration)
         {
@@ -39,6 +41,7 @@ namespace CM.Controllers
             inotificationcontext = new NotificationMsSqlContext(con);
             notificationrepo = new NotificationRepo(inotificationcontext);
             noti = new NotificationController(iconfiguration);
+            accVeri = new AccountVerification(con);
             this.config = iconfiguration;
         }
 
@@ -71,6 +74,11 @@ namespace CM.Controllers
         [HttpGet]
         public IActionResult Beheerder()
         {
+            if (accVeri.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             List<Account> doctorlist = accountrepo.GetAllDoctors();
             ViewBag.AllDoctors = doctorlist;
 
@@ -156,6 +164,10 @@ namespace CM.Controllers
         [HttpGet]
         public IActionResult EditNotification()
         {
+            if (accVeri.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             int accountid = (int)HttpContext.Session.GetInt32("AccountID");
             Notification notification = notificationrepo.GetNotificationForUser(accountid);
             NotificationDetailViewModel notificationDetailViewModel = new NotificationDetailViewModel();

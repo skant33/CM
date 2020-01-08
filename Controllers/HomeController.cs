@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using CM.Context.SQL;
 using Microsoft.AspNetCore.Http;
 using CM.Converters;
+using CM.Helpers;
 
 namespace CM.Controllers
 {
@@ -28,7 +29,7 @@ namespace CM.Controllers
         AccountRepo accountrepo;
 
         //helpers
-        //AccountVerification accountVerification;
+        AccountVerification accVeri;
 
         public HomeController(IConfiguration iconfiguration)
         {
@@ -38,10 +39,17 @@ namespace CM.Controllers
 
             iaccountcontext = new AccountMsSqlContext(con);
             accountrepo = new AccountRepo(iaccountcontext);
+
+            accVeri = new AccountVerification(con);
         }
 
         public IActionResult Index()
         {
+            if (accVeri.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == false)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             appointmentViewModel.appointments = new List<Appointment>();
             Account opgehaald = new Account();
             opgehaald.AccountID = (int)HttpContext.Session.GetInt32("AccountID");

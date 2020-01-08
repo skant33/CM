@@ -27,7 +27,7 @@ namespace CM.Controllers
         AccountRepo accountrepo;
 
         //helpers
-        AccountVerification accountVerification;
+        AccountVerification accVeri;
 
         public AppointmentController(IConfiguration config)
         {
@@ -39,23 +39,24 @@ namespace CM.Controllers
             accountrepo = new AccountRepo(iaccountcontext);
 
             //helpers
-            accountVerification = new AccountVerification(con);
+            accVeri = new AccountVerification(con);
         }
 
         public IActionResult Agenda()
         {
-            if (accountVerification.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == true)
+            if (accVeri.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == false)
             {
-                AppointmentViewModel viewmodel = new AppointmentViewModel();
-                Account account = new Account();
-                account.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
-                foreach (Appointment appointment in appointmentrepo.AppointmentsCurrentWeek(account.AccountID))
-                {
-                    viewmodel.appointment.Add(appointmentconverter.ViewModelFromAppointment(appointment));
-                }
-                return View("~/Views/Appointment/Agenda.cshtml", viewmodel);
+                return RedirectToAction("Login", "Account");
             }
-            return RedirectToAction("Login", "Account");
+
+            AppointmentViewModel viewmodel = new AppointmentViewModel();
+            Account account = new Account();
+            account.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
+            foreach (Appointment appointment in appointmentrepo.AppointmentsCurrentWeek(account.AccountID))
+            {
+                viewmodel.appointment.Add(appointmentconverter.ViewModelFromAppointment(appointment));
+            }
+            return View("~/Views/Appointment/Agenda.cshtml", viewmodel);
         }
 
         public IActionResult Index()
@@ -63,19 +64,9 @@ namespace CM.Controllers
             if (HttpContext.Session.GetInt32("Doctor") == 1 || HttpContext.Session.GetInt32("Admin") == 1)
             {
                 List<Account> LinkedPatients = new List<Account>();
-                
-                    // List<Account> LinkedPatients = new List<Account>();
-                    List<Appointment> appointments = new List<Appointment>();
-                    int id = (int)HttpContext.Session.GetInt32("AccountID");
-                    // LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(id);
-                    //foreach (Account account in accountrepo.GetLinkedPatientsByDoctorID(id))
-                    //{
-                    //    Appointment appointment = new Appointment();
-                    //    appointment.patient = account;
-                    //    appointments.Add(appointment);
-                    //}
-
-                    ViewBag.LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(id);
+                List<Appointment> appointments = new List<Appointment>();
+                int id = (int)HttpContext.Session.GetInt32("AccountID");
+                ViewBag.LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(id);
                 return View("~/Views/Appointment/Index.cshtml");
             }
             return RedirectToAction("Login", "Account");
@@ -84,6 +75,7 @@ namespace CM.Controllers
 
         public IActionResult MakeAppointment(AppointmentDetailViewModel viewmodel)
         {
+
             Appointment inkomend = appointmentconverter.ViewModelToAppointment(viewmodel);
             inkomend.doctor.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
 
