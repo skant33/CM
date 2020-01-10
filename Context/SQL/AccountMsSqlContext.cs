@@ -115,6 +115,27 @@ namespace CM.Context.SQL
                             accountid = Convert.ToInt32(reader["AccountID"]);
                         }
                     }
+
+                    //leeftijd berekenen voor melding id
+                    int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                    int dob = int.Parse(account.DateOfBirth.ToString("yyyyMMdd"));
+                    int age = (now - dob) / 10000;
+
+                    if (age <= 18)
+                    {
+                        account.MeldingID = 1;
+                    }
+
+                    if (age > 18 && age <= 65)
+                    {
+                        account.MeldingID = 2;
+                    }
+
+                    if(age > 65)
+                    {
+                        account.MeldingID = 4;
+                    }
+
                     SqlCommand comman2 = new SqlCommand("insert into Notification(TypeID, TimeTillSend, AccountID) values(@TypeID, @TimeTillSend, @AccountID)", connection);
                     comman2.Parameters.AddWithValue("TypeId", account.MeldingID);
                     comman2.Parameters.AddWithValue("TimeTillSend", 5);
