@@ -263,7 +263,16 @@ namespace CM.Context.SQL
 
         public bool DeleteAppointment(int appointmentID)
         {
-            //max ga je gang neef, return true als het gelukt is false als het niet gelukt is
+            SqlConnection conn = new SqlConnection(con);
+
+            SqlCommand command = new SqlCommand("DELETE FROM Appointment WHERE AppointmentID = @AppointmentID", conn);
+            command.Parameters.AddWithValue("AppointmentID", appointmentID);
+
+            if (command.ExecuteNonQuery() > 0)
+            {
+                return true;
+            }
+            return false;
         }
 
     }
