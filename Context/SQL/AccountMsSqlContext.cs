@@ -99,7 +99,8 @@ namespace CM.Context.SQL
                     SqlCommand command = new SqlCommand("insert into Account (AccountRoleId, Name, BirthDate, Email, TelephoneNumber, Password) values (@AccountRoleId, @Name, @BirthDate, @Email, @TelephoneNumber, @Password)", connection);
                     command.Parameters.AddWithValue("AccountRoleId", 1);
                     command.Parameters.AddWithValue("Name", account.Name);
-                    command.Parameters.AddWithValue("BirthDate", account.DateOfBirth);
+                    DateTime dobb = account.DateOfBirth.Date;
+                    command.Parameters.AddWithValue("BirthDate", dobb);
                     command.Parameters.AddWithValue("Email", account.Email);
                     command.Parameters.AddWithValue("TelephoneNumber", account.PhoneNumber);
                     command.Parameters.AddWithValue("Password", account.Password);
