@@ -91,5 +91,16 @@ namespace CM.Controllers
             }
         }
 
+        public IActionResult DeleteAppointment(int appointmentID)
+        {
+            if (appointmentrepo.DeleteAppointment(appointmentID) == true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Agenda", "Appointment");
+            }
+        }
     }
 }

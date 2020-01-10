@@ -19,5 +19,7 @@ namespace CM.Context.Interfaces
         List<Appointment> AllUpcomingAppointments();
 
         bool MakeAppointment(Appointment appointment);
+
+        bool DeleteAppointment(int appointmentID);
     }
 }

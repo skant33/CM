@@ -261,5 +261,10 @@ namespace CM.Context.SQL
             }
         }
 
+        public bool DeleteAppointment(int appointmentID)
+        {
+            //max ga je gang neef, return true als het gelukt is false als het niet gelukt is
+        }
+
     }
 }

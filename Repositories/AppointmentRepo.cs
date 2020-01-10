@@ -44,5 +44,9 @@ namespace CM.Repositories
             return context.MakeAppointment(appointment);
         }
 
+        public bool DeleteAppointment(int appointmentID)
+        {
+            return context.DeleteAppointment(appoinmentID);
+        }
     }
 }

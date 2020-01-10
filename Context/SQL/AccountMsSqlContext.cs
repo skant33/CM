@@ -115,7 +115,6 @@ namespace CM.Context.SQL
                             accountid = Convert.ToInt32(reader["AccountID"]);
                         }
                     }
-
                     SqlCommand comman2 = new SqlCommand("insert into Notification(TypeID, TimeTillSend, AccountID) values(@TypeID, @TimeTillSend, @AccountID)", connection);
                     comman2.Parameters.AddWithValue("TypeId", account.MeldingID);
                     comman2.Parameters.AddWithValue("TimeTillSend", 5);
