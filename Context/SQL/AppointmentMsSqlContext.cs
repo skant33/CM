@@ -267,10 +267,13 @@ namespace CM.Context.SQL
 
             SqlCommand command = new SqlCommand("DELETE FROM Appointment WHERE AppointmentID = @AppointmentID", conn);
             command.Parameters.AddWithValue("AppointmentID", appointmentID);
-
-            if (command.ExecuteNonQuery() > 0)
+            conn.Open();
+            using (conn)
             {
-                return true;
+                if (command.ExecuteNonQuery() > 0)
+                {
+                    return true;
+                }
             }
             return false;
         }

@@ -1,5 +1,6 @@
 ﻿@model CM.ViewModels.AppointmentViewModel
 @using CM.Models
+@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -30,54 +31,54 @@ else
             <div class="datatable-header-item col-4">
                 <span>Description</span>
             </div>
-            @if (ViewBag.DoctorOrAdmin = true)
+            @if (Context.Session.GetInt32("Doctor") == 1 || Context.Session.GetInt32("Admin") == 1)
             {
-                <div class="datatable-header-item col-2">
-                    <span>Delete appointment</span>
-                </div>
+            <div class="datatable-header-item col-2">
+                <span>Delete appointment</span>
+            </div>
             }
         </div>
 
         <!-- Row -->
         @foreach (Appointment appointment in Model.appointments)
         {
-        <div class="datatable-row">
-            <!-- Row item 1 -->
-            <div class="datatable-row-item col-2">
-                <span>@appointment.DateTime</span>
-            </div>
-            <!-- Row item 2 -->
-            <div class="datatable-row-item col-2">
-                <span>@appointment.Duration minuten</span>
-            </div>
-            <!-- Row item 3 -->
-            <div class="datatable-row-item col-4">
-                <span>@appointment.Description</span>
-            </div>
-            @if (ViewBag.DoctorOrAdmin = true)
-            {
+            <div class="datatable-row">
+                <!-- Row item 1 -->
                 <div class="datatable-row-item col-2">
-                    <a asp-area="" asp-controller="Appointment" asp-action="DeleteAppointment" asp-route-AppointmentID="@appointment.AppointmentID">Delete</a>
+                    <span>@appointment.DateTime</span>
                 </div>
-            }
-        </div>
+                <!-- Row item 2 -->
+                <div class="datatable-row-item col-2">
+                    <span>@appointment.Duration minuten</span>
+                </div>
+                <!-- Row item 3 -->
+                <div class="datatable-row-item col-4">
+                    <span>@appointment.Description</span>
+                </div>
+                @if (Context.Session.GetInt32("Doctor") == 1 || Context.Session.GetInt32("Admin") == 1)
+                {
+                    <div class="datatable-row-item col-2">
+                        <a asp-area="" asp-controller="Appointment" asp-action="DeleteAppointment" asp-route-AppointmentID="@appointment.AppointmentID">Delete</a>
+                    </div>
+                }
+            </div>
         }
 
-       <br/>
+        <br />
     </div>
 }
 
 
 <h4 style="color:rgb(22, 87, 234);">Your doctors</h4>
 
-    @if (ViewBag.LinkedDoctors != null)
+@if (ViewBag.LinkedDoctors != null)
+{
+    @foreach (Account account in ViewBag.LinkedDoctors)
     {
-        @foreach (Account account in ViewBag.LinkedDoctors)
-        {
-            <div>Name: @account.Name</div>
-        }
+        <div>Name: @account.Name</div>
     }
-    else
-    {
-        <label> Not linked to any doctors</label>
-    }
+}
+else
+{
+    <label> Not linked to any doctors</label>
+}
