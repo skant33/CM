@@ -47,12 +47,15 @@ namespace CM.Controllers
         {
             if (accVeri.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == false)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("LogOut", "Account");
             }
 
             appointmentViewModel.appointments = new List<Appointment>();
+
             Account opgehaald = new Account();
+
             opgehaald.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
+
             if((HttpContext.Session.GetInt32("Doctor") != 1 && HttpContext.Session.GetInt32("Admin") != 1))
             {
                 List<Account> doctors = accountrepo.GetDoctorsFromPatient(opgehaald.AccountID);
@@ -62,11 +65,12 @@ namespace CM.Controllers
             {
                 ViewBag.DoctorOrAdmin = true;
             }
+
             foreach (Appointment appointment in appointmentrepo.AppointmentsCurrentWeek(opgehaald.AccountID))
             {
                 appointmentViewModel.appointments.Add(appointment);
             }
-            return View("~/Views/Home/Index.cshtml", appointmentViewModel);
+            return RedirectToAction("Index", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
