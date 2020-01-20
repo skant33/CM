@@ -55,13 +55,13 @@ namespace CM.Controllers
             opgehaald.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
             if((HttpContext.Session.GetInt32("Doctor") != 1 && HttpContext.Session.GetInt32("Admin") != 1))
             {
-                List<Account> doctors = accountrepo.GetDoctorsFromPatient(opgehaald.AccountID);
-                ViewBag.LinkedDoctors = doctors;
+                //patient
+                ViewBag.LinkedDoctors = accountrepo.GetDoctorsFromPatient(opgehaald.AccountID);
             }
             else
             {
-                //if patient 
-                ViewBag.DoctorOrAdmin = false;
+                //doctor or admin
+                ViewBag.LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(opgehaald.AccountID);
             }
             foreach (Appointment appointment in appointmentrepo.AppointmentsCurrentWeek(opgehaald.AccountID))
             {

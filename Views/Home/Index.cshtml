@@ -33,9 +33,9 @@ else
             </div>
             @if (Context.Session.GetInt32("Doctor") == 1 || Context.Session.GetInt32("Admin") == 1)
             {
-            <div class="datatable-header-item col-2">
-                <span>Delete appointment</span>
-            </div>
+                <div class="datatable-header-item col-2">
+                    <span>Delete appointment</span>
+                </div>
             }
         </div>
 
@@ -78,7 +78,14 @@ else
         <div>Name: @account.Name</div>
     }
 }
-else
+@if (ViewBag.LinkedPatients != null)
 {
-    <label> Not linked to any doctors</label>
+    @foreach (Account account in ViewBag.LinkedDoctors)
+    {
+        <div>Name: @account.Name</div>
+    }
+}
+@if (ViewBag.LinkedDoctors == null && ViewBag.LinkedPatients == null)
+{
+    <div>No one linked to you</div>
 }
