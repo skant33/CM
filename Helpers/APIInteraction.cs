@@ -15,29 +15,33 @@ namespace CM.Models
     public class APIInteraction
     {
         private IConfiguration config;
+
         private BackgroundJobServer backgroundJobServer;
-        IAppointmentContext iappointmentcontext;
-        AppointmentRepo appointmentrepo;
+        readonly IAppointmentContext iappointmentcontext;
+        readonly AppointmentRepo appointmentrepo;
 
-        INotificationContext inotificationcontext;
-        NotificationRepo notificationrepo;
-        NotificationController notificationController;
+        readonly INotificationContext inotificationcontext;
+        readonly NotificationRepo notificationrepo;
 
-        IAccountContext iaccountcontext;
-        AccountRepo accountrepo;
+        readonly IAccountContext iaccountcontext;
+        readonly AccountRepo accountrepo;
+
+        readonly NotificationController notificationController;
 
         public APIInteraction(IConfiguration iconfiguration)
         {
-            string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
+            config = iconfiguration;
+            string con = config.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iappointmentcontext = new AppointmentMsSqlContext(con);
             appointmentrepo = new AppointmentRepo(iappointmentcontext);
-            this.config = iconfiguration;
 
             inotificationcontext = new NotificationMsSqlContext(con);
             notificationrepo = new NotificationRepo(inotificationcontext);
 
             iaccountcontext = new AccountMsSqlContext(con);
             accountrepo = new AccountRepo(iaccountcontext);
+
+            notificationController = new NotificationController(config);
         }
 
         public async Task StartHangfire()
@@ -53,7 +57,7 @@ namespace CM.Models
 
         public async Task CheckForNotification()
         {
-            NotificationController notificationController = new NotificationController(config);
+            
             foreach (Appointment appointment in AllSendableAppointments())
             {
                 if (notificationrepo.GetNotificationTypeByAppointmentID(appointment) == "SMS")
@@ -85,9 +89,11 @@ namespace CM.Models
                 {
                     appointment.doctor = accountrepo.GetAccountByID(appointment.doctor.AccountID);
                     appointment.patient = accountrepo.GetAccountByID(appointment.patient.AccountID);
+
                     appointments.Add(appointment);
                 }
             }
+
             return appointments;
         }
     }

@@ -28,10 +28,5 @@ namespace CM.Models
             () => Console.WriteLine("Recurring!"),
             Cron.Daily);
         }
-
-        //public void Continuations(int jobID)
-        //{
-        //    BackgroundJob.ContinueWith(jobID, () => Console.WriteLine("Continuation!"));
-        //}
     }
 }

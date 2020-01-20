@@ -13,17 +13,9 @@ namespace CM.Helpers
 {
     public class AccountVerification
     {
-        Account account = new Account();
-        IAccountContext iaccountcontext;
-        AccountRepo accountrepo;
-
-        private string con;
-
-        public AccountVerification(string con)
+        public AccountVerification()
         {
-            this.con = con;
-            iaccountcontext = new AccountMsSqlContext(con);
-            accountrepo = new AccountRepo(iaccountcontext);
+
         }
 
         public bool CheckIfLoggedIn(int? accountid)
