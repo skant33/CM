@@ -9,5 +9,10 @@ namespace CM.ViewModels
     public class AccountViewModel
     {
         public List<AccountDetailViewModel> accounts = new List<AccountDetailViewModel>();
+
+        public AccountViewModel()
+        {
+
+        }
     }
 }

@@ -8,5 +8,10 @@ namespace CM.ViewModels
     public class NotificationViewModel
     {
         public List<NotificationDetailViewModel> link = new List<NotificationDetailViewModel>();
+
+        public NotificationViewModel()
+        {
+
+        }
     }
 }

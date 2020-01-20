@@ -8,7 +8,11 @@ namespace CM.ViewModels
 {
     public class AppointmentViewModel
     {
-        public List<Appointment> appointments;
-        public List<AppointmentDetailViewModel> appointment = new List<AppointmentDetailViewModel>();
+        public List<AppointmentDetailViewModel> appointments { get; set; } = new List<AppointmentDetailViewModel>();
+
+        public AppointmentViewModel()
+        {
+
+        }
     }
 }

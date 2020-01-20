@@ -13,15 +13,13 @@ namespace CM.ViewModels
         public DateTime DateTime { get; set; }
         public int Coords { get; set; }
         public string Description { get; set; }
-        public Account Doctor { get; set; }
-        public Account Patient { get; set; }
+        public AccountDetailViewModel Doctor { get; set; } = new AccountDetailViewModel();
+        public AccountDetailViewModel Patient { get; set; } = new AccountDetailViewModel();
         public DateTime SendTime { get; set; }
 
         public AppointmentDetailViewModel()
         {
-            Doctor = new Account();
 
-            Patient = new Account();
         }
     }
 }

@@ -18,5 +18,10 @@ namespace CM.ViewModels
         public string Email { get; set; }
         [Phone]
         public string PhoneNumber { get; set; }
+
+        public AccountDetailViewModel()
+        {
+
+        }
     }
 }

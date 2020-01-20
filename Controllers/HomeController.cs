@@ -19,6 +19,7 @@ namespace CM.Controllers
     public class HomeController : Controller
     {
         //appointment
+        readonly AppointmentConverter appointmentConverter = new AppointmentConverter();
         readonly AppointmentViewModel appointmentViewModel = new AppointmentViewModel();
         readonly AppointmentRepo appointmentrepo;
         readonly IAppointmentContext iappointmentContext;
@@ -28,6 +29,7 @@ namespace CM.Controllers
         readonly IAccountContext iaccountcontext;
         readonly AccountRepo accountrepo;
 
+        
         //helpers
         private AccountVerification accVeri;
 
@@ -52,7 +54,7 @@ namespace CM.Controllers
                 return RedirectToAction("LogOut", "Account");
             }
 
-            appointmentViewModel.appointments = new List<Appointment>();
+            appointmentViewModel.appointments = new List<AppointmentDetailViewModel>();
 
             Account opgehaald = new Account();
             opgehaald.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
@@ -70,7 +72,7 @@ namespace CM.Controllers
 
             foreach (Appointment appointment in appointmentrepo.AppointmentsCurrentWeek(opgehaald.AccountID))
             {
-                appointmentViewModel.appointments.Add(appointment);
+                appointmentViewModel.appointments.Add(appointmentConverter.ViewModelFromAppointment(appointment));
             }
 
             return View(appointmentViewModel);

@@ -11,6 +11,8 @@ namespace CM.Converters
 {
     public class AppointmentConverter
     {
+        readonly AccountConverter accountConverter = new AccountConverter();
+
         public Appointment ViewModelToAppointment(AppointmentDetailViewModel ADVM)
         {
             Appointment appointment = new Appointment()
@@ -19,8 +21,8 @@ namespace CM.Converters
                 DateTime = ADVM.DateTime,
                 Duration = ADVM.Duration,
                 Description = ADVM.Description,
-                patient = ADVM.Patient,
-                doctor = ADVM.Doctor
+                patient = accountConverter.ViewModelToAccount(ADVM.Patient),
+                doctor = accountConverter.ViewModelToAccount(ADVM.Doctor)
             };
 
             return appointment;
@@ -34,8 +36,8 @@ namespace CM.Converters
                 DateTime = appointment.DateTime,
                 Duration = appointment.Duration,
                 Description = appointment.Description,
-                Patient = appointment.patient,
-                Doctor = appointment.doctor
+                Patient = accountConverter.ViewModelFromAccount(appointment.patient),
+                Doctor = accountConverter.ViewModelFromAccount(appointment.doctor)
             };
 
             return ADVM;
