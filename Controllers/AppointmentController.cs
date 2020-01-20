@@ -69,13 +69,12 @@ namespace CM.Controllers
                 ViewBag.LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(id);
                 return View("~/Views/Appointment/Index.cshtml");
             }
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("LogOut", "Account");
         }
 
 
         public IActionResult MakeAppointment(AppointmentDetailViewModel viewmodel)
         {
-
             Appointment inkomend = appointmentconverter.ViewModelToAppointment(viewmodel);
             inkomend.doctor.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
 

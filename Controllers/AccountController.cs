@@ -48,16 +48,18 @@ namespace CM.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("AccountID") == null)
+            if (accVeri.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == false)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("LogOut", "Account");
             }
             else
             {
                 Account account = new Account();
                 AccountDetailViewModel accountDetailViewModel = new AccountDetailViewModel();
+
                 account = accountrepo.GetAccountByID((int)HttpContext.Session.GetInt32("AccountID"));
                 accountDetailViewModel = accountViewModelConverter.ViewModelFromAccount(account);
+
                 return View(accountDetailViewModel);
             }
         }
@@ -74,9 +76,9 @@ namespace CM.Controllers
         [HttpGet]
         public IActionResult Beheerder()
         {
-            if (accVeri.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == false)
+            if (HttpContext.Session.GetInt32("Admin") != 1)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Account");
             }
 
             List<Account> doctorlist = accountrepo.GetAllDoctors();
@@ -95,11 +97,13 @@ namespace CM.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(AccountDetailViewModel viewmodel, string returnUrl = null)
+        public IActionResult Login(AccountDetailViewModel viewmodel, string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;            
+            ViewData["ReturnUrl"] = returnUrl;           
+            
             Account inkomend = accountViewModelConverter.ViewModelToAccount(viewmodel);
             Account opgehaald = accountrepo.Login(inkomend);
+
             if (opgehaald.Email == inkomend.Email)
             {
                 HttpContext.Session.SetInt32("AccountID", opgehaald.AccountID);
@@ -123,10 +127,12 @@ namespace CM.Controllers
         public IActionResult Register(AccountDetailViewModel viewmodel, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
             Account inkomend = accountViewModelConverter.ViewModelToAccount(viewmodel);
-            if(accountrepo.CheckAccountExist(inkomend))
+
+            if(!accountrepo.CheckAccountExist(inkomend))
             {
-                if (accountrepo.Register(inkomend) == true)
+                if (accountrepo.Register(inkomend))
                 {
                     //geregistreerd
                     return RedirectToAction("Login", "Account");
@@ -146,10 +152,11 @@ namespace CM.Controllers
         }
 
         [HttpGet]
-        public IActionResult LogOut(AccountDetailViewModel viewmodel)
+        public IActionResult LogOut()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Index","Account");
+
+            return RedirectToAction("Login","Account");
         }
 
         [HttpPost]
@@ -157,7 +164,9 @@ namespace CM.Controllers
         {
             int patientId = Advm.Patient.AccountID;
             int doctorId = Advm.Doctor.AccountID;
+
             accountrepo.LinkAccounts(patientId, doctorId);
+
             return RedirectToAction("Beheerder", "Account");
         }
 
@@ -166,20 +175,21 @@ namespace CM.Controllers
         {
             if (accVeri.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == false)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("LogOut", "Account");
             }
-            int accountid = (int)HttpContext.Session.GetInt32("AccountID");
-            Notification notification = notificationrepo.GetNotificationForUser(accountid);
+
+            Notification notification = notificationrepo.GetNotificationForUser((int)HttpContext.Session.GetInt32("AccountID"));
             NotificationDetailViewModel notificationDetailViewModel = new NotificationDetailViewModel();
+
             notificationDetailViewModel = notificationViewModelConverter.ViewModelFromNotification(notification);
+
             return View(notificationDetailViewModel);
         }
 
         [HttpPost]
         public IActionResult EditNotification(int typeid, int timetillsend)
         {
-            int accountid = (int)HttpContext.Session.GetInt32("AccountID");
-            if(notificationrepo.UpdateNotificationForUser(accountid, typeid, timetillsend) == false)
+            if(notificationrepo.UpdateNotificationForUser((int)HttpContext.Session.GetInt32("AccountID"), typeid, timetillsend) == false)
             {
                 return RedirectToAction("Index", "Account");
             }

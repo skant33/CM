@@ -73,16 +73,16 @@ namespace CM.Context.SQL
                     adapter.Fill(dt);
                     if (dt.Rows.Count == 1)
                     {
-                        return false;
+                        return true;
                     }
                 }
                 connection.Close();
-                return true;
+                return false;
             }
             catch
             {
 
-                return false;
+                return true;
             }
 
         }
