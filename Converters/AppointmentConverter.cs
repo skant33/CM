@@ -11,9 +11,6 @@ namespace CM.Converters
 {
     public class AppointmentConverter
     {
-        AppointmentRepo AppointmentRepo = new AppointmentRepo(new AppointmentMsSqlContext());
-        AccountRepo AccountRepo = new AccountRepo(new AccountMsSqlContext());
-
         public Appointment ViewModelToAppointment(AppointmentDetailViewModel ADVM)
         {
             Appointment appointment = new Appointment()
@@ -25,6 +22,7 @@ namespace CM.Converters
                 patient = ADVM.Patient,
                 doctor = ADVM.Doctor
             };
+
             return appointment;
         }
 
@@ -39,6 +37,7 @@ namespace CM.Converters
                 Patient = appointment.patient,
                 Doctor = appointment.doctor
             };
+
             return ADVM;
         }
     }

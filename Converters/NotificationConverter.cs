@@ -17,6 +17,7 @@ namespace CM.Converters
                 TypeID = NDVM.TypeID,
                 TimeTillSend = NDVM.TimeTillSend
             };
+
             return notification;
         }
 
@@ -28,6 +29,7 @@ namespace CM.Converters
                 TypeID = notification.TypeID,
                 TimeTillSend = notification.TimeTillSend
             };
+
             return NDVM;
         }
     }
