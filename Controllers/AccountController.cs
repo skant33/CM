@@ -20,33 +20,33 @@ namespace CM.Controllers
     public class AccountController : Controller
     {
         //account
-        AccountConverter accountViewModelConverter = new AccountConverter(); 
-        IAccountContext iaccountcontext;
-        AccountRepo accountrepo;
+        readonly AccountConverter accountViewModelConverter = new AccountConverter();
+        readonly IAccountContext iaccountcontext;
+        readonly AccountRepo accountrepo;
 
         //notification
-        NotificationConverter notificationViewModelConverter = new NotificationConverter();
-        INotificationContext inotificationcontext;
-        NotificationRepo notificationrepo;
+        readonly NotificationConverter notificationViewModelConverter = new NotificationConverter();
+        readonly INotificationContext inotificationcontext;
+        readonly NotificationRepo notificationrepo;
 
-        public NotificationController noti;
-        private IConfiguration config;
         private AccountVerification accVeri;
 
         public AccountController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
+
             iaccountcontext = new AccountMsSqlContext(con);
             accountrepo = new AccountRepo(iaccountcontext);
+
             inotificationcontext = new NotificationMsSqlContext(con);
             notificationrepo = new NotificationRepo(inotificationcontext);
-            noti = new NotificationController(iconfiguration);
-            accVeri = new AccountVerification(con);
-            this.config = iconfiguration;
+
+            accVeri = new AccountVerification();
         }
 
+
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index()  //MyAccount
         {
             if (accVeri.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == false)
             {
@@ -66,14 +66,6 @@ namespace CM.Controllers
 
 
         [HttpGet]
-        public IActionResult Register()
-        {
-            ViewData["Message"] = "Your agenda";
-
-            return View();
-        }
-
-        [HttpGet]
         public IActionResult Beheerder()
         {
             if (HttpContext.Session.GetInt32("Admin") != 1)
@@ -90,11 +82,13 @@ namespace CM.Controllers
             return View();
         }
 
+
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
 
         [HttpPost]
         public IActionResult Login(AccountDetailViewModel viewmodel, string returnUrl = null)
@@ -107,14 +101,16 @@ namespace CM.Controllers
             if (opgehaald.Email == inkomend.Email)
             {
                 HttpContext.Session.SetInt32("AccountID", opgehaald.AccountID);
-                if (accountrepo.CheckRoleID(HttpContext.Session.GetInt32("AccountID")) == 3)
-                {
-                    HttpContext.Session.SetInt32("Admin", 1);
-                }
-                else if (accountrepo.CheckRoleID(HttpContext.Session.GetInt32("AccountID")) == 2)
+
+                if (accountrepo.CheckRoleID(HttpContext.Session.GetInt32("AccountID")) == 2)
                 {
                     HttpContext.Session.SetInt32("Doctor", 1);
                 }
+                else if (accountrepo.CheckRoleID(HttpContext.Session.GetInt32("AccountID")) == 3)
+                {
+                    HttpContext.Session.SetInt32("Admin", 1);
+                }
+
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -122,6 +118,14 @@ namespace CM.Controllers
                 return View();
             }
         }
+
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
 
         [HttpPost]
         public IActionResult Register(AccountDetailViewModel viewmodel, string returnUrl = null)
@@ -151,6 +155,7 @@ namespace CM.Controllers
             
         }
 
+
         [HttpGet]
         public IActionResult LogOut()
         {
@@ -158,6 +163,7 @@ namespace CM.Controllers
 
             return RedirectToAction("Login","Account");
         }
+
 
         [HttpPost]
         public IActionResult LinkAccounts(AppointmentDetailViewModel Advm)
@@ -169,6 +175,7 @@ namespace CM.Controllers
 
             return RedirectToAction("Beheerder", "Account");
         }
+
 
         [HttpGet]
         public IActionResult EditNotification()
@@ -185,6 +192,7 @@ namespace CM.Controllers
 
             return View(notificationDetailViewModel);
         }
+
 
         [HttpPost]
         public IActionResult EditNotification(int typeid, int timetillsend)

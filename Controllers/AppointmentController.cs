@@ -18,20 +18,20 @@ namespace CM.Controllers
 {
     public class AppointmentController : Controller
     {
-        AppointmentConverter appointmentconverter = new AppointmentConverter();
-        AppointmentViewModel appointmentViewModel = new AppointmentViewModel();
-        IAppointmentContext iappointmentcontext;
-        AppointmentRepo appointmentrepo;
+        readonly AppointmentConverter appointmentconverter = new AppointmentConverter();
+        readonly AppointmentViewModel appointmentViewModel = new AppointmentViewModel();
+        readonly IAppointmentContext iappointmentcontext;
+        readonly AppointmentRepo appointmentrepo;
 
-        IAccountContext iaccountcontext;
-        AccountRepo accountrepo;
+        readonly IAccountContext iaccountcontext;
+        readonly AccountRepo accountrepo;
 
         //helpers
-        AccountVerification accVeri;
+        private AccountVerification accVeri;
 
-        public AppointmentController(IConfiguration config)
+        public AppointmentController(IConfiguration iconfiguration)
         {
-            string con = config.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
+            string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
             iappointmentcontext = new AppointmentMsSqlContext(con);
             appointmentrepo = new AppointmentRepo(iappointmentcontext);
 
@@ -39,8 +39,9 @@ namespace CM.Controllers
             accountrepo = new AccountRepo(iaccountcontext);
 
             //helpers
-            accVeri = new AccountVerification(con);
+            accVeri = new AccountVerification();
         }
+
 
         public IActionResult Agenda()
         {
@@ -50,25 +51,33 @@ namespace CM.Controllers
             }
 
             AppointmentViewModel viewmodel = new AppointmentViewModel();
+
             Account account = new Account();
             account.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
+
             foreach (Appointment appointment in appointmentrepo.AppointmentsCurrentWeek(account.AccountID))
             {
                 viewmodel.appointment.Add(appointmentconverter.ViewModelFromAppointment(appointment));
             }
-            return View("~/Views/Appointment/Agenda.cshtml", viewmodel);
+
+            return View(viewmodel);
         }
 
-        public IActionResult Index()
+
+        public IActionResult Index() //Create Appointment
         {
             if (HttpContext.Session.GetInt32("Doctor") == 1 || HttpContext.Session.GetInt32("Admin") == 1)
             {
                 List<Account> LinkedPatients = new List<Account>();
                 List<Appointment> appointments = new List<Appointment>();
+
                 int id = (int)HttpContext.Session.GetInt32("AccountID");
+
                 ViewBag.LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(id);
-                return View("~/Views/Appointment/Index.cshtml");
+
+                return View();
             }
+
             return RedirectToAction("LogOut", "Account");
         }
 
@@ -89,6 +98,7 @@ namespace CM.Controllers
                 return RedirectToAction("Index", "Appointment");
             }
         }
+
 
         public IActionResult DeleteAppointment(int appointmentID)
         {

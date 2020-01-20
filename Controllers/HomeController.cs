@@ -19,31 +19,33 @@ namespace CM.Controllers
     public class HomeController : Controller
     {
         //appointment
-        AppointmentViewModel appointmentViewModel = new AppointmentViewModel();
-        AppointmentRepo appointmentrepo;
-        IAppointmentContext iappointmentContext;
+        readonly AppointmentViewModel appointmentViewModel = new AppointmentViewModel();
+        readonly AppointmentRepo appointmentrepo;
+        readonly IAppointmentContext iappointmentContext;
 
         //account
-        AccountConverter accountViewModelConverter = new AccountConverter();
-        IAccountContext iaccountcontext;
-        AccountRepo accountrepo;
+        readonly AccountConverter accountViewModelConverter = new AccountConverter();
+        readonly IAccountContext iaccountcontext;
+        readonly AccountRepo accountrepo;
 
         //helpers
-        AccountVerification accVeri;
+        private AccountVerification accVeri;
 
         public HomeController(IConfiguration iconfiguration)
         {
             string con = iconfiguration.GetSection("ConnectionStrings").GetSection("connectionstring").Value;
+
             iappointmentContext = new AppointmentMsSqlContext(con);
             appointmentrepo = new AppointmentRepo(iappointmentContext);
 
             iaccountcontext = new AccountMsSqlContext(con);
             accountrepo = new AccountRepo(iaccountcontext);
 
-            accVeri = new AccountVerification(con);
+            accVeri = new AccountVerification();
         }
 
-        public IActionResult Index()
+
+        public IActionResult Index() //Dashboard
         {
             if (accVeri.CheckIfLoggedIn(HttpContext.Session.GetInt32("AccountID")) == false)
             {
@@ -53,17 +55,16 @@ namespace CM.Controllers
             appointmentViewModel.appointments = new List<Appointment>();
 
             Account opgehaald = new Account();
-
             opgehaald.AccountID = (int)HttpContext.Session.GetInt32("AccountID");
 
             if((HttpContext.Session.GetInt32("Doctor") != 1 && HttpContext.Session.GetInt32("Admin") != 1))
             {
-                //patient
+                //Patient
                 ViewBag.LinkedDoctors = accountrepo.GetDoctorsFromPatient(opgehaald.AccountID);
             }
             else
             {
-                //doctor or admin
+                //Doctor or Admin
                 ViewBag.LinkedPatients = accountrepo.GetLinkedPatientsByDoctorID(opgehaald.AccountID);
             }
 
@@ -71,8 +72,10 @@ namespace CM.Controllers
             {
                 appointmentViewModel.appointments.Add(appointment);
             }
+
             return View(appointmentViewModel);
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

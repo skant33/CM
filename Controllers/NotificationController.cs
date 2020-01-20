@@ -21,15 +21,17 @@ namespace CM.Controllers
     {
         private IConfiguration config;
 
-        public NotificationController(IConfiguration config)
+        public NotificationController(IConfiguration iconfiguration)
         {
-            this.config = config;
+            config = iconfiguration;
         }
+
 
         public IActionResult Index()
         {
             return View();
         }
+
 
         public async Task<IActionResult> StartHangfire()
         {
@@ -49,6 +51,7 @@ namespace CM.Controllers
             return RedirectToAction("Beheerder", "Account");
         }
 
+
         public async Task SendSMS(Appointment appointment)
         {
             List<string> receivers = new List<string>();
@@ -57,8 +60,9 @@ namespace CM.Controllers
 
             var client = new TextClient(new Guid(config.GetSection("ApiKey").Value));
 
-            var result = await client.SendMessageAsync(String.Format("You have an appointment at {0} with doctor {1}. Description: {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description), "CMProftaak", receivers, null).ConfigureAwait(false);
+            var result = await client.SendMessageAsync(string.Format("You have an appointment at {0} with doctor {1}. Description: {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description), "CMProftaak", receivers, null).ConfigureAwait(false);
         }
+
 
         public async Task SendPhoneConversation(Appointment appointment)
         {
@@ -93,8 +97,8 @@ namespace CM.Controllers
             {
                 FromAddressID = new Guid("c10d75e0-bb6b-4bad-8050-a1d0f794acda"),
                 ToAddress = appointment.patient.Email,
-                TextBody = String.Format("You have an appointment at {0} with doctor {1}. Description: {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description),
-                Subject = String.Format("Appointment at {0}", appointment.DateTime)
+                TextBody = string.Format("You have an appointment at {0} with doctor {1}. Description: {2}", appointment.DateTime, appointment.doctor.Name, appointment.Description),
+                Subject = string.Format("Appointment at {0}", appointment.DateTime)
             };
 
             StringContent content = new StringContent(JsonConvert.SerializeObject(mail), Encoding.UTF8, "application/json");
