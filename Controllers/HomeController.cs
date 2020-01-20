@@ -71,7 +71,7 @@ namespace CM.Controllers
             {
                 appointmentViewModel.appointments.Add(appointment);
             }
-            return RedirectToAction("Index", "Home");
+            return View(appointmentViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

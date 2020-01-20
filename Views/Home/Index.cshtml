@@ -69,10 +69,10 @@ else
 }
 
 
-<h4 style="color:rgb(22, 87, 234);">Your doctors</h4>
 
 @if (ViewBag.LinkedDoctors != null)
 {
+<h4 style="color:rgb(22, 87, 234);">Your doctors</h4>
     @foreach (Account account in ViewBag.LinkedDoctors)
     {
         <div>Name: @account.Name</div>
@@ -80,7 +80,8 @@ else
 }
 @if (ViewBag.LinkedPatients != null)
 {
-    @foreach (Account account in ViewBag.LinkedDoctors)
+<h4 style="color:rgb(22, 87, 234);">Your patients</h4>
+    @foreach (Account account in ViewBag.LinkedPatients)
     {
         <div>Name: @account.Name</div>
     }
