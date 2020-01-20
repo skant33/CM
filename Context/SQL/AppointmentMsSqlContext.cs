@@ -17,19 +17,13 @@ namespace CM.Context.SQL
             this.con = con;
         }
 
-        public AppointmentMsSqlContext()
-        {
-
-        }
-
         public List<Appointment> GetAllAppointments()
         {
             List<Appointment> appointments = new List<Appointment>();
 
             SqlConnection connection = new SqlConnection(con);
 
-            SqlCommand sqlCommand = new SqlCommand(@"SELECT * 
-                                                    FROM Appointment", connection);
+            SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Appointment", connection);
 
             connection.Open();
 
@@ -44,10 +38,12 @@ namespace CM.Context.SQL
                     appointment.Duration = Convert.ToInt32(reader["Duration"]);
                     appointment.DateTime = Convert.ToDateTime(reader["DateTime"]);
                     appointment.Description = Convert.ToString(reader["Description"]);
+
                     appointments.Add(appointment);
                 }
             }
             connection.Close();
+
             return appointments;
         }
 
@@ -59,11 +55,7 @@ namespace CM.Context.SQL
 
             using (connection)
             {
-                SqlCommand command = new SqlCommand(@"SELECT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID
-                                                    FROM Appointment 
-                                                    INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID 
-                                                    INNER JOIN Account ON AccountLink.PatientID = Account.AccountID OR AccountLink.DoctorID = Account.AccountID
-                                                    WHERE Account.AccountID = @PatientID", connection);
+                SqlCommand command = new SqlCommand("SELECT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID FROM Appointment INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID INNER JOIN Account ON AccountLink.PatientID = Account.AccountID OR AccountLink.DoctorID = Account.AccountID WHERE Account.AccountID = @PatientID", connection);
                 command.Parameters.AddWithValue("@PatientID", account.AccountID);
 
                 connection.Open();
@@ -81,6 +73,7 @@ namespace CM.Context.SQL
                             appointment.Duration = Convert.ToInt32(reader["Duration"]);
                             appointment.DateTime = Convert.ToDateTime(reader["DateTime"]);
                             appointment.Description = Convert.ToString(reader["Description"]);
+
                             appointments.Add(appointment);
                         }
                     }
@@ -91,6 +84,7 @@ namespace CM.Context.SQL
                 }
             }
             connection.Close();
+
             return appointments;
         }
 
@@ -102,9 +96,7 @@ namespace CM.Context.SQL
 
             using (connection)
             {
-                SqlCommand command = new SqlCommand(@"SELECT * 
-                                                    FROM Appointment 
-                                                    WHERE AppointmentID = @AppointmentID", connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM Appointment WHERE AppointmentID = @AppointmentID", connection);
                 command.Parameters.AddWithValue("@AppointmentID", id);
 
                 connection.Open();
@@ -123,14 +115,14 @@ namespace CM.Context.SQL
                             appointment.Description = Convert.ToString(reader["Description"]);
                         }
                     }
-                    catch (Exception x)
+                    catch
                     {
-                        Console.WriteLine(x.Message);
-                        throw;
+                        Console.WriteLine("No rows found");
                     }
                 }
             }
             connection.Close();
+
             return appointment;
         }
 
@@ -140,17 +132,11 @@ namespace CM.Context.SQL
 
             SqlConnection connection = new SqlConnection(con);
 
-            SqlCommand command = new SqlCommand(@"Select Appointment.*, AccountLink.*
-                                                  from Appointment
-                                                  INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
-                                                  INNER JOIN Account ON AccountLink.PatientID = Account.AccountID OR AccountLink.DoctorID = Account.AccountID
-                                                  WHERE [DateTime] BETWEEN CURRENT_TIMESTAMP
-                                                  AND DATEADD(DAY, 7, CURRENT_TIMESTAMP)
-                                                  AND AccountID = @AccountID
-                                                  order by [DateTime] asc", connection);
+            SqlCommand command = new SqlCommand("SELECT Appointment.*, AccountLink.* FROM Appointment INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID INNER JOIN Account ON AccountLink.PatientID = Account.AccountID OR AccountLink.DoctorID = Account.AccountID WHERE [DateTime] BETWEEN CURRENT_TIMESTAMP AND DATEADD(DAY, 7, CURRENT_TIMESTAMP) AND AccountID = @AccountID order by [DateTime] asc", connection);
+            command.Parameters.AddWithValue("@AccountID", id);
 
             connection.Open();
-            command.Parameters.AddWithValue("@AccountID", id);
+            
             using (SqlDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
@@ -162,24 +148,25 @@ namespace CM.Context.SQL
                     appointment.Duration = Convert.ToInt32(reader["Duration"]);
                     appointment.DateTime = Convert.ToDateTime(reader["DateTime"]);
                     appointment.Description = Convert.ToString(reader["Description"]);
+
                     appointments.Add(appointment);
                 }
             }
             connection.Close();
+
             return appointments;
         }
 
         public List<Appointment> AllUpcomingAppointments()
         {
             List<Appointment> appointments = new List<Appointment>();
+
             SqlConnection connection = new SqlConnection(con);
-            SqlCommand sqlCommand = new SqlCommand(@"SELECT DISTINCT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID, FORMAT(DATEADD(HOUR, -[Notification].TimeTillSend, Appointment.[DateTime]),'yyyy-MM-dd HH:mm:ss') as 'SendTime'
-                                                    FROM Appointment
-                                                    INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID
-                                                    INNER JOIN Account ON AccountLink.PatientID = Account.AccountID
-                                                    INNER JOIN [Notification] on Account.AccountID = [Notification].AccountID
-                                                    WHERE Appointment.[DateTime] > CURRENT_TIMESTAMP", connection);
+
+            SqlCommand sqlCommand = new SqlCommand("SELECT DISTINCT Appointment.*, AccountLink.DoctorID, AccountLink.PatientID, FORMAT(DATEADD(HOUR, -[Notification].TimeTillSend, Appointment.[DateTime]),'yyyy-MM-dd HH:mm:ss') as 'SendTime' FROM Appointment INNER JOIN AccountLink ON Appointment.LinkID = AccountLink.LinkID INNER JOIN Account ON AccountLink.PatientID = Account.AccountID INNER JOIN [Notification] on Account.AccountID = [Notification].AccountID WHERE Appointment.[DateTime] > CURRENT_TIMESTAMP", connection);
+
             connection.Open();
+
             using (SqlDataReader reader = sqlCommand.ExecuteReader())
             {
                 while (reader.Read())
@@ -192,25 +179,31 @@ namespace CM.Context.SQL
                     appointment.DateTime = Convert.ToDateTime(reader["DateTime"]);
                     appointment.Description = Convert.ToString(reader["Description"]);
                     appointment.SendTime = Convert.ToDateTime(reader["SendTime"]);
+
                     appointments.Add(appointment);
                 }
             }
             connection.Close();
+
             return appointments;
         }
         public bool MakeAppointment(Appointment appointment)
         {
             bool canAdd = true;
+
             int linkid = 0;
+
             try
             {
                 //lees linkid
                 SqlConnection connection = new SqlConnection(con);
 
-                SqlCommand sqlCommand = new SqlCommand("Select LinkID From AccountLink where DoctorID = @DoctorID and PatientID = @PatientID", connection);
+                SqlCommand sqlCommand = new SqlCommand("SELECT LinkID FROM AccountLink WHERE DoctorID = @DoctorID and PatientID = @PatientID", connection);
                 sqlCommand.Parameters.AddWithValue("@DoctorID", appointment.doctor.AccountID);
                 sqlCommand.Parameters.AddWithValue("@PatientId", appointment.patient.AccountID);
+
                 connection.Open();
+
                 using (SqlDataReader reader = sqlCommand.ExecuteReader())
                 {
                     while (reader.Read())
@@ -229,6 +222,7 @@ namespace CM.Context.SQL
                 {
                     DataTable dt = new DataTable();
                     dt.Load(r);
+
                     if(dt.Rows.Count > 0)
                     {
                         canAdd = false;
@@ -239,13 +233,16 @@ namespace CM.Context.SQL
                 {
                     using (connection)
                     {
-                        SqlCommand command = new SqlCommand("insert into Appointment (LinkID, Duration, DateTime, Description) values (@LinkID,@Duration,@DateTime,@Description)", connection);
+                        SqlCommand command = new SqlCommand("INSERT INTO Appointment (LinkID, Duration, DateTime, Description) values (@LinkID,@Duration,@DateTime,@Description)", connection);
                         command.Parameters.AddWithValue("LinkID", linkid);
                         command.Parameters.AddWithValue("Duration", appointment.Duration);
                         command.Parameters.AddWithValue("DateTime", appointment.DateTime);
                         command.Parameters.AddWithValue("Description", appointment.Description);
+
                         command.ExecuteNonQuery();
+
                         connection.Close();
+
                         return true;
                     }
                 }
@@ -254,9 +251,10 @@ namespace CM.Context.SQL
                     return false;
                 }
             }
-                catch(Exception ex)
+                catch
             {
-                string mesias = ex.Message;
+                Console.WriteLine("No rows found");
+
                 return false;
             }
         }
@@ -267,7 +265,9 @@ namespace CM.Context.SQL
 
             SqlCommand command = new SqlCommand("DELETE FROM Appointment WHERE AppointmentID = @AppointmentID", conn);
             command.Parameters.AddWithValue("AppointmentID", appointmentID);
+
             conn.Open();
+
             using (conn)
             {
                 if (command.ExecuteNonQuery() > 0)

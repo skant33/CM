@@ -17,11 +17,6 @@ namespace CM.Context.SQL
             this.con = con;
         }
 
-        public AccountMsSqlContext()
-        {
-
-        }
-
         public Account Login(Account account)
         {
             Account uitgaand = new Account();
@@ -30,7 +25,7 @@ namespace CM.Context.SQL
 
             using (connection)
             {
-                SqlCommand command = new SqlCommand("select AccountID, Email, Password from Account where Email = @Email and Password = @Password", connection);
+                SqlCommand command = new SqlCommand("SELECT AccountID, Email, Password FROM Account WHERE Email = @Email AND Password = @Password", connection);
                 command.Parameters.AddWithValue("@Email", account.Email);
                 command.Parameters.AddWithValue("@Password", account.Password);
 
@@ -53,6 +48,7 @@ namespace CM.Context.SQL
                 }
             }
             connection.Close();
+
             return uitgaand;
         }
 
@@ -61,6 +57,7 @@ namespace CM.Context.SQL
             try
             {
                 SqlConnection connection = new SqlConnection(con);
+
                 using (connection)
                 {
                     SqlCommand command = new SqlCommand("SELECT * FROM Account WHERE Email = @Email", connection);
@@ -69,34 +66,36 @@ namespace CM.Context.SQL
                     connection.Open();
 
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
+
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
+
                     if (dt.Rows.Count == 1)
                     {
                         return true;
                     }
                 }
                 connection.Close();
+
                 return false;
             }
             catch
             {
-
                 return true;
             }
-
         }
 
         public bool Register(Account account)
         {
             int accountid= 0;
+
             try
             {
                 SqlConnection connection = new SqlConnection(con);
 
                 using (connection)
                 {
-                    SqlCommand command = new SqlCommand("insert into Account (AccountRoleId, Name, BirthDate, Email, TelephoneNumber, Password) values (@AccountRoleId, @Name, @BirthDate, @Email, @TelephoneNumber, @Password)", connection);
+                    SqlCommand command = new SqlCommand("INSERT INTO Account (AccountRoleId, Name, BirthDate, Email, TelephoneNumber, Password) VALUES (@AccountRoleId, @Name, @BirthDate, @Email, @TelephoneNumber, @Password)", connection);
                     command.Parameters.AddWithValue("AccountRoleId", 1);
                     command.Parameters.AddWithValue("Name", account.Name);
                     DateTime dobb = account.DateOfBirth.Date;
@@ -104,11 +103,14 @@ namespace CM.Context.SQL
                     command.Parameters.AddWithValue("Email", account.Email);
                     command.Parameters.AddWithValue("TelephoneNumber", account.PhoneNumber);
                     command.Parameters.AddWithValue("Password", account.Password);
+
                     connection.Open();
+
                     command.ExecuteNonQuery();
 
-                    //accountid dat aangemaakt is lezen
-                    SqlCommand sqlCommand = new SqlCommand("select AccountID from [Account] where AccountID = IDENT_CURRENT('Account')", connection);
+                    //accountId dat aangemaakt is lezen
+                    SqlCommand sqlCommand = new SqlCommand("SELECT AccountID FROM [Account] WHERE AccountID = IDENT_CURRENT('Account')", connection);
+
                     using (SqlDataReader reader = sqlCommand.ExecuteReader())
                     {
                         while (reader.Read())
@@ -137,13 +139,14 @@ namespace CM.Context.SQL
                         account.MeldingID = 4;
                     }
 
-                    SqlCommand comman2 = new SqlCommand("insert into Notification(TypeID, TimeTillSend, AccountID) values(@TypeID, @TimeTillSend, @AccountID)", connection);
+                    SqlCommand comman2 = new SqlCommand("INSERT INTO Notification(TypeID, TimeTillSend, AccountID) VALUES(@TypeID, @TimeTillSend, @AccountID)", connection);
                     comman2.Parameters.AddWithValue("TypeId", account.MeldingID);
                     comman2.Parameters.AddWithValue("TimeTillSend", 5);
                     comman2.Parameters.AddWithValue("AccountID", accountid);
                     comman2.ExecuteNonQuery();
                 }
                 connection.Close();
+
                 return true;
             }
             catch
@@ -160,7 +163,7 @@ namespace CM.Context.SQL
 
             using (connection)
             {
-                SqlCommand command = new SqlCommand("select * from Account where AccountID = @AccountID", connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM Account WHERE AccountID = @AccountID", connection);
                 command.Parameters.AddWithValue("@AccountID", AccountID);
 
                 connection.Open();
@@ -186,13 +189,16 @@ namespace CM.Context.SQL
                 }
             }
             connection.Close();
+
             return uitgaand;
         }
 
         public int CheckRoleID(int? accountid)
         {
             int id = 0;
+
             SqlConnection connection = new SqlConnection(con);
+
             using (connection)
             {
                 SqlCommand command = new SqlCommand("SELECT Account.AccountRoleID FROM Account WHERE AccountID = @AccountID", connection);
@@ -216,6 +222,7 @@ namespace CM.Context.SQL
                 }
             }
             connection.Close();
+
             return id;
         }
 
@@ -227,7 +234,7 @@ namespace CM.Context.SQL
 
             using (connection)
             {
-                SqlCommand command = new SqlCommand("select * from Account where Email = @Email", connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM Account WHERE Email = @Email", connection);
                 command.Parameters.AddWithValue("@Email", Email);
 
                 connection.Open();
@@ -254,16 +261,21 @@ namespace CM.Context.SQL
                 }
             }
             connection.Close();
+
             return uitgaand;
         }
         public List<Account> GetAllDoctors()
         {
             List<Account> doctors = new List<Account>();
+
             SqlConnection connection = new SqlConnection(con);
+
             using (connection)
             {
-                SqlCommand command = new SqlCommand("select * from account where AccountRoleID = 2", connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM account WHERE AccountRoleID = 2", connection);
+
                 connection.Open();
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     try
@@ -278,6 +290,7 @@ namespace CM.Context.SQL
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
                             uitgaand.PhoneNumber = Convert.ToString(reader["TelephoneNumber"]);
+
                             doctors.Add(uitgaand);
                         }
                     }
@@ -288,17 +301,22 @@ namespace CM.Context.SQL
                 }
             }
             connection.Close();
+
             return doctors;
         }
 
         public List<Account> GetAllPatients()
         {
             List<Account> patients = new List<Account>();
+
             SqlConnection connection = new SqlConnection(con);
+
             using (connection)
             {
-                SqlCommand command = new SqlCommand("select * from account where AccountRoleID = 1", connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM Account WHERE AccountRoleID = 1", connection);
+
                 connection.Open();
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     try
@@ -313,6 +331,7 @@ namespace CM.Context.SQL
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
                             uitgaand.PhoneNumber = Convert.ToString(reader["TelephoneNumber"]);
+
                             patients.Add(uitgaand);
                         }
                     }
@@ -323,6 +342,7 @@ namespace CM.Context.SQL
                 }
             }
             connection.Close();
+
             return patients;
         }
 
@@ -331,15 +351,19 @@ namespace CM.Context.SQL
             try
             {
                 SqlConnection connection = new SqlConnection(con);
+
                 using (connection)
                 {
-                    SqlCommand command = new SqlCommand("insert into [AccountLink] (DoctorID, PatientID) values (@DoctorID, @PatientID)", connection);
+                    SqlCommand command = new SqlCommand("INSERT INTO [AccountLink] (DoctorID, PatientID) VALUES (@DoctorID, @PatientID)", connection);
                     command.Parameters.AddWithValue("@DoctorID", doctorid);
                     command.Parameters.AddWithValue("@PatientID", patientid);
+
                     connection.Open();
+
                     command.ExecuteNonQuery();
                 }
                 connection.Close();
+
                 return true;
             }
             catch
@@ -353,6 +377,7 @@ namespace CM.Context.SQL
             try
             {
                 SqlConnection connection = new SqlConnection(con);
+
                 using (connection)
                 {
                     SqlCommand command = new SqlCommand("SELECT LinkId FROM AccountLink WHERE DoctorID = @DoctorID AND PatientID = @PatientID", connection);
@@ -362,14 +387,17 @@ namespace CM.Context.SQL
                     connection.Open();
 
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
+
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
+
                     if (dt.Rows.Count == 1)
                     {
                         return false;
                     }
                 }
                 connection.Close();
+
                 return true;
             }
             catch
@@ -381,18 +409,16 @@ namespace CM.Context.SQL
         public List<Account> GetLinkedPatientsByDoctorID(int doctorid)
         {
             List<Account> patients = new List<Account>();
+
             SqlConnection connection = new SqlConnection(con);
+
             using (connection)
             {
-                SqlCommand command = new SqlCommand(@"SELECT Account.*
-                                                    FROM Account
-                                                    WHERE AccountID IN (
-		                                                    SELECT AccountLink.PatientID as 'Patient'
-		                                                    FROM Account
-		                                                    INNER JOIN AccountLink ON Account.AccountID = AccountLink.DoctorID
-		                                                    WHERE AccountID = @AccountID )", connection);
+                SqlCommand command = new SqlCommand("SELECT Account.* FROM Account WHERE AccountID IN (SELECT AccountLink.PatientID as 'Patient' FROM Account INNER JOIN AccountLink ON Account.AccountID = AccountLink.DoctorID WHERE AccountID = @AccountID )", connection);
                 command.Parameters.AddWithValue("@AccountID", doctorid);
+
                 connection.Open();
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     try
@@ -407,6 +433,7 @@ namespace CM.Context.SQL
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
                             uitgaand.PhoneNumber = Convert.ToString(reader["TelephoneNumber"]);
+
                             patients.Add(uitgaand);
                         }
                     }
@@ -417,24 +444,23 @@ namespace CM.Context.SQL
                 }
             }
             connection.Close();
+
             return patients;
         }
 
         public List<Account> DoctorsFromPatient(int patientid)
         {
             List<Account> doctors = new List<Account>();
+
             SqlConnection connection = new SqlConnection(con);
+
             using (connection)
             {
-                SqlCommand command = new SqlCommand(@"SELECT*
-                                                    FROM Account
-                                                    WHERE AccountID IN (
-                                                        SELECT AccountLink.DoctorID
-                                                        FROM Account
-                                                        INNER JOIN AccountLink ON Account.AccountID = PatientID
-                                                        WHERE Account.AccountID = @AccountID)", connection);
+                SqlCommand command = new SqlCommand("SELECT* FROM Account WHERE AccountID IN (SELECT AccountLink.DoctorID FROM Account INNER JOIN AccountLink ON Account.AccountID = PatientID WHERE Account.AccountID = @AccountID)", connection);
                 command.Parameters.AddWithValue("@AccountID", patientid);
+
                 connection.Open();
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     try
@@ -449,6 +475,7 @@ namespace CM.Context.SQL
                             uitgaand.DateOfBirth = Convert.ToDateTime(reader["BirthDate"]);
                             uitgaand.Email = Convert.ToString(reader["Email"]);
                             uitgaand.PhoneNumber = Convert.ToString(reader["TelephoneNumber"]);
+
                             doctors.Add(uitgaand);
                         }
                     }
@@ -459,8 +486,8 @@ namespace CM.Context.SQL
                 }
             }
             connection.Close();
+
             return doctors;
         }
-            
     }
 }

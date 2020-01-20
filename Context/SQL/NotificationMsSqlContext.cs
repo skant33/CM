@@ -19,14 +19,9 @@ namespace CM.Context.SQL
         {
             string notificationtype = "";
             SqlConnection connection = new SqlConnection(con);
-            SqlCommand sqlCommand = new SqlCommand(@"SELECT [Notification].*, NotificationType.[Type]
-                                                    FROM [Notification]
-                                                    INNER JOIN Account ON [Notification].AccountID = Account.AccountID
-                                                    INNER JOIN AccountLink ON Account.AccountID = AccountLink.PatientID
-                                                    INNER JOIN NotificationType ON [Notification].TypeID = NotificationType.TypeID
-                                                    INNER JOIN Appointment ON Appointment.LinkID = AccountLink.LinkID
-                                                    WHERE AppointmentID = @AppointmentID", connection);
+            SqlCommand sqlCommand = new SqlCommand("SELECT [Notification].*, NotificationType.[Type] FROM [Notification] INNER JOIN Account ON [Notification].AccountID = Account.AccountID INNER JOIN AccountLink ON Account.AccountID = AccountLink.PatientID INNER JOIN NotificationType ON [Notification].TypeID = NotificationType.TypeID INNER JOIN Appointment ON Appointment.LinkID = AccountLink.LinkID WHERE AppointmentID = @AppointmentID", connection);
             sqlCommand.Parameters.AddWithValue("@AppointmentID", appointment.AppointmentID);
+
             connection.Open();
 
             using (SqlDataReader reader = sqlCommand.ExecuteReader())
@@ -37,17 +32,20 @@ namespace CM.Context.SQL
                 }
             }
             connection.Close();
+
             return notificationtype;
         }
 
         public bool UpdateNotificationForUser(int accountid, int typeid, int timetillsend)
         {
             bool isUpdated = false;
+
             SqlConnection connection = new SqlConnection(con);
             SqlCommand sqlCommand = new SqlCommand("UPDATE [Notification] SET TypeID = @TypeID, TimeTillSend = @TimeTillSend WHERE AccountID = @AccountID", connection);
             sqlCommand.Parameters.AddWithValue("@AccountID", accountid);
             sqlCommand.Parameters.AddWithValue("@TypeID", typeid);
             sqlCommand.Parameters.AddWithValue("@TimeTillSend", timetillsend);
+
             connection.Open();
 
             using(SqlDataReader reader= sqlCommand.ExecuteReader())
@@ -57,6 +55,7 @@ namespace CM.Context.SQL
                     isUpdated = true;
                 }
             }
+
             connection.Close();
 
             return isUpdated;
@@ -65,9 +64,12 @@ namespace CM.Context.SQL
         public Notification GetNotificationForUser(int accountid)
         {
             Notification uitgaand = new Notification();
+
             SqlConnection connection = new SqlConnection(con);
+
             SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [Notification] WHERE AccountID = @AccountID", connection);
             sqlCommand.Parameters.AddWithValue("@AccountID", accountid);
+
             connection.Open();
 
             using(SqlDataReader reader = sqlCommand.ExecuteReader())
