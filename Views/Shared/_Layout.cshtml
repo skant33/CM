@@ -50,7 +50,7 @@
             </cm-sidenav-header>
         }
 
-        @if (Context.Session.GetInt32("Admin") == 1 || Context.Session.GetInt32("Doctor") == 1)
+        @if (Context.Session.GetInt32("Doctor") == 1)
         {
             <cm-sidenav-header data-display="Components">
                 <cm-sidenav-option><a asp-area="" asp-controller="Appointment" asp-action="Index">Appointment</a></cm-sidenav-option>
