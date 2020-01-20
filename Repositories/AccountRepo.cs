@@ -41,11 +41,6 @@ namespace CM.Repositories
             return context.CheckRoleID(accountid);
         }
 
-        public Account GetAccountByEmail(string email)
-        {
-            return context.GetAccountByEmail(email);
-        }
-
         public List<Account> GetAllPatients()
         {
             return context.GetAllPatients();

@@ -15,19 +15,6 @@ namespace CM.Repositories
         {
             this.context = context;
         }
-        public List<Appointment> GetAllAppointments()
-        {
-            return context.GetAllAppointments();
-        }
-        public List<Appointment> GetAppointmentsByUserID(Account account)
-        {
-            return context.GetAppointmentsByUserId(account);
-        }
-
-        public Appointment GetAppointmentByID (int id)
-        {
-            return context.GetAppointmentByID(id);
-        }
 
         public List<Appointment> AppointmentsCurrentWeek(int id)
         {

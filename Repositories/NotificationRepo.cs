@@ -10,9 +10,9 @@ namespace CM.Repositories
     public class NotificationRepo
     {
         private INotificationContext context;
-        public NotificationRepo(INotificationContext _context)
+        public NotificationRepo(INotificationContext context)
         {
-            this.context = _context;
+            this.context = context;
         }
 
         public string GetNotificationTypeByAppointmentID(Appointment appointment)
