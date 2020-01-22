@@ -78,7 +78,7 @@ namespace CM.Controllers
                 {
                     Caller = "0031637328840", // stevensnummer
                     Callee = appointment.patient.PhoneNumber,
-                    Prompt = "You have an appointment at" + appointment.DateTime.ToLongDateString() + " on " + appointment.DateTime.Hour.ToString() + appointment.DateTime.Minute.ToString() + "with doctor" + appointment.doctor.Name + "Description is" + appointment.Description ,
+                    Prompt = "You have an appointment on" + appointment.DateTime.ToLongDateString() + " at " + appointment.DateTime.Hour.ToString() + "hour and" + appointment.DateTime.Minute.ToString() + "minutes " + "with doctor" + appointment.doctor.Name + "Description is" + appointment.Description ,
                     MaxReplays = 2,
                     ReplayPrompt = "Press 1 to repeat this message."
                 };         
@@ -111,6 +111,19 @@ namespace CM.Controllers
             string response = await message.Content.ReadAsStringAsync();
         }
 
+        public async Task<IActionResult> Demo()
+        {
+            Appointment app = new Appointment();
+            app.doctor.Name = "Steven Kant";
+            app.patient.PhoneNumber = "0031643189496";
+            app.patient.Email = "yvg3005@gmail.com";
+            app.DateTime = DateTime.Now.AddDays(1);
+            app.Description = "Aanhoudende hoofdpijn klachten";
+            await SendSMS(app);
+            await SendEmail(app);
+            await SendPhoneConversation(app);
+            return RedirectToAction("Beheerder", "Account");
+        }
     }   
 
 }

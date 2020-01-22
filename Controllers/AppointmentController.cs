@@ -57,6 +57,8 @@ namespace CM.Controllers
 
             foreach (Appointment appointment in appointmentrepo.AppointmentsCurrentWeek(account.AccountID))
             {
+                appointment.doctor = accountrepo.GetAccountByID(appointment.doctor.AccountID);
+                appointment.patient = accountrepo.GetAccountByID(appointment.patient.AccountID);
                 viewmodel.appointments.Add(appointmentconverter.ViewModelFromAppointment(appointment));
             }
 

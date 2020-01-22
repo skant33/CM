@@ -10,7 +10,6 @@
 <h4 style="color:rgb(22, 87, 234);">Your appointments</h4>
 @if (Model.appointments.Count == 0)
 {
-
     <label> No appointments this week</label>
 }
 
@@ -42,14 +41,14 @@ else
         <!-- Row -->
         @foreach (AppointmentDetailViewModel appointment in Model.appointments)
         {
-            <div class="datatable-row">
+            <div class="datatable-row" style="overflow: auto">
                 <!-- Row item 1 -->
                 <div class="datatable-row-item col-2">
                     <span>@appointment.DateTime</span>
                 </div>
                 <!-- Row item 2 -->
                 <div class="datatable-row-item col-2">
-                    <span>@appointment.Duration minuten</span>
+                    <span>@appointment.Duration minutes</span>
                 </div>
                 <!-- Row item 3 -->
                 <div class="datatable-row-item col-4">
